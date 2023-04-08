@@ -5,6 +5,15 @@ import {imagesUpload} from "../multer";
 
 const usersRouter = express.Router();
 
+usersRouter.get('/:id', async (req, res, next) => {
+    try{
+        const result = await User.findById(req.params.id);
+        return res.send(result);
+    }catch (e) {
+        return next(e);
+    }
+});
+
 usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
     try{
         const user = new User({
