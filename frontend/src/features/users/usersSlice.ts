@@ -1,6 +1,6 @@
 import { GlobalError, User, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { findUserById, login, logout, register } from './usersThunks';
+import { findUserById, googleLogin, login, logout, register } from './usersThunks';
 import { RootState } from '../../app/store';
 
 interface UsersState {
@@ -63,6 +63,17 @@ export const usersSlice = createSlice({
     builder.addCase(login.rejected, (state, { payload }) => {
       state.loginLoading = false;
       state.loginError = payload || null;
+    });
+    builder.addCase(googleLogin.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(googleLogin.fulfilled, (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(googleLogin.rejected, (state, { payload: error }) => {
+      state.loginLoading = false;
+      state.loginError = error || null;
     });
     builder.addCase(logout.pending, (state) => {
       state.logoutLoading = true;
