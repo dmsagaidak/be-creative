@@ -28,8 +28,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   let userImg;
 
-  if (user.avatar && user.googleId) {
+  if (user.avatar && !user.googleId) {
     userImg = user.avatar;
+  }else if (user.avatar && user.googleId){
+    const avatarUrl = user.avatar.slice(8);
+    userImg = apiUrl + '/' + avatarUrl;
   } else {
     userImg = apiUrl + '/' + user.avatar;
   }

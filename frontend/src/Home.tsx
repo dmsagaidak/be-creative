@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container, Grid, Typography } from '@mui/material';
 import teamImg from '../src/assets/images/team1.jpg';
-import { useAppSelector } from './app/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks';
 import { selectUser } from './features/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
+import { fetchProjectsByUser } from './features/projects/projectsThunks';
+import { selectProjects } from './features/projects/projectsSlice';
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const projects = useAppSelector(selectProjects);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(user){
+      void dispatch(fetchProjectsByUser(user._id))
+    }
+  }, [dispatch, user]);
+
+  console.log(projects);
 
   return (
     <Container>
