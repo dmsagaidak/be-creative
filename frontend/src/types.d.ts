@@ -1,3 +1,20 @@
+export interface Project {
+  _id: string;
+  title: string;
+  description: string;
+  leader: User;
+  status: string;
+  start: string;
+  deadline: string;
+}
+
+export interface ProjectMutation {
+  title: string;
+  description: string;
+  start: string;
+  deadline: string;
+}
+
 export interface RegisterMutation {
     email: string;
     displayName: string;

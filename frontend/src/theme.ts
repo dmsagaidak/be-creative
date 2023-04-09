@@ -13,7 +13,14 @@ const theme = createTheme({
         primary: {
             main: 'rgb(47, 79, 79)',
         }
-     }
+     },
+      typography: {
+        fontFamily: 'Lato, sans-serif',
+        fontWeightLight: 300,
+        fontWeightRegular: 400,
+        fontWeightMedium: 600,
+        fontWeightBold: 700,
+      }
 });
 
 export default theme;

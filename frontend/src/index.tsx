@@ -10,6 +10,9 @@ import { persistor, store } from './app/store';
 import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GOOGLE_CLIENT_ID } from './constants';
+import { addInterceptors } from './axiosApi';
+
+addInterceptors(store);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
