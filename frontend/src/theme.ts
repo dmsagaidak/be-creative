@@ -12,7 +12,11 @@ const theme = createTheme({
      palette: {
         primary: {
             main: 'rgb(47, 79, 79)',
-        }
+            light: 'rgb(105, 179, 179)',
+        },
+       success: {
+          main: 'rgb(7, 135, 67)'
+       }
      },
       typography: {
         fontFamily: 'Lato, sans-serif',

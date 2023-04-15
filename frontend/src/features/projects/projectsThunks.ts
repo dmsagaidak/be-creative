@@ -24,3 +24,10 @@ export const createProject = createAsyncThunk<void, ProjectMutation>(
     await axiosApi.post('/projects', mutation);
   }
 );
+
+export const removeProject = createAsyncThunk<void, string>(
+  'projects/remove',
+  async (id) => {
+    await axiosApi.delete(`/projects/${id}`);
+  }
+);

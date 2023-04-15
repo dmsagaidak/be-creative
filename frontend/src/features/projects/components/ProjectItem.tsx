@@ -4,6 +4,7 @@ import { Project } from '../../../types';
 import { boxShadow } from '../../../styles';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from '@mui/icons-material';
+import theme from '../../../theme'
 
 interface Props {
   project: Project
@@ -18,6 +19,10 @@ const styles = {
 const ProjectItem: React.FC<Props> = ({project}) => {
   const navigate = useNavigate();
 
+  const styleColor = project.status === 'Not started' ?
+    theme.palette.primary.main : project.status === 'Ongoing' ?
+      theme.palette.success.main : '#000';
+
   return (
     <Card style={styles}>
       <CardHeader
@@ -26,6 +31,7 @@ const ProjectItem: React.FC<Props> = ({project}) => {
       <CardContent>
         <Typography component='p'>What's to be done:</Typography>
         <Typography component='p'>{project.description}</Typography>
+        <Typography component='p' style={{color: styleColor}}>{project.status}</Typography>
       </CardContent>
     </Card>
   );

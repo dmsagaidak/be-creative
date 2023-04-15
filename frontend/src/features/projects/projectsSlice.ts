@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createProject, fetchOneProject, fetchProjectsByUser } from './projectsThunks';
+import { createProject, fetchOneProject, fetchProjectsByUser, removeProject } from './projectsThunks';
 import { RootState } from '../../app/store';
 import { Project } from '../../types';
 
@@ -9,6 +9,7 @@ interface ProjectsState {
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   createLoading: boolean;
+  deleteLoading: false | string;
 }
 
 const initialState: ProjectsState = {
@@ -17,6 +18,7 @@ const initialState: ProjectsState = {
   fetchLoading: false,
   fetchOneLoading: false,
   createLoading: false,
+  deleteLoading: false,
 };
 
 const projectsSlice = createSlice({
@@ -53,6 +55,15 @@ const projectsSlice = createSlice({
     builder.addCase(createProject.rejected, (state) => {
       state.createLoading = false;
     });
+    builder.addCase(removeProject.pending, (state, {meta: {arg: projectId}}) => {
+      state.deleteLoading = projectId;
+    });
+    builder.addCase(removeProject.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(removeProject.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   }
 });
 
@@ -62,5 +73,6 @@ export const selectProjects = (state: RootState) => state.projects.items;
 export const selectOneProject = (state: RootState) => state.projects.oneItem;
 export const selectProjectsFetching = (state: RootState) => state.projects.fetchLoading;
 export const selectProjectCreating = (state: RootState) => state.projects.createLoading;
-export const selectOneProjectFetching = (state: RootState) => state.projects.fetchOneLoading
+export const selectOneProjectFetching = (state: RootState) => state.projects.fetchOneLoading;
+export const selectProjectRemoving = (state: RootState) => state.projects.deleteLoading;
 
