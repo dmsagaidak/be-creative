@@ -65,7 +65,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
             <Typography component='p'>Start:</Typography>
             <TextField
               required
-              type='date'
+              type='datetime-local'
               id='start'
               name='start'
               value={state.start}
@@ -77,7 +77,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
             <Typography component='p'>Deadline:</Typography>
             <TextField
               required
-              type='date'
+              type='datetime-local'
               id='deadline'
               name='deadline'
               value={state.deadline}

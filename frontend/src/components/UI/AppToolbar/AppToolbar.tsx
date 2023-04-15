@@ -31,7 +31,7 @@ const AppToolbar = () => {
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography variant="h6" component="div">
-            <Link to="/">Be creative</Link>
+            <Link to="/">BeCreative</Link>
           </Typography>
           <Grid item>
             {loginLoading || registerLoading || logoutLoading ? (

@@ -28,9 +28,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   let userImg;
 
-  if (user.avatar && !user.googleId) {
-    userImg = user.avatar;
-  }else if (user.avatar && user.googleId){
+   if (user.avatar && user.googleId){
     const avatarUrl = user.avatar.slice(8);
     userImg = apiUrl + '/' + avatarUrl;
   } else {
@@ -49,7 +47,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         Hello, {user.displayName}
       </Button>
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem>Profile</MenuItem>
+        <MenuItem onClick={() => navigate('/profile/' + user._id)}>My Profile</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

@@ -6,6 +6,7 @@ import { selectUser } from './features/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchProjectsByUser } from './features/projects/projectsThunks';
 import { selectProjects } from './features/projects/projectsSlice';
+import ProjectItem from './features/projects/components/ProjectItem';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -19,13 +20,11 @@ const Home = () => {
     }
   }, [dispatch, user]);
 
-  console.log(projects);
-
   return (
     <Container>
       <Grid container direction='row' style={{paddingTop: '25px'}}>
         <Typography component='div' style={{width: '45vw', position: 'relative'}}>
-          <Typography component='p' style={{position: 'absolute', top: '10%', left: '10%', fontSize: '45px'}}>Be creative is here to improve your team work!</Typography>
+          <Typography variant='h3' style={{position: 'absolute', top: '10%', left: '10%'}}>BeCreative team is here to improve your team work!</Typography>
         </Typography>
         <Typography component='img' src={teamImg} alt='Be creative' style={{width: '400px', borderRadius: '30px'}}/>
       </Grid>
@@ -36,6 +35,12 @@ const Home = () => {
           style={{width: '30vw'}}
           onClick={() => navigate(user ? ('/projects/new') : ('/login'))}
         >Create your project now!</Button>
+      </Grid>
+      <Grid container direction='column' style={{paddingTop: '35px'}}>
+        <Typography variant='h4'>Your projects</Typography>
+        {projects.map((project) => (
+          <ProjectItem key={project._id} project={project}/>
+        ))}
       </Grid>
 
     </Container>

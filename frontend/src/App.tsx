@@ -6,6 +6,9 @@ import Login from './features/users/Login';
 import Home from './Home';
 import AppToolbar from './components/UI/AppToolbar/AppToolbar';
 import NewProject from './features/projects/NewProject';
+import Profile from './features/users/Profile';
+import Footer from './components/Footer/Footer';
+import ProjectPage from './features/projects/ProjectPage';
 
 
 function App() {
@@ -20,10 +23,15 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/profile/:id' element={<Profile/>}/>
           <Route path='/projects/new' element={<NewProject/>}/>
+          <Route path='/projects/:id' element={<ProjectPage/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>
+      <footer>
+        <Footer/>
+      </footer>
     </>
   );
 }
