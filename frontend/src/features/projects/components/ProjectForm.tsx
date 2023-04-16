@@ -3,7 +3,6 @@ import { ProjectMutation } from '../../../types';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { useAppSelector } from '../../../app/hooks';
 import { selectProjectCreating } from '../projectsSlice';
-import { selectUser } from '../../users/usersSlice';
 import { ParticipantMutation } from '../../../types';
 import FileInput from '../../../components/UI/FileInput/FileInput';
 
@@ -13,7 +12,6 @@ interface Props {
 
 const ProjectForm: React.FC<Props> = ({onSubmit}) => {
   const projectCreating = useAppSelector(selectProjectCreating);
-  const user = useAppSelector(selectUser);
 
   const [state, setState] = useState<ProjectMutation>({
     title: '',
@@ -66,7 +64,6 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
     }));
   };
 
-  console.log(user);
   return (
     <Container component="main" maxWidth="lg">
       <form onSubmit={submitFormHandler} autoComplete="off">

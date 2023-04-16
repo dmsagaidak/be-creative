@@ -17,7 +17,7 @@ const Register = () => {
     email: '',
     displayName: '',
     password: '',
-    image: null,
+    avatar: null,
   });
 
 

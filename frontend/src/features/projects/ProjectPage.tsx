@@ -3,10 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneProject } from './projectsSlice';
 import { fetchOneProject, removeProject } from './projectsThunks';
-import { Container, Grid, IconButton, Typography } from '@mui/material';
+import { Container, Grid, IconButton, List, ListItem, Typography } from '@mui/material';
 import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const pageTopStyle = {
   backgroundColor: theme.palette.primary.light,
@@ -53,7 +54,11 @@ const ProjectPage = () => {
       <Grid item style={pageBodyStyle}>
         <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
         <Typography component='p'>{project?.description}</Typography>
-        <Typography></Typography>
+        <List>
+          {project?.participants.map((item, idx) => (
+            <ListItem key={idx}>{item.role}: {item.user}</ListItem>
+          ))}
+        </List>
         {project && user?._id === project?.leader._id ? (<Grid item>
           <IconButton
             color='error'

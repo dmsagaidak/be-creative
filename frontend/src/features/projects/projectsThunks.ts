@@ -34,7 +34,6 @@ export const createProject = createAsyncThunk<void, {project: ProjectMutation, p
       formData.append('participants[]', JSON.stringify(participant))
     });
 
-    console.log('participants:', participants);
     await axiosApi.post('/projects/', formData);
   }
 );

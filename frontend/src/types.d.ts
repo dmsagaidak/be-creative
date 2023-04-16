@@ -1,7 +1,7 @@
 interface Participant {
   _id: string;
   role: string;
-  user: User;
+  user: string;
 }
 
 export interface ParticipantMutation {
@@ -33,7 +33,7 @@ export interface RegisterMutation {
     email: string;
     displayName: string;
     password: string;
-    image: File | null;
+    avatar: File | null;
 }
 
 export interface User {

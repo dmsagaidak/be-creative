@@ -142,4 +142,29 @@ usersRouter.delete('/sessions', async (req, res, next) => {
     }
 });
 
+usersRouter.put('/:id', imagesUpload.single('avatar'), async (req, res, next) => {
+    try{
+        const updatingUser = await User.findById(req.params.id);
+
+        if(!updatingUser) {
+            return res.status(404).send({error: 'User not found'});
+        }
+
+       const user = await User.updateOne({_id: req.params.id},
+           {$set:{email: req.body.email,
+                    displayName: req.body.displayName,
+                    password: req.body.password,
+                    avatar: req.file ? req.file.filename : null}});
+
+        return res.send(user);
+
+    }catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
+    }
+});
+
 export default usersRouter;
