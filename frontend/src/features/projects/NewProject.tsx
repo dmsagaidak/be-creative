@@ -2,7 +2,7 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUser } from '../users/usersSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { ProjectMutation } from '../../types';
+import { ParticipantMutation, ProjectMutation } from '../../types';
 import { createProject } from './projectsThunks';
 import { Typography } from '@mui/material';
 import ProjectForm from './components/ProjectForm';
@@ -12,9 +12,9 @@ const NewProject = () => {
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
 
-  const onFormSubmit = async (mutation: ProjectMutation) => {
+  const onFormSubmit = async (project: ProjectMutation, participants: ParticipantMutation[]) => {
     try{
-      await dispatch(createProject(mutation)).unwrap();
+      await dispatch(createProject({project, participants})).unwrap();
       navigate('/');
     }catch (e) {
       console.log(e);

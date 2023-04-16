@@ -53,6 +53,7 @@ const ProjectPage = () => {
       <Grid item style={pageBodyStyle}>
         <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
         <Typography component='p'>{project?.description}</Typography>
+        <Typography></Typography>
         {project && user?._id === project?.leader._id ? (<Grid item>
           <IconButton
             color='error'

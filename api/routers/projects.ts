@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import auth, {RequestWithUser} from "../middleware/auth";
 import Project from "../models/Project";
+import {imagesUpload} from "../multer";
 
 const projectsRouter = express.Router();
 
@@ -30,7 +31,7 @@ projectsRouter.get('/:id', async (req, res, next) => {
     }
 });
 
-projectsRouter.post('/', auth, async (req, res, next) => {
+projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
     try{
         const user = (req as RequestWithUser).user;
 
@@ -46,6 +47,10 @@ projectsRouter.post('/', auth, async (req, res, next) => {
             leader: userId,
             start: req.body.start,
             deadline: req.body.deadline,
+            image: req.file ? req.file.filename : null,
+            participants: req.body.participants.map((participant: string) => (
+                JSON.parse(participant)
+            ))
         });
 
         return res.send(project);

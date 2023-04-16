@@ -1,3 +1,14 @@
+interface Participant {
+  _id: string;
+  role: string;
+  user: User;
+}
+
+export interface ParticipantMutation {
+  role: string;
+  user: string;
+}
+
 export interface Project {
   _id: string;
   title: string;
@@ -6,6 +17,8 @@ export interface Project {
   status: string;
   start: string;
   deadline: string;
+  image: string;
+  participants: Participant[];
 }
 
 export interface ProjectMutation {
@@ -13,6 +26,7 @@ export interface ProjectMutation {
   description: string;
   start: string;
   deadline: string;
+  image: File | '';
 }
 
 export interface RegisterMutation {

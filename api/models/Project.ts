@@ -39,6 +39,14 @@ const ProjectSchema = new Schema({
         type: Date,
         required: true,
     },
+    image: {
+        type: String,
+        required: true,
+    },
+    participants: {
+        type: Array,
+        default: [],
+    },
 });
 
 const Project = mongoose.model('Project', ProjectSchema);

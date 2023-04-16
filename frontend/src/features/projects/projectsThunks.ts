@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Project, ProjectMutation } from '../../types';
+import { ParticipantMutation, Project, ProjectMutation } from '../../types';
 import axiosApi from '../../axiosApi';
 
 export const fetchProjectsByUser = createAsyncThunk<Project[], string>(
@@ -18,10 +18,24 @@ export const fetchOneProject = createAsyncThunk<Project, string>(
   }
 );
 
-export const createProject = createAsyncThunk<void, ProjectMutation>(
+export const createProject = createAsyncThunk<void, {project: ProjectMutation, participants: ParticipantMutation[]}>(
   'projects/create',
-  async (mutation) => {
-    await axiosApi.post('/projects', mutation);
+  async ({project, participants}) => {
+    const formData = new FormData();
+    const keys = Object.keys(project) as (keyof ProjectMutation)[];
+    keys.forEach((key) => {
+      const value = project[key];
+      if(value !== null) {
+        formData.append(key, value)
+      }
+    });
+
+    participants.forEach((participant) => {
+      formData.append('participants[]', JSON.stringify(participant))
+    });
+
+    console.log('participants:', participants);
+    await axiosApi.post('/projects/', formData);
   }
 );
 

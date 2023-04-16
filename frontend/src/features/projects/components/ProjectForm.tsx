@@ -4,9 +4,11 @@ import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { useAppSelector } from '../../../app/hooks';
 import { selectProjectCreating } from '../projectsSlice';
 import { selectUser } from '../../users/usersSlice';
+import { ParticipantMutation } from '../../../types';
+import FileInput from '../../../components/UI/FileInput/FileInput';
 
 interface Props {
-  onSubmit: (mutation: ProjectMutation) => void;
+  onSubmit: (project: ProjectMutation, participants: ParticipantMutation[]) => void;
 }
 
 const ProjectForm: React.FC<Props> = ({onSubmit}) => {
@@ -18,11 +20,14 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
     description: '',
     start: '',
     deadline: '',
+    image: ''
   });
+
+  const [participants, setParticipants] = useState<ParticipantMutation[]>([{role: '', user: ''}])
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(state);
+    onSubmit(state, participants);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +35,35 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
+  };
+
+  const participantsChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    const { name, value } = e.target;
+    setParticipants((prevState) => {
+      const newParticipants = [...prevState];
+      newParticipants[index] = {...newParticipants[index], [name]: value};
+      return newParticipants
+    });
+  };
+
+  const addParticipant = () => {
+    setParticipants((prevState) => {
+      return [...prevState, {role: '', user: ''}]
+    })
+  };
+
+  const removeParticipant = (index: number) => {
+    const arrCopy = [...participants];
+    arrCopy.splice(index, 1);
+    setParticipants(arrCopy);
+  };
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
   };
 
   console.log(user);
@@ -84,6 +118,35 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
               onChange={inputChangeHandler}
               disabled={projectCreating}
             />
+          </Grid>
+          <Grid item xs>
+            <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
+          </Grid>
+          <Grid item xs>
+            Participants:
+            {participants.map((item, index) => (
+              <Grid item key={index}>
+                <TextField
+                  id='role'
+                  label='Role'
+                  name='role'
+                  value={item.role}
+                  onChange={(e) => participantsChangeHandler(e, index)}
+                  required
+                />
+                <TextField
+                  id='user'
+                  label='User'
+                  name='user'
+                  value={item.user}
+                  onChange={(e) => participantsChangeHandler(e, index)}
+                  required
+                />
+                {participants.length > 1 &&
+                  (<Button onClick={() => removeParticipant(index)} color='error'>Remove</Button>)}
+              </Grid>
+            ))}
+            <Button type='button' color='primary' onClick={addParticipant}>Add participant</Button>
           </Grid>
           <Grid item xs>
             <Button type="submit" color="success" variant="contained" disabled={projectCreating}>
