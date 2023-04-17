@@ -8,6 +8,9 @@ import { fetchProjectsByUser } from './features/projects/projectsThunks';
 import { selectProjects } from './features/projects/projectsSlice';
 import ProjectItem from './features/projects/components/ProjectItem';
 
+const headingFS ={xs: '20px', sm: '30px', md: '40px', lg: '55px'}
+const picWidth = {xs: '150px', sm: '300px', lg: '400px'}
+
 const Home = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -23,10 +26,10 @@ const Home = () => {
   return (
     <Container>
       <Grid container direction='row' style={{paddingTop: '25px'}}>
-        <Typography component='div' style={{width: '45vw', position: 'relative'}}>
-          <Typography variant='h3' style={{position: 'absolute', top: '10%', left: '10%'}}>BeCreative team is here to improve your team work!</Typography>
+        <Typography component='div' style={{width: '45vw'}}>
+          <Typography component='p' style={{marginTop: 'auto', marginBottom: 'auto'}} fontSize={headingFS}>BeCreative team is here to improve your team work!</Typography>
         </Typography>
-        <Typography component='img' src={teamImg} alt='Be creative' style={{width: '400px', borderRadius: '30px'}}/>
+        <Typography component='img' src={teamImg} alt='Be creative' width={picWidth} style={{borderRadius: '30px'}}/>
       </Grid>
       <Grid container direction='column' style={{marginTop: '30px'}}>
         <Button

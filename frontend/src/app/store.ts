@@ -4,16 +4,18 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist/es/constants';
 import { projectsReducer } from '../features/projects/projectsSlice';
+import { tasksReducer } from '../features/ tasks/tasksSlice';
 
 
 const usersPersistConfig = {
-  key: 'music-app:users',
+  key: 'be-creative:users',
   storage,
   whitelist: ['user'],
 };
 
 const rootReducer = combineReducers({
   projects: projectsReducer,
+  tasks: tasksReducer,
   users: persistReducer(usersPersistConfig, usersReducer),
 });
 

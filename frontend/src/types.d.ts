@@ -29,6 +29,18 @@ export interface ProjectMutation {
   image: File | '';
 }
 
+export interface Task {
+  _id: string;
+  project: Project;
+  title: string;
+  description: string;
+  status: string;
+  isAssigned: boolean;
+  user: string;
+  link: string;
+  deadline: string;
+}
+
 export interface RegisterMutation {
     email: string;
     displayName: string;

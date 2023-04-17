@@ -7,36 +7,22 @@ import { Container, Grid, IconButton, List, ListItem, Typography } from '@mui/ma
 import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-
-const pageTopStyle = {
-  backgroundColor: theme.palette.primary.light,
-  color: '#fff',
-  borderTopRightRadius: '7px',
-  borderTopLeftRadius: '7px',
-  paddingLeft: '7px',
-  paddingRight: '7px',
-};
-
-const pageBodyStyle = {
-  paddingTop: '8px',
-  border: '1px solid',
-  borderColor: theme.palette.primary.light,
-  borderBottomRightRadius: '7px',
-  borderBottomLeftRadius: '7px',
-  paddingLeft: '7px',
-  paddingRight: '7px',
-};
+import { pageTopStyle } from '../../styles';
+import { pageBodyStyle } from '../../styles';
+import { fetchTasksByProject } from '../ tasks/tasksThunks';
+import { selectTasks } from '../ tasks/tasksSlice';
 
 const ProjectPage = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const project = useAppSelector(selectOneProject);
+  const tasks = useAppSelector(selectTasks);
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
 
   useEffect(() => {
     void dispatch(fetchOneProject(id));
+    void dispatch(fetchTasksByProject(id));
   }, [dispatch, id]);
 
   const deleteProject = async (projectId: string) => {
@@ -46,25 +32,37 @@ const ProjectPage = () => {
     }
   };
 
+  const styleColor = project?.status === 'Not started' ?
+    theme.palette.primary.main : project?.status === 'Ongoing' ?
+      theme.palette.success.main : '#000';
+
+  console.log(tasks)
+
   return (
     <Container style={{height: '90vh'}}>
-      <Grid item xs style={pageTopStyle}>
+      <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
         <Typography variant='h3'>{project?.title}</Typography>
-      </Grid>
-      <Grid item style={pageBodyStyle}>
-        <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
-        <Typography component='p'>{project?.description}</Typography>
-        <List>
-          {project?.participants.map((item, idx) => (
-            <ListItem key={idx}>{item.role}: {item.user}</ListItem>
-          ))}
-        </List>
-        {project && user?._id === project?.leader._id ? (<Grid item>
+        {project && user?._id === project?.leader._id ? (
           <IconButton
             color='error'
             onClick={() => deleteProject(project._id)}
           ><DeleteIcon/></IconButton>
-        </Grid>) : (<> <Typography></Typography></>)}
+        ) : (<> <Typography></Typography></>)}
+      </Grid>
+      <Grid container direction='column' style={pageBodyStyle}>
+        <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
+        <Typography component='p'>{project?.description}</Typography>
+        <Typography component='p' style={{fontWeight: 700}}>Status: <Typography component='span' style={{color: styleColor}}>{project?.status}</Typography></Typography>
+        <List>
+          <Typography style={{fontWeight: 700}}>Project team:</Typography>
+          <ListItem>Leader: {project?.leader.displayName}</ListItem>
+          {project?.participants.map((item, idx) => (
+            <ListItem key={idx}>{item.role}: {item.user}</ListItem>
+          ))}
+        </List>
+          <Grid item xs>
+
+          </Grid>
       </Grid>
     </Container>
   );
