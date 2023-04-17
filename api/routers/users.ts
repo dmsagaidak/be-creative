@@ -27,6 +27,7 @@ usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
             email: req.body.email,
             password: req.body.password,
             displayName: req.body.displayName,
+            organization: req.body.organization,
             avatar: req.file ? req.file.filename : null,
         });
 
@@ -154,7 +155,9 @@ usersRouter.put('/:id', imagesUpload.single('avatar'), async (req, res, next) =>
            {$set:{email: req.body.email,
                     displayName: req.body.displayName,
                     password: req.body.password,
-                    avatar: req.file ? req.file.filename : null}});
+                    avatar: req.file ? req.file.filename : null,
+                    organization: req.body.organization,
+               }});
 
         return res.send(user);
 

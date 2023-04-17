@@ -3,8 +3,6 @@ import User from './User';
 
 const Schema = mongoose.Schema;
 
-let today = new Date();
-
 const ProjectSchema = new Schema({
     title: {
         type: String,
@@ -33,7 +31,7 @@ const ProjectSchema = new Schema({
     start: {
         type: Date,
         required: true,
-        min: today,
+        min: new Date('January 1, 2023, 00:00'),
     },
     deadline: {
         type: Date,

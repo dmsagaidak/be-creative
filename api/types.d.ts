@@ -4,6 +4,7 @@ export interface IUser {
     token: string;
     displayName: string;
     role: string;
+    organization: string;
     googleId?: string;
     avatar: string | null;
 }

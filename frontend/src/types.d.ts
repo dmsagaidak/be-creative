@@ -34,6 +34,7 @@ export interface RegisterMutation {
     displayName: string;
     password: string;
     avatar: File | null;
+    organization: string;
 }
 
 export interface User {
@@ -41,6 +42,7 @@ export interface User {
     email: string;
     displayName: string;
     role: string;
+    organization: string;
     avatar: string | null;
     token: string;
     googleId: null | string;

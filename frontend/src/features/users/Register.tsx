@@ -18,6 +18,7 @@ const Register = () => {
     displayName: '',
     password: '',
     avatar: null,
+    organization: '',
   });
 
 
@@ -112,6 +113,19 @@ const Register = () => {
             </Grid>
             <Grid item xs>
               <FileInput onChange={fileInputChangeHandler} name="avatar" label="Avatar" />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+
+                name="organization"
+                label="Organization"
+                type="organization"
+                autoComplete="new-organization"
+                value={state.organization}
+                onChange={inputChangeHandler}
+                error={Boolean(getFieldError('organization'))}
+                helperText={getFieldError('organization')}
+              />
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
