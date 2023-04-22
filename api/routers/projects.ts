@@ -81,4 +81,43 @@ projectsRouter.delete('/:id', auth, async (req, res, next) => {
     }
 });
 
+projectsRouter.put('/:id', auth, imagesUpload.single('image'), async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+
+        const updatingProject = await Project.findById(req.params.id);
+
+        if(!updatingProject){
+            return res.status(404).send({error: 'Project not found'});
+        }
+
+        if(user._id === updatingProject.leader._id) {
+            return res.status(403).send({error: 'Only project leader can modify project data'});
+        }
+
+        updatingProject.title = req.body.title || updatingProject.title;
+        updatingProject.description = req.body.description || updatingProject.description;
+        updatingProject.status = req.body.status || updatingProject.status;
+        updatingProject.start = req.body.start || updatingProject.start;
+        updatingProject.deadline = req.body.deadline || updatingProject.deadline;
+        if(req.file) {
+            updatingProject.image = req.file.filename;
+        }
+        if(req.body.participants){
+            updatingProject.participants = JSON.parse(req.body.participants);
+        }
+
+        await updatingProject.save();
+
+        return res.send({message: 'Project was updated', updatingProject})
+
+    }catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        } else {
+            return next(e);
+        }
+    }
+})
+
 export default projectsRouter;

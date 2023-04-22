@@ -7,6 +7,7 @@ import config from "../config";
 import {randomUUID} from "crypto";
 import axios from "axios";
 import {promises as fs} from 'fs';
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const usersRouter = express.Router();
 
@@ -143,23 +144,29 @@ usersRouter.delete('/sessions', async (req, res, next) => {
     }
 });
 
-usersRouter.put('/:id', imagesUpload.single('avatar'), async (req, res, next) => {
+usersRouter.put('/:id', auth, imagesUpload.single('avatar'), async (req, res, next) => {
     try{
+        const user = (req as RequestWithUser).user;
         const updatingUser = await User.findById(req.params.id);
 
         if(!updatingUser) {
             return res.status(404).send({error: 'User not found'});
         }
 
-       const user = await User.updateOne({_id: req.params.id},
-           {$set:{email: req.body.email,
-                    displayName: req.body.displayName,
-                    password: req.body.password,
-                    avatar: req.file ? req.file.filename : null,
-                    organization: req.body.organization,
-               }});
+        if(user._id.toString() !== req.params.id) {
+            return res.status(403).send({error: 'You can modify only your account data'})
+        }
 
-        return res.send(user);
+        updatingUser.email =  req.body.email || updatingUser.email;
+        updatingUser.displayName =  req.body.displayName || updatingUser.displayName;
+        updatingUser.password = req.body.password || updatingUser.password;
+        if(req.file) {
+            updatingUser.avatar = req.file.filename
+        }
+        updatingUser.organization =  req.body.organization || updatingUser.organization;
+        updatingUser.generateToken();
+        await updatingUser.save();
+        return res.send({message: 'User data was successfully updated', updatingUser});
 
     }catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {

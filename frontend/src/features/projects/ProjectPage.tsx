@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneProject } from './projectsSlice';
 import { fetchOneProject, removeProject } from './projectsThunks';
-import { Container, Grid, IconButton, List, ListItem, Typography } from '@mui/material';
+import { Container, Divider, Grid, IconButton, List, ListItem, Typography } from '@mui/material';
 import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -51,8 +51,10 @@ const ProjectPage = () => {
       </Grid>
       <Grid container direction='column' style={pageBodyStyle}>
         <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
-        <Typography component='p'>{project?.description}</Typography>
-        <Typography component='p' style={{fontWeight: 700}}>Status: <Typography component='span' style={{color: styleColor}}>{project?.status}</Typography></Typography>
+        <Typography component='p' sx={{pb: 1}}>{project?.description}</Typography>
+        <Divider />
+        <Typography component='p' style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}>Status: <Typography component='span' style={{color: styleColor}}>{project?.status}</Typography></Typography>
+        <Divider />
         <List>
           <Typography style={{fontWeight: 700}}>Project team:</Typography>
           <ListItem>Leader: {project?.leader.displayName}</ListItem>
