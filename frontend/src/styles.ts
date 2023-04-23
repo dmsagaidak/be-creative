@@ -17,6 +17,6 @@ export const pageBodyStyle = {
   borderColor: theme.palette.primary.light,
   borderBottomRightRadius: '7px',
   borderBottomLeftRadius: '7px',
-  paddingLeft: '7px',
-  paddingRight: '7px',
+  paddingLeft: '17px',
+  paddingRight: '17px',
 };

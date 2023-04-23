@@ -7,10 +7,12 @@ import { Container, Divider, Grid, IconButton, List, ListItem, Typography } from
 import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { pageTopStyle } from '../../styles';
 import { pageBodyStyle } from '../../styles';
 import { fetchTasksByProject } from '../ tasks/tasksThunks';
 import { selectTasks } from '../ tasks/tasksSlice';
+import TaskItem from '../ tasks/components/TaskItem';
 
 const ProjectPage = () => {
   const { id } = useParams() as { id: string };
@@ -43,10 +45,16 @@ const ProjectPage = () => {
       <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
         <Typography variant='h3'>{project?.title}</Typography>
         {project && user?._id === project?.leader._id ? (
-          <IconButton
-            color='error'
-            onClick={() => deleteProject(project._id)}
-          ><DeleteIcon/></IconButton>
+          <>
+            <IconButton
+              color='error'
+              onClick={() => deleteProject(project._id)}
+            ><DeleteIcon/></IconButton>
+            <IconButton
+              color='error'
+              onClick={() => navigate('/edit-project/' + project?._id)}
+            ><EditIcon/></IconButton>
+          </>
         ) : (<> <Typography></Typography></>)}
       </Grid>
       <Grid container direction='column' style={pageBodyStyle}>
@@ -63,7 +71,10 @@ const ProjectPage = () => {
           ))}
         </List>
           <Grid item xs>
-
+            <Typography variant='h5'>Tasks:</Typography>
+            {tasks.map((task) => (
+              <TaskItem key={task._id} task={task}/>
+              ))}
           </Grid>
       </Grid>
     </Container>

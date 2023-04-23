@@ -9,6 +9,7 @@ import NewProject from './features/projects/NewProject';
 import Profile from './features/users/Profile';
 import Footer from './components/Footer/Footer';
 import ProjectPage from './features/projects/ProjectPage';
+import EditProject from './features/projects/EditProject';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path='/profile/:id' element={<Profile/>}/>
           <Route path='/projects/new' element={<NewProject/>}/>
           <Route path='/projects/:id' element={<ProjectPage/>}/>
+          <Route path='/edit-project/:id' element={<EditProject/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>

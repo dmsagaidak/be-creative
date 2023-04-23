@@ -26,7 +26,7 @@ export interface ProjectMutation {
   description: string;
   start: string;
   deadline: string;
-  image: File | '';
+  image: File | null;
 }
 
 export interface Task {

@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
-import { ProjectMutation } from '../../../types';
+import { ProjectMutation, ValidationError } from '../../../types';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
-import { useAppSelector } from '../../../app/hooks';
-import { selectProjectCreating } from '../projectsSlice';
 import { ParticipantMutation } from '../../../types';
 import FileInput from '../../../components/UI/FileInput/FileInput';
 
 interface Props {
   onSubmit: (project: ProjectMutation, participants: ParticipantMutation[]) => void;
+  loading: boolean;
+  error: ValidationError | null;
+  existingProject?: ProjectMutation;
+  isEdit?: boolean;
 }
 
-const ProjectForm: React.FC<Props> = ({onSubmit}) => {
-  const projectCreating = useAppSelector(selectProjectCreating);
+const initialState: ProjectMutation = {
+  title: '',
+  description: '',
+  start: '',
+  deadline: '',
+  image: null
+}
 
-  const [state, setState] = useState<ProjectMutation>({
-    title: '',
-    description: '',
-    start: '',
-    deadline: '',
-    image: ''
-  });
+const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject, isEdit}) => {
+  const [state, setState] = useState<ProjectMutation>(existingProject || initialState);
 
   const [participants, setParticipants] = useState<ParticipantMutation[]>([{role: '', user: ''}])
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(state, participants);
+    setState(initialState);
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +67,14 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
     }));
   };
 
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
+  };
+
   return (
     <Container component="main" maxWidth="lg">
       <form onSubmit={submitFormHandler} autoComplete="off">
@@ -76,7 +87,9 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
               label="Title"
               value={state.title}
               onChange={inputChangeHandler}
-              disabled={projectCreating}
+              disabled={loading}
+              error={Boolean(getFieldError('title'))}
+              helperText={getFieldError('title')}
             />
           </Grid>
           <Grid item xs>
@@ -89,7 +102,9 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
               label="Description"
               value={state.description}
               onChange={inputChangeHandler}
-              disabled={projectCreating}
+              disabled={loading}
+              error={Boolean(getFieldError('description'))}
+              helperText={getFieldError('description')}
             />
           </Grid>
           <Grid item xs>
@@ -101,7 +116,9 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
               name='start'
               value={state.start}
               onChange={inputChangeHandler}
-              disabled={projectCreating}
+              disabled={loading}
+              error={Boolean(getFieldError('start'))}
+              helperText={getFieldError('start')}
             />
           </Grid>
           <Grid item xs>
@@ -113,7 +130,9 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
               name='deadline'
               value={state.deadline}
               onChange={inputChangeHandler}
-              disabled={projectCreating}
+              disabled={loading}
+              error={Boolean(getFieldError('deadline'))}
+              helperText={getFieldError('deadline')}
             />
           </Grid>
           <Grid item xs>
@@ -130,6 +149,8 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
                   value={item.role}
                   onChange={(e) => participantsChangeHandler(e, index)}
                   required
+                  error={Boolean(getFieldError('role'))}
+                  helperText={getFieldError('role')}
                 />
                 <TextField
                   id='user'
@@ -138,6 +159,8 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
                   value={item.user}
                   onChange={(e) => participantsChangeHandler(e, index)}
                   required
+                  error={Boolean(getFieldError('user'))}
+                  helperText={getFieldError('user')}
                 />
                 {participants.length > 1 &&
                   (<Button onClick={() => removeParticipant(index)} color='error'>Remove</Button>)}
@@ -146,8 +169,8 @@ const ProjectForm: React.FC<Props> = ({onSubmit}) => {
             <Button type='button' color='primary' onClick={addParticipant}>Add participant</Button>
           </Grid>
           <Grid item xs>
-            <Button type="submit" color="success" variant="contained" disabled={projectCreating}>
-              Create project
+            <Button type="submit" color="success" variant="contained" disabled={loading}>
+              {isEdit? 'Update' : 'Create'} project
             </Button>
           </Grid>
         </Grid>

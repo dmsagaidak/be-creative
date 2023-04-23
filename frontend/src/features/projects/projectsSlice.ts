@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createProject, fetchOneProject, fetchProjectsByUser, removeProject } from './projectsThunks';
+import { createProject, fetchOneProject, fetchProjectsByUser, removeProject, updateProject } from './projectsThunks';
 import { RootState } from '../../app/store';
-import { Project } from '../../types';
+import { Project, ValidationError } from '../../types';
 
 interface ProjectsState {
   items: Project[];
@@ -10,6 +10,9 @@ interface ProjectsState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   deleteLoading: false | string;
+  updateLoading: boolean;
+  createProjectError: ValidationError | null;
+  updateProjectError: ValidationError | null;
 }
 
 const initialState: ProjectsState = {
@@ -19,6 +22,9 @@ const initialState: ProjectsState = {
   fetchOneLoading: false,
   createLoading: false,
   deleteLoading: false,
+  updateLoading: false,
+  createProjectError: null,
+  updateProjectError: null,
 };
 
 const projectsSlice = createSlice({
@@ -47,12 +53,14 @@ const projectsSlice = createSlice({
       state.fetchOneLoading = false;
     });
     builder.addCase(createProject.pending, (state) => {
+      state.createProjectError = null;
       state.createLoading = true;
     });
     builder.addCase(createProject.fulfilled, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(createProject.rejected, (state) => {
+    builder.addCase(createProject.rejected, (state, {payload: error}) => {
+      state.createProjectError = error || null;
       state.createLoading = false;
     });
     builder.addCase(removeProject.pending, (state, {meta: {arg: projectId}}) => {
@@ -64,6 +72,17 @@ const projectsSlice = createSlice({
     builder.addCase(removeProject.rejected, (state) => {
       state.deleteLoading = false;
     });
+    builder.addCase(updateProject.pending, (state) => {
+      state.updateProjectError = null;
+      state.updateLoading = true;
+    });
+    builder.addCase(updateProject.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateProject.rejected, (state, {payload: error}) => {
+      state.updateLoading = false;
+      state.updateProjectError = error || null;
+    })
   }
 });
 
@@ -75,4 +94,7 @@ export const selectProjectsFetching = (state: RootState) => state.projects.fetch
 export const selectProjectCreating = (state: RootState) => state.projects.createLoading;
 export const selectOneProjectFetching = (state: RootState) => state.projects.fetchOneLoading;
 export const selectProjectRemoving = (state: RootState) => state.projects.deleteLoading;
+export const selectProjectUpdating = (state: RootState) => state.projects.updateLoading;
+export const selectProjectCreateError = (state: RootState) => state.projects.createProjectError;
+export const selectProjectUpdateError = (state: RootState) => state.projects.updateProjectError;
 
