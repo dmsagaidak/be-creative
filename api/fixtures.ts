@@ -13,6 +13,7 @@ const run = async () => {
     try{
         await db.dropCollection('users');
         await db.dropCollection('projects');
+        await db.dropCollection('tasks');
     }catch (e) {
         console.log('Collections were not present, skipping drop...');
     }
@@ -85,7 +86,8 @@ const run = async () => {
     });
 
     await Task.create({
-        project: proj1._id,
+        project: proj1,
+        createdBy: joe,
         title: 'Test title1',
         description: 'Cras eros ex, gravida eget gravida eu, tempus in dolor. Aenean bibendum vel tortor dignissim.',
         status: 'In progress',
@@ -94,7 +96,8 @@ const run = async () => {
         link: 'https://bit.ly/3GNVEXT',
         deadline: '2023-04-22T06:00:00.000Z'
     }, {
-        project: proj1._id,
+        project: proj1,
+        createdBy: joe,
         title: 'Test title2',
         description: 'Design something great',
         status: 'To do',
@@ -103,7 +106,8 @@ const run = async () => {
         link: null,
         deadline: '2023-04-22T06:00:00.000Z'
     }, {
-        project: proj2._id,
+        project: proj2,
+        createdBy: mary,
         title: 'Test test 1',
         description: 'Test descr',
         status: 'To do',
