@@ -8,7 +8,7 @@ import {
 import { selectUser } from '../users/usersSlice';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { fetchOneProject, updateProject } from './projectsThunks';
-import { ParticipantMutation, ProjectMutation } from '../../types';
+import { ProjectMutation } from '../../types';
 import { Typography } from '@mui/material';
 import ProjectForm from './components/ProjectForm';
 
@@ -27,9 +27,9 @@ const EditProject = () => {
     }
   }, [dispatch, id]);
 
-  const onSubmit = async (project: ProjectMutation, participants: ParticipantMutation[]) => {
+  const onSubmit = async (project: ProjectMutation) => {
     try{
-      await dispatch(updateProject({id, project, participants})).unwrap();
+      await dispatch(updateProject({id, project})).unwrap();
       navigate('/projects/' + id);
     }catch (e) {
       console.log(e);
@@ -42,8 +42,8 @@ const EditProject = () => {
     start: project.start,
     deadline: project.deadline,
     image: null,
+    participants: project.participants,
   };
-
 
   if(!user) {
     return <Navigate to={'/login'} />;

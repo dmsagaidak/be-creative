@@ -48,9 +48,7 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
             start: req.body.start,
             deadline: req.body.deadline,
             image: req.file ? req.file.filename : null,
-            participants: req.body.participants.map((participant: string) => (
-                JSON.parse(participant)
-            ))
+            participants: JSON.parse(req.body.participants)
         });
 
         return res.send(project);

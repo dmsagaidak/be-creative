@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { ProjectMutation, ValidationError } from '../../../types';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
-import { ParticipantMutation } from '../../../types';
 import FileInput from '../../../components/UI/FileInput/FileInput';
 
 interface Props {
-  onSubmit: (project: ProjectMutation, participants: ParticipantMutation[]) => void;
+  onSubmit: (project: ProjectMutation) => void;
   loading: boolean;
   error: ValidationError | null;
   existingProject?: ProjectMutation;
@@ -17,17 +16,16 @@ const initialState: ProjectMutation = {
   description: '',
   start: '',
   deadline: '',
-  image: null
+  image: null,
+  participants: []
 }
 
 const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject, isEdit}) => {
   const [state, setState] = useState<ProjectMutation>(existingProject || initialState);
 
-  const [participants, setParticipants] = useState<ParticipantMutation[]>([{role: '', user: ''}])
-
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(state, participants);
+    onSubmit(state);
     setState(initialState);
   };
 
@@ -40,23 +38,26 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
 
   const participantsChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     const { name, value } = e.target;
-    setParticipants((prevState) => {
-      const newParticipants = [...prevState];
+    setState((prevState) => {
+      const newParticipants = [...prevState.participants];
       newParticipants[index] = {...newParticipants[index], [name]: value};
-      return newParticipants
+      return {...prevState, participants: newParticipants}
     });
   };
 
   const addParticipant = () => {
-    setParticipants((prevState) => {
-      return [...prevState, {role: '', user: ''}]
+    setState((prevState) => {
+      const updatedParticipants = [...prevState.participants, {role: '', user: ''}]
+      return {...prevState, participants: updatedParticipants}
     })
   };
 
   const removeParticipant = (index: number) => {
-    const arrCopy = [...participants];
-    arrCopy.splice(index, 1);
-    setParticipants(arrCopy);
+    setState((prevState) => {
+      const updatedParticipants = [...prevState.participants];
+      updatedParticipants.splice(index, 1);
+      return {...prevState, participants: updatedParticipants};
+    })
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,7 +141,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
           </Grid>
           <Grid item xs>
             Participants:
-            {participants.map((item, index) => (
+            {state.participants.map((item, index) => (
               <Grid item key={index}>
                 <TextField
                   id='role'
@@ -162,7 +163,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
                   error={Boolean(getFieldError('user'))}
                   helperText={getFieldError('user')}
                 />
-                {participants.length > 1 &&
+                {state.participants.length > 1 &&
                   (<Button onClick={() => removeParticipant(index)} color='error'>Remove</Button>)}
               </Grid>
             ))}

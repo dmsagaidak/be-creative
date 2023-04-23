@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ParticipantMutation, Project, ProjectMutation, ValidationError } from '../../types';
+import { Project, ProjectMutation, ValidationError } from '../../types';
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
 
@@ -19,21 +19,21 @@ export const fetchOneProject = createAsyncThunk<Project, string>(
   }
 );
 
-export const createProject = createAsyncThunk<void, {project: ProjectMutation, participants: ParticipantMutation[]}, {rejectValue: ValidationError}>(
+export const createProject = createAsyncThunk<void, {project: ProjectMutation}, {rejectValue: ValidationError}>(
   'projects/create',
-  async ({project, participants}, {rejectWithValue}) => {
+  async ({project}, {rejectWithValue}) => {
     try{
       const formData = new FormData();
       const keys = Object.keys(project) as (keyof ProjectMutation)[];
       keys.forEach((key) => {
         const value = project[key];
         if(value !== null) {
-          formData.append(key, value)
+          if(key === 'participants'){
+            formData.append(key, JSON.stringify(value))
+          }else {
+            formData.append(key, value as File | string)
+          }
         }
-      });
-
-      participants.forEach((participant) => {
-        formData.append('participants[]', JSON.stringify(participant))
       });
 
       await axiosApi.post('/projects/', formData);
@@ -54,23 +54,23 @@ export const removeProject = createAsyncThunk<void, string>(
 
 export const updateProject = createAsyncThunk<
   void,
-  {id: string; project: ProjectMutation; participants: ParticipantMutation[]},
+  {id: string; project: ProjectMutation},
   { rejectValue: ValidationError }
 >(
   'projects/update',
-  async ({id, project, participants}, { rejectWithValue }) => {
+  async ({id, project}, { rejectWithValue }) => {
     try{
       const formData = new FormData();
       const keys = Object.keys(project) as (keyof ProjectMutation)[];
       keys.forEach((key) => {
         const value = project[key];
         if(value !== null) {
-          formData.append(key, value)
+          if(key === 'participants'){
+            formData.append(key, JSON.stringify(value))
+          }else {
+            formData.append(key, value as File | string)
+          }
         }
-      });
-
-      participants.forEach((participant) => {
-        formData.append('participants[]', JSON.stringify(participant))
       });
 
       await axiosApi.put('/projects/' + id, formData);

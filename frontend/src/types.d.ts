@@ -27,6 +27,7 @@ export interface ProjectMutation {
   start: string;
   deadline: string;
   image: File | null;
+  participants: ParticipantMutation[]
 }
 
 export interface Task {
