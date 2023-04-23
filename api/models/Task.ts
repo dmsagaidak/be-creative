@@ -42,7 +42,14 @@ const TaskSchema = new Schema({
         required: true,
         default: false,
     },
-    user: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        validate: {
+            validator: async (value: Types.ObjectId) => User.findById(value),
+            message: 'User does not exist',
+        },
+    },
     link: String,
     deadline: {
         type: Date,

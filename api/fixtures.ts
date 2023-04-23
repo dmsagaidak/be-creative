@@ -92,7 +92,7 @@ const run = async () => {
         description: 'Cras eros ex, gravida eget gravida eu, tempus in dolor. Aenean bibendum vel tortor dignissim.',
         status: 'In progress',
         isAssigned: true,
-        user: jack.displayName,
+        user: jack,
         link: 'https://bit.ly/3GNVEXT',
         deadline: '2023-04-22T06:00:00.000Z'
     }, {
@@ -102,7 +102,7 @@ const run = async () => {
         description: 'Design something great',
         status: 'To do',
         isAssigned: true,
-        user: ann.displayName,
+        user: ann,
         link: null,
         deadline: '2023-04-22T06:00:00.000Z'
     }, {

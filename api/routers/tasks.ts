@@ -8,7 +8,7 @@ const tasksRouter = express.Router();
 tasksRouter.get('/', auth, async (req, res, next) => {
     try{
         if(req.query.project) {
-            const tasks = await Task.find({project: req.query.project}).populate('project').populate('createdBy');
+            const tasks = await Task.find({project: req.query.project}).populate('project').populate('createdBy').populate('user');
             return res.send(tasks);
         }
     }catch (e) {
@@ -18,7 +18,7 @@ tasksRouter.get('/', auth, async (req, res, next) => {
 
 tasksRouter.get('/:id', auth, async (req, res, next) => {
     try{
-        const task = await Task.findById(req.params.id).populate('project').populate('createdBy');
+        const task = await Task.findById(req.params.id).populate('project').populate('createdBy').populate('user');
 
         if(!task){
             return res.status(404).send('Task not found');

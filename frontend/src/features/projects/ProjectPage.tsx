@@ -38,23 +38,19 @@ const ProjectPage = () => {
     theme.palette.primary.main : project?.status === 'Ongoing' ?
       theme.palette.success.main : '#000';
 
-  console.log(tasks)
-
   return (
-    <Container style={{height: '90vh'}}>
+    <Container>
       <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
         <Typography variant='h3'>{project?.title}</Typography>
         {project && user?._id === project?.leader._id ? (
-          <>
+          <Grid item>
             <IconButton
-              color='error'
-              onClick={() => deleteProject(project._id)}
-            ><DeleteIcon/></IconButton>
-            <IconButton
-              color='error'
               onClick={() => navigate('/edit-project/' + project?._id)}
             ><EditIcon/></IconButton>
-          </>
+            <IconButton
+              onClick={() => deleteProject(project._id)}
+            ><DeleteIcon/></IconButton>
+          </Grid>
         ) : (<> <Typography></Typography></>)}
       </Grid>
       <Grid container direction='column' style={pageBodyStyle}>

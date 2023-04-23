@@ -1,18 +1,20 @@
 import { Task } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTasksByProject } from './tasksThunks';
+import { fetchOneTask, fetchTasksByProject } from './tasksThunks';
 import { RootState } from '../../app/store';
 
 interface TaskState {
   items: Task[];
   oneItem: Task | null;
   fetchLoading: boolean;
+  fetchOneLoading: boolean;
 }
 
 const initialState: TaskState = {
   items: [],
   oneItem: null,
   fetchLoading: false,
+  fetchOneLoading: false,
 }
 
 export const tasksSlice = createSlice({
@@ -30,11 +32,23 @@ export const tasksSlice = createSlice({
     builder.addCase(fetchTasksByProject.rejected, (state) => {
       state.fetchLoading = false;
     });
-  }
-  });
+    builder.addCase(fetchOneTask.pending, (state) => {
+      state.fetchOneLoading = true;
+    });
+    builder.addCase(fetchOneTask.fulfilled, (state, {payload}) => {
+      state.fetchOneLoading = false;
+      state.oneItem = payload;
+    });
+    builder.addCase(fetchOneTask.rejected, (state) => {
+      state.fetchOneLoading = false;
+    });
+   },
+});
 
 export const tasksReducer = tasksSlice.reducer;
 
 export const selectTasks = (state: RootState) => state.tasks.items;
 export const selectTasksFetching = (state: RootState) => state.tasks.fetchLoading;
+export const selectOneTask = (state: RootState) => state.tasks.oneItem;
+export const selectOneTaskFetching = (state: RootState) => state.tasks.fetchOneLoading;
 
