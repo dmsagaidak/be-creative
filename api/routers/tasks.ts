@@ -8,7 +8,7 @@ const tasksRouter = express.Router();
 tasksRouter.get('/', auth, async (req, res, next) => {
     try{
         if(req.query.project) {
-            const tasks = await Task.find({project: req.query.project}).populate('project');
+            const tasks = await Task.find({project: req.query.project}).populate('project').populate('createdBy');
             return res.send(tasks);
         }
     }catch (e) {
@@ -74,6 +74,38 @@ tasksRouter.delete('/:id', auth, async (req, res, next) => {
     }catch (e) {
         return next(e);
     }
-})
+});
+
+tasksRouter.put('/:id', auth, async (req, res, next) => {
+    try{
+        const user = (req as RequestWithUser).user;
+        const editingTask = await Task.findById(req.params.id);
+
+        if(!user){
+            return res.status(401).send({error: 'Wrong token'});
+        }else if(!editingTask){
+            return res.status(404).send({error: 'Task does not exist'});
+        }else if(user._id.toString() !== editingTask.createdBy.toString()) {
+            return res.status(403).send({error: 'You can modify tasks only from your project'})
+        }else{
+            editingTask.title = req.body.title || editingTask.title;
+            editingTask.description = req.body.description || editingTask.description;
+            editingTask.status = req.body.status || editingTask.status;
+            editingTask.isAssigned = req.body.isAssigned || editingTask.isAssigned;
+            editingTask.user = req.body.user || editingTask.user;
+            editingTask.link = req.body.link || editingTask.link;
+            editingTask.deadline = req.body.deadline || editingTask.deadline;
+
+            await editingTask.save();
+            return res.send({message: 'Task was updated', editingTask});
+        }
+    }catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        } else {
+            return next(e);
+        }
+    }
+});
 
 export default tasksRouter;

@@ -66,7 +66,9 @@ projectsRouter.delete('/:id', auth, async (req, res, next) => {
         const user = (req as RequestWithUser).user;
         const removingItem = await Project.findById(req.params.id);
 
-        if(!removingItem) {
+        if(!user){
+            return res.status(401).send({ error: 'Wrong token!' });
+        }else if(!removingItem) {
             return res.status(404).send({error: 'Project not found'})
         }else if(removingItem.leader.toString() !== user._id.toString()) {
             return res.send(403).send({error: 'You can remove only your projects'})
