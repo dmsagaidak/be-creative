@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Task } from '../../types';
+import { Task, TaskMutation } from '../../types';
 import axiosApi from '../../axiosApi';
 
 export const fetchTasksByProject = createAsyncThunk<Task[], string>(
@@ -14,5 +14,12 @@ export const fetchOneTask = createAsyncThunk<Task, string>(
   async (id) => {
     const response = await axiosApi.get(`/tasks/${id}`);
     return response.data;
+  }
+);
+
+export const createTask = createAsyncThunk<void, TaskMutation>(
+  'tasks/create',
+  async (taskMutation) => {
+    await axiosApi.post('/tasks/', taskMutation);
   }
 );

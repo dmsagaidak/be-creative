@@ -91,7 +91,6 @@ tasksRouter.put('/:id', auth, async (req, res, next) => {
             editingTask.title = req.body.title || editingTask.title;
             editingTask.description = req.body.description || editingTask.description;
             editingTask.status = req.body.status || editingTask.status;
-            editingTask.isAssigned = req.body.isAssigned || editingTask.isAssigned;
             editingTask.user = req.body.user || editingTask.user;
             editingTask.link = req.body.link || editingTask.link;
             editingTask.deadline = req.body.deadline || editingTask.deadline;

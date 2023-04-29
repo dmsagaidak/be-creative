@@ -37,11 +37,6 @@ const TaskSchema = new Schema({
         enum: ['To do', 'In progress', 'Done'],
         default: 'To do',
     },
-    isAssigned: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',

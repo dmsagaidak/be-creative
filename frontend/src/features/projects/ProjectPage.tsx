@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneProject } from './projectsSlice';
 import { fetchOneProject, removeProject } from './projectsThunks';
-import { Container, Divider, Grid, IconButton, List, ListItem, Typography } from '@mui/material';
+import { Container, Divider, Grid, IconButton, Link, List, ListItem, Typography } from '@mui/material';
 import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,6 +13,8 @@ import { pageBodyStyle } from '../../styles';
 import { fetchTasksByProject } from '../ tasks/tasksThunks';
 import { selectTasks } from '../ tasks/tasksSlice';
 import TaskItem from '../ tasks/components/TaskItem';
+import AddIcon from '@mui/icons-material/Add';
+
 
 const ProjectPage = () => {
   const { id } = useParams() as { id: string };
@@ -67,7 +69,7 @@ const ProjectPage = () => {
           ))}
         </List>
           <Grid item xs>
-            <Typography variant='h5'>Tasks:</Typography>
+            <Typography variant='h5'>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
             {tasks.map((task) => (
               <TaskItem key={task._id} task={task}/>
               ))}

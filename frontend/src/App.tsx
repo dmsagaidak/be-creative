@@ -11,6 +11,7 @@ import Footer from './components/Footer/Footer';
 import ProjectPage from './features/projects/ProjectPage';
 import EditProject from './features/projects/EditProject';
 import TaskPage from './features/ tasks/TaskPage';
+import NewTask from './features/ tasks/NewTask';
 
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
           <Route path='/projects/new' element={<NewProject/>}/>
           <Route path='/projects/:id' element={<ProjectPage/>}/>
           <Route path='/edit-project/:id' element={<EditProject/>}/>
-          <Route path={'/tasks/:id'} element={<TaskPage/>}/>
+          <Route path='/tasks/:id' element={<TaskPage/>}/>
+          <Route path='/tasks/new' element={<NewTask/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>

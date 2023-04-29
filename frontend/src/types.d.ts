@@ -36,7 +36,6 @@ export interface Task {
   title: string;
   description: string;
   status: string;
-  isAssigned: boolean;
   user: User;
   link: string;
   deadline: string;
@@ -47,7 +46,6 @@ export interface TaskMutation {
   title: string;
   description: string;
   status: string;
-  isAssigned: boolean;
   user: string;
   link: string;
   deadline: string;

@@ -1,6 +1,6 @@
 import { Task } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchOneTask, fetchTasksByProject } from './tasksThunks';
+import { createTask, fetchOneTask, fetchTasksByProject } from './tasksThunks';
 import { RootState } from '../../app/store';
 
 interface TaskState {
@@ -8,6 +8,7 @@ interface TaskState {
   oneItem: Task | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
+  createLoading: boolean;
 }
 
 const initialState: TaskState = {
@@ -15,6 +16,7 @@ const initialState: TaskState = {
   oneItem: null,
   fetchLoading: false,
   fetchOneLoading: false,
+  createLoading: false,
 }
 
 export const tasksSlice = createSlice({
@@ -42,6 +44,15 @@ export const tasksSlice = createSlice({
     builder.addCase(fetchOneTask.rejected, (state) => {
       state.fetchOneLoading = false;
     });
+    builder.addCase(createTask.pending, (state) => {
+      state.createLoading = true;
+    });
+    builder.addCase(createTask.fulfilled, (state) => {
+      state.createLoading = false;
+    });
+    builder.addCase(createTask.rejected, (state) => {
+      state.createLoading = false;
+    });
    },
 });
 
@@ -51,4 +62,5 @@ export const selectTasks = (state: RootState) => state.tasks.items;
 export const selectTasksFetching = (state: RootState) => state.tasks.fetchLoading;
 export const selectOneTask = (state: RootState) => state.tasks.oneItem;
 export const selectOneTaskFetching = (state: RootState) => state.tasks.fetchOneLoading;
+export const selectTaskCreating = (state: RootState) => state.tasks.createLoading;
 

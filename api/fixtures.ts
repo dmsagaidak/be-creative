@@ -91,7 +91,6 @@ const run = async () => {
         title: 'Test title1',
         description: 'Cras eros ex, gravida eget gravida eu, tempus in dolor. Aenean bibendum vel tortor dignissim.',
         status: 'In progress',
-        isAssigned: true,
         user: jack,
         link: 'https://bit.ly/3GNVEXT',
         deadline: '2023-04-22T06:00:00.000Z'
@@ -101,7 +100,6 @@ const run = async () => {
         title: 'Test title2',
         description: 'Design something great',
         status: 'To do',
-        isAssigned: true,
         user: ann,
         link: null,
         deadline: '2023-04-22T06:00:00.000Z'
@@ -111,7 +109,6 @@ const run = async () => {
         title: 'Test test 1',
         description: 'Test descr',
         status: 'To do',
-        isAssigned: false,
         link: null,
         deadline: '2023-06-23T06:00:00.000Z',
     });

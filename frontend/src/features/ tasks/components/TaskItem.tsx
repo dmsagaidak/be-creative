@@ -14,7 +14,7 @@ const TaskItem: React.FC<Props> = ({task}) => {
           <CardHeader title={task.title}/>
           <CardContent>
             <Typography component='p'>{task.description}</Typography>
-            <Typography component='p'>{task.isAssigned ?
+            <Typography component='p'>{task.user ?
               (<Typography component='span'>Assigned to {task.user.displayName}</Typography>) :
               (<Typography component='span'>Unassigned</Typography>)
             }</Typography>
