@@ -23,3 +23,10 @@ export const createTask = createAsyncThunk<void, TaskMutation>(
     await axiosApi.post('/tasks/', taskMutation);
   }
 );
+
+export const removeTask = createAsyncThunk<void, string>(
+  'tasks/remove',
+  async (id) => {
+    await axiosApi.delete(`/tasks/${id}`);
+  }
+)

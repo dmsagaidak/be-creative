@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { pageTopStyle } from '../../styles';
 import { pageBodyStyle } from '../../styles';
-import { fetchTasksByProject } from '../ tasks/tasksThunks';
+import { fetchTasksByProject, removeTask } from '../ tasks/tasksThunks';
 import { selectTasks } from '../ tasks/tasksSlice';
 import TaskItem from '../ tasks/components/TaskItem';
 import AddIcon from '@mui/icons-material/Add';
@@ -35,6 +35,13 @@ const ProjectPage = () => {
       navigate('/');
     }
   };
+
+  const deleteTask = async (taskId: string) => {
+    if(window.confirm('Do you really want to remove this task?')) {
+      await dispatch(removeTask(taskId));
+      await dispatch(fetchTasksByProject(id));
+    }
+  }
 
   const styleColor = project?.status === 'Not started' ?
     theme.palette.primary.main : project?.status === 'Ongoing' ?
@@ -71,7 +78,11 @@ const ProjectPage = () => {
           <Grid item xs>
             <Typography variant='h5'>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
             {tasks.map((task) => (
-              <TaskItem key={task._id} task={task}/>
+              <TaskItem
+                key={task._id}
+                task={task}
+                onDelete={() => deleteTask(task._id)}
+              />
               ))}
           </Grid>
       </Grid>

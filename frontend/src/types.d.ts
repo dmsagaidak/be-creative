@@ -32,6 +32,7 @@ export interface ProjectMutation {
 
 export interface Task {
   _id: string;
+  createdBy: User;
   project: Project;
   title: string;
   description: string;
