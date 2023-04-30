@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Task, TaskMutation } from '../../types';
+import { Task, TaskMutation, ValidationError } from '../../types';
 import axiosApi from '../../axiosApi';
+import { isAxiosError } from 'axios';
 
 export const fetchTasksByProject = createAsyncThunk<Task[], string>(
   'tasks/fetchByProject',
@@ -29,4 +30,19 @@ export const removeTask = createAsyncThunk<void, string>(
   async (id) => {
     await axiosApi.delete(`/tasks/${id}`);
   }
-)
+);
+
+export const updateTask = createAsyncThunk<void, {id: string, task: TaskMutation}, { rejectValue: ValidationError }>(
+  'tasks/edit',
+  async ({id, task}, {rejectWithValue}) => {
+    try{
+      await axiosApi.put(`/tasks/${id}`, task);
+    }catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      }
+      throw e;
+    }
+  }
+
+);

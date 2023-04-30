@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { TaskMutation } from '../../../types';
 import {
-  Button,
+  Button, CircularProgress,
   Container,
   Grid,
   MenuItem,
-  TextField,
+  TextField, Typography,
 } from '@mui/material';
 import { fetchProjectsByUser } from '../../projects/projectsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -14,6 +14,20 @@ import { selectProjects } from '../../projects/projectsSlice';
 
 interface Props {
   onSubmit: (mutation: TaskMutation) => void;
+  loading?: boolean;
+  fetchTaskLoading?: boolean;
+  existingTask?: TaskMutation;
+  isEdit?: boolean;
+}
+
+const initialState: TaskMutation = {
+  project: '',
+  title: '',
+  description: '',
+  status: '',
+  user: '',
+  link: '',
+  deadline: '',
 }
 
 const status = {
@@ -22,20 +36,12 @@ const status = {
   done: 'Done'
 }
 
-const TaskForm: React.FC<Props> = ({onSubmit}) => {
+const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, loading, isEdit}) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const projects = useAppSelector(selectProjects);
 
-  const [state, setState] = useState<TaskMutation>({
-    project: '',
-    title: '',
-    description: '',
-    status: '',
-    user: '',
-    link: '',
-    deadline: '',
-  });
+  const [state, setState] = useState<TaskMutation>(existingTask || initialState);
 
   useEffect(() => {
     if(user) {
@@ -60,6 +66,10 @@ console.log(state)
   return (
     <Container component="main" maxWidth="lg">
       <form onSubmit={submitFormHandler} autoComplete="off">
+        <Typography variant='h5' sx={{pb: 2}}>
+          {isEdit ? 'Update' : 'Create new'} task
+          {fetchTaskLoading && (<CircularProgress size={20} sx={{ ml: 1 }} />)}
+        </Typography>
         <Grid container direction='column' spacing={2}>
           <Grid item xs>
             <TextField
@@ -70,7 +80,7 @@ console.log(state)
               value={state.project}
               onChange={inputChangeHandler}
               required
-
+              disabled={loading}
             >
               <MenuItem value="" disabled>
                 Please, choose a project{' '}
@@ -88,6 +98,7 @@ console.log(state)
               value={state.title}
               onChange={inputChangeHandler}
               required
+              disabled={loading}
             />
           </Grid>
           <Grid item xs>
@@ -100,6 +111,7 @@ console.log(state)
               value={state.description}
               onChange={inputChangeHandler}
               required
+              disabled={loading}
             />
           </Grid>
           <Grid item xs>
@@ -111,6 +123,7 @@ console.log(state)
               value={state.status}
               onChange={inputChangeHandler}
               required
+              disabled={loading}
             >
               <MenuItem value={status.todo}>To do</MenuItem>
               <MenuItem value={status.inProgress}>In progress</MenuItem>
@@ -124,6 +137,7 @@ console.log(state)
               name="user"
               value={state.user}
               onChange={inputChangeHandler}
+              disabled={loading}
             />
           </Grid>
           <Grid item xs>
@@ -133,6 +147,7 @@ console.log(state)
               name="link"
               value={state.link}
               onChange={inputChangeHandler}
+              disabled={loading}
             />
           </Grid>
           <Grid item xs>
@@ -143,10 +158,17 @@ console.log(state)
               name="deadline"
               value={state.deadline}
               onChange={inputChangeHandler}
+              disabled={loading}
             />
           </Grid>
           <Grid item xs>
-            <Button type="submit" color="success" variant="contained">Create task</Button>
+            <Button
+              type="submit"
+              color="success"
+              variant="contained"
+              disabled={loading}
+            >
+              {isEdit? 'Update' : 'Create'} task</Button>
           </Grid>
         </Grid>
       </form>

@@ -1,6 +1,6 @@
 import { Task } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createTask, fetchOneTask, fetchTasksByProject, removeTask } from './tasksThunks';
+import { createTask, fetchOneTask, fetchTasksByProject, removeTask, updateTask } from './tasksThunks';
 import { RootState } from '../../app/store';
 
 interface TaskState {
@@ -10,6 +10,7 @@ interface TaskState {
   fetchOneLoading: boolean;
   createLoading: boolean;
   deleteLoading: false | string;
+  updateLoading: boolean;
 }
 
 const initialState: TaskState = {
@@ -19,6 +20,7 @@ const initialState: TaskState = {
   fetchOneLoading: false,
   createLoading: false,
   deleteLoading: false,
+  updateLoading: false
 }
 
 export const tasksSlice = createSlice({
@@ -64,6 +66,15 @@ export const tasksSlice = createSlice({
     builder.addCase(removeTask.rejected, (state) => {
       state.deleteLoading = false;
     });
+    builder.addCase(updateTask.pending, (state) => {
+      state.updateLoading = true;
+    });
+    builder.addCase(updateTask.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateTask.rejected, (state) => {
+      state.updateLoading = false;
+    })
    },
 });
 
@@ -75,4 +86,5 @@ export const selectOneTask = (state: RootState) => state.tasks.oneItem;
 export const selectOneTaskFetching = (state: RootState) => state.tasks.fetchOneLoading;
 export const selectTaskCreating = (state: RootState) => state.tasks.createLoading;
 export const selectTaskDeleting = (state: RootState) => state.tasks.deleteLoading;
+export const selectTaskUpdating = (state: RootState) => state.tasks.updateLoading;
 

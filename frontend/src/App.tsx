@@ -12,6 +12,7 @@ import ProjectPage from './features/projects/ProjectPage';
 import EditProject from './features/projects/EditProject';
 import TaskPage from './features/ tasks/TaskPage';
 import NewTask from './features/ tasks/NewTask';
+import EditTask from './features/ tasks/EditTask';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path='/edit-project/:id' element={<EditProject/>}/>
           <Route path='/tasks/:id' element={<TaskPage/>}/>
           <Route path='/tasks/new' element={<NewTask/>}/>
+          <Route path='/edit-task/:id' element={<EditTask/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>

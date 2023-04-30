@@ -6,6 +6,7 @@ import { fetchOneTask, removeTask } from './tasksThunks';
 import { Container, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { pageBodyStyle, pageTopStyle } from '../../styles';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { selectUser } from '../users/usersSlice';
 
 const TaskPage = () => {
@@ -34,6 +35,9 @@ const TaskPage = () => {
         <Typography variant='h3'>{task?.title}</Typography>
         {task && user?._id === task.createdBy._id ?
           ( <Grid item>
+            <IconButton onClick={() => navigate(`/edit-task/${task?._id}`)}>
+              <EditIcon/>
+            </IconButton>
             <IconButton onClick={() => deleteTask(task._id)}>
               <DeleteIcon/>
             </IconButton>
