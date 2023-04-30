@@ -16,6 +16,12 @@ interface Props {
   onSubmit: (mutation: TaskMutation) => void;
 }
 
+const status = {
+  todo: 'To do',
+  inProgress: 'In progress',
+  done: 'Done'
+}
+
 const TaskForm: React.FC<Props> = ({onSubmit}) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -42,6 +48,7 @@ const TaskForm: React.FC<Props> = ({onSubmit}) => {
     onSubmit(state);
   };
 
+console.log(state)
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -105,9 +112,9 @@ const TaskForm: React.FC<Props> = ({onSubmit}) => {
               onChange={inputChangeHandler}
               required
             >
-              <MenuItem value="To do">To do</MenuItem>
-              <MenuItem value="In progress">In progress</MenuItem>
-              <MenuItem value="Done">Done</MenuItem>
+              <MenuItem value={status.todo}>To do</MenuItem>
+              <MenuItem value={status.inProgress}>In progress</MenuItem>
+              <MenuItem value={status.done}>Done</MenuItem>
             </TextField>
           </Grid>
           <Grid item xs>

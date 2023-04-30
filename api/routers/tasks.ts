@@ -42,6 +42,8 @@ tasksRouter.post('/', auth, async (req, res, next) => {
             createdBy: user._id.toString(),
             title: req.body.title,
             description: req.body.description,
+            status: req.body.status,
+            user: req.body.user,
             link: req.body.link,
             deadline: req.body.deadline
         });
