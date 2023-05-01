@@ -9,8 +9,9 @@ import {
 } from '@mui/material';
 import { fetchProjectsByUser } from '../../projects/projectsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectUser } from '../../users/usersSlice';
+import { selectUser, selectUsers } from '../../users/usersSlice';
 import { selectProjects } from '../../projects/projectsSlice';
+import { fetchUsers } from '../../users/usersThunks';
 
 interface Props {
   onSubmit: (mutation: TaskMutation) => void;
@@ -40,12 +41,15 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const projects = useAppSelector(selectProjects);
+  const users = useAppSelector(selectUsers);
 
   const [state, setState] = useState<TaskMutation>(existingTask || initialState);
 
   useEffect(() => {
     if(user) {
       void dispatch(fetchProjectsByUser(user._id));
+      const organization = user.organization;
+      void dispatch(fetchUsers({organization}))
     }
   }, [dispatch, user]);
 
@@ -53,8 +57,6 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
     e.preventDefault();
     onSubmit(state);
   };
-
-console.log(state)
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -132,13 +134,18 @@ console.log(state)
           </Grid>
           <Grid item xs>
             <TextField
+              select
               label="User"
               id="user"
               name="user"
               value={state.user}
               onChange={inputChangeHandler}
               disabled={loading}
-            />
+            >
+              {users.map((user) => (
+                <MenuItem key={user._id} value={user._id}>{user.displayName}</MenuItem>
+              ))}
+            </TextField>
           </Grid>
           <Grid item xs>
             <TextField

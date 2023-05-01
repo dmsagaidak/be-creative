@@ -3,6 +3,27 @@ import { GlobalError, LoginMutation, RegisterMutation, RegisterResponse, User, V
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
 
+interface SearchParam {
+  organization?: string;
+}
+
+export const fetchUsers = createAsyncThunk<User[], SearchParam | undefined>(
+  'users/fetch',
+  async (params) => {
+    const queryString =
+      params &&
+      Object.entries(params)
+        .filter(([_, value]) => value !== undefined)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+
+    const url = `/users${queryString ? `?${queryString}` : ''}`;
+
+    const response = await axiosApi.get<User[]>(url);
+    return response.data;
+  }
+)
+
 export const findUserById = createAsyncThunk<User, string>(
   'users/findById',
   async (id) => {

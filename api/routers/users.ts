@@ -13,6 +13,26 @@ const usersRouter = express.Router();
 
 const client = new OAuth2Client(config.google.clientId);
 
+usersRouter.get('/', async (req, res, next) => {
+    try{
+        const organization = req.query.organization as string;
+
+        const searchParam: {
+            organization?: string,
+        } = {};
+
+        if(organization) {
+            searchParam.organization = organization as string;
+        }
+
+        const users = await User.find(searchParam);
+
+        return res.send(users)
+    }catch (e) {
+       return next(e);
+    }
+});
+
 usersRouter.get('/:id', async (req, res, next) => {
     try{
         const result = await User.findById(req.params.id);
