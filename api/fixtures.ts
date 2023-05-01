@@ -68,8 +68,8 @@ const run = async () => {
         deadline: '2023-06-23T06:00:00.000Z',
         image: 'fixtures/proj1.jpg',
         participants: [
-            {role: 'Analyst', user: ann.displayName},
-            {role: 'Developer', user: jack.displayName},
+            {role: 'Analyst', user: ann},
+            {role: 'Developer', user: jack},
         ]
     }, {
         title: 'Website development',
@@ -80,8 +80,8 @@ const run = async () => {
         deadline: '2023-06-23T06:00:00.000Z',
         image: 'fixtures/proj2.jpg',
         participants: [
-            {role: 'Designer', user: joe.displayName},
-            {role: 'Developer', user: jack.displayName},
+            {role: 'Designer', user: joe},
+            {role: 'Developer', user: jack},
         ]
     });
 

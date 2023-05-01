@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ProjectMutation, ValidationError } from '../../../types';
-import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Button, Container, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import FileInput from '../../../components/UI/FileInput/FileInput';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectUser, selectUsers } from '../../users/usersSlice';
+import { fetchUsers } from '../../users/usersThunks';
 
 interface Props {
   onSubmit: (project: ProjectMutation) => void;
@@ -22,12 +25,20 @@ const initialState: ProjectMutation = {
 
 const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject, isEdit}) => {
   const [state, setState] = useState<ProjectMutation>(existingProject || initialState);
+  const user = useAppSelector(selectUser);
+  const users = useAppSelector(selectUsers);
+  const organization = user?.organization;
+  const dispatch = useAppDispatch();
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(state);
     setState(initialState);
   };
+
+  useEffect(() => {
+    void dispatch(fetchUsers({organization}))
+  }, [dispatch])
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -140,29 +151,38 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
           </Grid>
           <Grid item xs>
-            Participants:
+            <Typography component='p' sx={{mb: 1}}>Participants:</Typography>
             {state.participants.map((item, index) => (
-              <Grid item key={index}>
-                <TextField
-                  id='role'
-                  label='Role'
-                  name='role'
-                  value={item.role}
-                  onChange={(e) => participantsChangeHandler(e, index)}
-                  required
-                  error={Boolean(getFieldError('role'))}
-                  helperText={getFieldError('role')}
-                />
-                <TextField
-                  id='user'
-                  label='User'
-                  name='user'
-                  value={item.user}
-                  onChange={(e) => participantsChangeHandler(e, index)}
-                  required
-                  error={Boolean(getFieldError('user'))}
-                  helperText={getFieldError('user')}
-                />
+              <Grid item container key={index} direction="column">
+                <Grid item xs sx={{mb: 1}}>
+                  <TextField
+                    id='role'
+                    label='Role'
+                    name='role'
+                    value={item.role}
+                    onChange={(e) => participantsChangeHandler(e, index)}
+                    required
+                    error={Boolean(getFieldError('role'))}
+                    helperText={getFieldError('role')}
+                  />
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    select
+                    id='user'
+                    label='User'
+                    name='user'
+                    value={item.user}
+                    onChange={(e) => participantsChangeHandler(e, index)}
+                    required
+                    error={Boolean(getFieldError('user'))}
+                    helperText={getFieldError('user')}
+                  >
+                    {users.map((user) => (
+                      <MenuItem key={user._id} value={user._id}>{user.displayName}</MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
                 {state.participants.length > 1 &&
                   (<Button onClick={() => removeParticipant(index)} color='error'>Remove</Button>)}
               </Grid>

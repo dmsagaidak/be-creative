@@ -19,7 +19,7 @@ projectsRouter.get('/', auth, async (req, res, next) => {
 
 projectsRouter.get('/:id', async (req, res, next) => {
     try{
-        const project = await Project.findById(req.params.id).populate('leader');
+        const project = await Project.findById(req.params.id).populate('leader').populate('participants.user');
 
         if(!project) {
             return res.status(404).send({error: 'The project does not exist'});

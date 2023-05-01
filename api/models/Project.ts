@@ -3,6 +3,19 @@ import User from './User';
 
 const Schema = mongoose.Schema;
 
+const ParticipantsSchema = new Schema({
+    role: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        validate: {
+            validator: async (value: Types.ObjectId) => User.findById(value),
+            message: 'User does not exist',
+        },
+    }
+})
+
 const ProjectSchema = new Schema({
     title: {
         type: String,
@@ -42,7 +55,7 @@ const ProjectSchema = new Schema({
         required: true,
     },
     participants: {
-        type: Array,
+        type: [ParticipantsSchema],
         default: [],
     },
 });

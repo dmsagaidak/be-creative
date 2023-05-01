@@ -1,7 +1,7 @@
 interface Participant {
   _id: string;
   role: string;
-  user: string;
+  user: User;
 }
 
 export interface ParticipantMutation {

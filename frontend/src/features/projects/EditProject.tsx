@@ -42,7 +42,9 @@ const EditProject = () => {
     start: project.start,
     deadline: project.deadline,
     image: null,
-    participants: project.participants,
+    participants: project.participants.map((item) => (
+      {role: item.role, user: item.user._id}
+    )),
   };
 
   if(!user) {

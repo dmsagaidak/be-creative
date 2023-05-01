@@ -47,6 +47,8 @@ const ProjectPage = () => {
     theme.palette.primary.main : project?.status === 'Ongoing' ?
       theme.palette.success.main : '#000';
 
+  console.log(project)
+
   return (
     <Container>
       <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
@@ -72,7 +74,7 @@ const ProjectPage = () => {
           <Typography style={{fontWeight: 700}}>Project team:</Typography>
           <ListItem>Leader: {project?.leader.displayName}</ListItem>
           {project?.participants.map((item, idx) => (
-            <ListItem key={idx}>{item.role}: {item.user}</ListItem>
+            <ListItem key={idx}>{item.role}: {item.user.displayName}</ListItem>
           ))}
         </List>
           <Grid item xs>
