@@ -23,7 +23,7 @@ function App() {
       <header>
         <AppToolbar/>
       </header>
-      <main>
+      <main style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<Register/>}/>

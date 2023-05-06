@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneProject } from './projectsSlice';
 import { fetchOneProject, removeProject } from './projectsThunks';
-import { Container, Divider, Grid, IconButton, Link, List, ListItem, Typography } from '@mui/material';
+import { Alert, Container, Divider, Grid, IconButton, Link, List, ListItem, Typography } from '@mui/material';
 import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,6 +14,7 @@ import { fetchTasksByProject, removeTask } from '../ tasks/tasksThunks';
 import { selectTasks } from '../ tasks/tasksSlice';
 import TaskItem from '../ tasks/components/TaskItem';
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
 
 
 const ProjectPage = () => {
@@ -47,8 +48,6 @@ const ProjectPage = () => {
     theme.palette.primary.main : project?.status === 'Ongoing' ?
       theme.palette.success.main : '#000';
 
-  console.log(project)
-
   return (
     <Container>
       <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
@@ -77,15 +76,18 @@ const ProjectPage = () => {
             <ListItem key={idx}>{item.role}: {item.user.displayName}</ListItem>
           ))}
         </List>
-          <Grid item xs>
-            <Typography variant='h5'>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
-            {tasks.map((task) => (
+        <Typography component="p">
+          From {dayjs(project?.start).format('DD.MM.YYYY')} to {dayjs(project?.deadline).format('DD.MM.YYYY')}
+        </Typography>
+          <Grid item xs sx={{pb: 3}}>
+            <Typography component='p' style={{fontWeight: 700}}>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
+            {tasks.length ?  tasks.map((task) => (
               <TaskItem
                 key={task._id}
                 task={task}
                 onDelete={() => deleteTask(task._id)}
               />
-              ))}
+              )) : (<Alert severity="info">No tasks in this project. Please push + button to add one</Alert>)}
           </Grid>
       </Grid>
     </Container>

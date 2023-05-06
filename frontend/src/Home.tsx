@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Container, Grid, Typography } from '@mui/material';
+import { Alert, Button, Container, Grid, Typography } from '@mui/material';
 import teamImg from '../src/assets/images/team1.jpg';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { selectUser } from './features/users/usersSlice';
@@ -41,9 +41,9 @@ const Home = () => {
       </Grid>
       <Grid container direction='column' style={{paddingTop: '35px'}}>
         <Typography variant='h4'>Your projects</Typography>
-        {projects.map((project) => (
+        {projects.length ? projects.map((project) => (
           <ProjectItem key={project._id} project={project}/>
-        ))}
+        )) : (<Alert severity="info">You haven't created any project</Alert>)}
       </Grid>
 
     </Container>

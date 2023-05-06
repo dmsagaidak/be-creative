@@ -8,6 +8,7 @@ import { pageBodyStyle, pageTopStyle } from '../../styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { selectUser } from '../users/usersSlice';
+import dayjs from 'dayjs';
 
 const TaskPage = () => {
   const {id} = useParams() as {id: string};
@@ -28,7 +29,6 @@ const TaskPage = () => {
     }
   }
 
-  console.log(task)
   return (
     <Container>
       <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
@@ -52,8 +52,10 @@ const TaskPage = () => {
         <Typography component='p' style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}>Status: {task?.status}</Typography>
         <Divider />
         {task?.user ?
-          (<Typography fontWeight={700} component='p'>Assigned to {task.user.displayName}</Typography>) :
+          (<Typography style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}} component='p'>Assigned to {task.user.displayName}</Typography>) :
           (<Typography fontWeight={700}  component='p'>Unassigned</Typography>)}
+        <Divider/>
+        <Typography style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}} component='p'>Deadline: {dayjs(task?.deadline).format('DD.MM.YYYY')}</Typography>
       </Grid>
     </Container>
   );
