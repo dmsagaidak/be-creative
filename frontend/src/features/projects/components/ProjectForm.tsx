@@ -5,6 +5,10 @@ import FileInput from '../../../components/UI/FileInput/FileInput';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectUser, selectUsers } from '../../users/usersSlice';
 import { fetchUsers } from '../../users/usersThunks';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 interface Props {
   onSubmit: (project: ProjectMutation) => void;
@@ -121,31 +125,30 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
           </Grid>
           <Grid item xs>
             <Typography component='p'>Start:</Typography>
-            <TextField
-              required
-              type='datetime-local'
-              id='start'
-              name='start'
-              value={state.start}
-              onChange={inputChangeHandler}
-              disabled={loading}
-              error={Boolean(getFieldError('start'))}
-              helperText={getFieldError('start')}
-            />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+            >
+              <DatePicker
+              label="Choose date"
+              value={dayjs(state.start)}
+              onChange={(newValue) =>
+                setState((prevState) =>
+                  ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item xs>
             <Typography component='p'>Deadline:</Typography>
-            <TextField
-              required
-              type='datetime-local'
-              id='deadline'
-              name='deadline'
-              value={state.deadline}
-              onChange={inputChangeHandler}
-              disabled={loading}
-              error={Boolean(getFieldError('deadline'))}
-              helperText={getFieldError('deadline')}
-            />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Choose the date"
+                value={dayjs(state.deadline)}
+                onChange={(newValue) =>
+                  setState((prevState) =>
+                    ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item xs>
             <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />

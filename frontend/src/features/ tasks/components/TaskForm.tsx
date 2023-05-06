@@ -12,6 +12,10 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectUser, selectUsers } from '../../users/usersSlice';
 import { selectProjects } from '../../projects/projectsSlice';
 import { fetchUsers } from '../../users/usersThunks';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 interface Props {
   onSubmit: (mutation: TaskMutation) => void;
@@ -158,15 +162,15 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
             />
           </Grid>
           <Grid item xs>
-            <TextField
-              required
-              type='datetime-local'
-              id='deadline'
-              name="deadline"
-              value={state.deadline}
-              onChange={inputChangeHandler}
-              disabled={loading}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Choose date"
+                value={dayjs(state.deadline)}
+                onChange={(newValue) =>
+                  setState((prevState) =>
+                    ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item xs>
             <Button
