@@ -3,11 +3,13 @@ import { ChatMessage, IncomingMessage } from '../../types';
 import { Container, Grid } from '@mui/material';
 import MessageItem from './components/MessageItem';
 import ChatForm from './components/ChatForm';
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../users/usersSlice';
 
 
 const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-
+  const user = useAppSelector(selectUser);
   const ws = useRef<null | WebSocket>(null);
 
 
@@ -19,8 +21,15 @@ const Chat = () => {
     ws.current.onmessage = (event) => {
       const decodedMessage = JSON.parse(event.data) as IncomingMessage;
 
-      if (decodedMessage.type === 'NEW_MESSAGE') {
-        setMessages((prev) => [...prev, decodedMessage.payload]);
+      if (user && decodedMessage.type === 'NEW_MESSAGE') {
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: decodedMessage.payload.text,
+            username: user.displayName,
+            datetime: new Date().toISOString()
+          },
+        ]);
       }
     };
 
@@ -31,6 +40,8 @@ const Chat = () => {
     };
   }, []);
 
+  console.log(messages)
+
 
   const handleSendMessage = (messageText: string) => {
     if (!ws.current) return;
@@ -38,6 +49,7 @@ const Chat = () => {
       JSON.stringify({
         type: 'SEND_MESSAGE',
         payload: messageText,
+        username: user?.displayName, // добавить имя пользователя в объект сообщения
       })
     );
   };

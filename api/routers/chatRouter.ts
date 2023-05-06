@@ -1,6 +1,7 @@
 import express from 'express';
-import { ActiveConnections, IncomingMessage } from "../types";
+import {ActiveConnections, IncomingMessage, IUser} from "../types";
 import * as crypto from 'crypto';
+import {now} from "mongoose";
 
 const chatRouter = () => {
     const router = express.Router();
@@ -11,22 +12,22 @@ const chatRouter = () => {
         const id = crypto.randomUUID();
         console.log('client connected id=', id);
         activeConnections[id] = ws;
-        let username = 'Anonymous';
+        let user: IUser | null = null;
+
 
         ws.on('message', (message) => {
             const decodedMessage = JSON.parse(message.toString()) as IncomingMessage;
+            console.log(decodedMessage)
             switch (decodedMessage.type) {
-                case 'SET_USERNAME':
-                    username = decodedMessage.payload;
-                    break;
                 case 'SEND_MESSAGE':
                     Object.keys(activeConnections).forEach(id => {
                         const conn = activeConnections[id];
                         conn.send(JSON.stringify({
                             type: 'NEW_MESSAGE',
                             payload: {
-                                username,
+                                username: user?.displayName,
                                 text: decodedMessage.payload,
+                                datetime: now().toISOString(),
                             },
                         }));
                     });

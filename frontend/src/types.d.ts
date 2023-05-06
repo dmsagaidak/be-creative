@@ -100,6 +100,7 @@ export interface GlobalError {
 export interface ChatMessage {
   username: string;
   text: string;
+  datetime: string;
 }
 
 export interface IncomingMessage {
