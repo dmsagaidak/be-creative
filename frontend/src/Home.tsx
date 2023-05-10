@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     if(user){
-      void dispatch(fetchProjectsByUser(user._id))
+      void dispatch(fetchProjectsByUser(user._id));
     }
   }, [dispatch, user]);
 

@@ -14,6 +14,7 @@ import TaskPage from './features/ tasks/TaskPage';
 import NewTask from './features/ tasks/NewTask';
 import EditTask from './features/ tasks/EditTask';
 import Chat from './features/chat/Chat';
+import Calendar from './Calendar';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path='/tasks/new' element={<NewTask/>}/>
           <Route path='/edit-task/:id' element={<EditTask/>}/>
           <Route path='/chat' element={<Chat/>}/>
+          <Route path='/calendar' element={<Calendar/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>

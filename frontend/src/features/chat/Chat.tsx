@@ -9,6 +9,7 @@ import { selectUser } from '../users/usersSlice';
 
 const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useAppSelector(selectUser);
   const ws = useRef<null | WebSocket>(null);
 
@@ -33,6 +34,7 @@ const Chat = () => {
       }
     };
 
+
     return () => {
       if (ws.current) {
         ws.current.close();
@@ -41,6 +43,27 @@ const Chat = () => {
   }, []);
 
   console.log(messages)
+
+  const handleLogin = () => {
+    if (!ws.current) return;
+    ws.current.onopen = () => {
+      console.log('Websocket is open');
+      ws.current?.send(
+        JSON.stringify({
+          type: 'LOGIN',
+          payload: user?.token,
+        })
+      );
+      setIsLoggedIn(true);
+    }
+
+  };
+
+  useEffect(() => {
+    if (user) {
+      handleLogin();
+    }
+  }, [user]);
 
 
   const handleSendMessage = (messageText: string) => {
@@ -57,7 +80,7 @@ const Chat = () => {
 
   return (
     <Container>
-      <Grid container xs direction='column'>
+      <Grid container direction='column'>
         {messages.map((message, idx) => (
           <Grid item xs>
             <MessageItem key={idx} message={message}/>
