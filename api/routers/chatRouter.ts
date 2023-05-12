@@ -4,16 +4,33 @@ import * as crypto from 'crypto';
 import {now} from "mongoose";
 import Message from "../models/Message";
 import User from "../models/User";
+import {WebSocket} from "ws";
 
 const chatRouter = () => {
     const router = express.Router();
 
     const activeConnections: ActiveConnections = {};
 
+    const sendLastMessages = async (ws: WebSocket) => {
+        const lastMessages = await Message.find().limit(30);
+        lastMessages.forEach((message) => {
+            ws.send(
+                JSON.stringify({
+                    type: 'NEW_MESSAGE',
+                    payload: {
+                        username: message.username,
+                        text: message.text,
+                    },
+                })
+            );
+        });
+    };
+
     router.ws('/',  (ws, req) => {
         const id = crypto.randomUUID();
         console.log('client connected id=', id);
         activeConnections[id] = ws;
+        sendLastMessages(ws);
         let user: IUser | null = null;
 
 
