@@ -14,7 +14,7 @@ import TaskPage from './features/ tasks/TaskPage';
 import NewTask from './features/ tasks/NewTask';
 import EditTask from './features/ tasks/EditTask';
 import Chat from './features/chat/Chat';
-import Calendar from './Calendar';
+import Calendar from './features/calendar/Calendar';
 
 
 function App() {
