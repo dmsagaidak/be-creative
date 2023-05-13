@@ -4,6 +4,7 @@ import config from './config';
 import User from "./models/User";
 import Project from "./models/Project";
 import Task from "./models/Task";
+import Event from "./models/Event"
 
 const run = async () => {
     mongoose.set('strictQuery', false);
@@ -14,6 +15,7 @@ const run = async () => {
         await db.dropCollection('users');
         await db.dropCollection('projects');
         await db.dropCollection('tasks');
+        await db.dropCollection('events');
     }catch (e) {
         console.log('Collections were not present, skipping drop...');
     }
@@ -112,6 +114,16 @@ const run = async () => {
         link: null,
         deadline: '2023-06-23T06:00:00.000Z',
     });
+
+    await Event.create({
+        title: 'Event1',
+        start: '2023-05-19',
+        end: '2023-05-23'
+    }, {
+        title: 'Event2',
+        start: '2023-05-10',
+        end: '2023-05-11'
+    })
 
     await db.close();
 };

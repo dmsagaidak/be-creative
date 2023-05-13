@@ -107,3 +107,16 @@ export interface IncomingMessage {
   type: string;
   payload: ChatMessage;
 }
+
+export interface Event {
+  _id: string;
+  title: string;
+  start: string;
+  end: string;
+}
+
+export interface EventMutation {
+  title: string;
+  start: string;
+  end: string;
+}

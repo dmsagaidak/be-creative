@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Container } from '@mui/material';
 import { DateSelectArg } from 'fullcalendar';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { selectEvents } from './features/events/eventsSlice';
+import { createEvent, fetchEvents } from './features/events/eventsThunks';
 
-interface Event {
-  title: string;
-  start: string;
-  end: string;
-}
 const Calendar = () => {
-  const [events, setEvents] = useState<Event[]>( [{title: 'Test', start: '2023-05-01', end: '2023-05-04'}])
+  const dispatch = useAppDispatch();
+   const events = useAppSelector(selectEvents);
+
+  useEffect(() => {
+    void dispatch(fetchEvents());
+  }, [dispatch]);
+
 
   let eventGuid = 0
   const createEventId = ()=> {
     return String(eventGuid++)
   }
 
-  const handleDateSelect = (selectInfo: DateSelectArg) => {
+  const handleDateSelect = async (selectInfo: DateSelectArg) => {
     let title = prompt('Please enter a new title for your event');
     let calendarApi = selectInfo.view.calendar;
 
@@ -39,7 +43,7 @@ const Calendar = () => {
         end: selectInfo.endStr,
         allDay: selectInfo.allDay
       });
-      setEvents((prevEvents) => [...prevEvents, newEvent]);
+      await dispatch(createEvent(newEvent))
     }
   };
 

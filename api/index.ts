@@ -7,6 +7,7 @@ import usersRouter from "./routers/users";
 import projectsRouter from "./routers/projects";
 import tasksRouter from "./routers/tasks";
 import chatRouter from "./routers/chatRouter";
+import eventsRouter from "./routers/events";
 
 const app = express();
 expressWs(app);
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/users', usersRouter);
 app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
+app.use('/events', eventsRouter);
 app.use('/chat', chatRouter());
 
 const run = async () => {

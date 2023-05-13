@@ -2,7 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import auth, {RequestWithUser} from "../middleware/auth";
 import Project from "../models/Project";
+import Event from "../models/Event";
 import {imagesUpload} from "../multer";
+import dayjs from "dayjs";
 
 const projectsRouter = express.Router();
 
@@ -51,7 +53,13 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
             participants: JSON.parse(req.body.participants),
         });
 
-        return res.send(project);
+        const event = await Event.create({
+            title: req.body.title,
+            start: dayjs(req.body.start).format('YYYY-MM-DD'),
+            end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
+        });
+
+        return res.send({project: project, event: event});
     }catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
             return res.status(400).send(e);
