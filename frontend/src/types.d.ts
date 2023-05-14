@@ -60,6 +60,13 @@ export interface RegisterMutation {
     organization: string;
 }
 
+export interface UpdateUserMutation {
+  email: string;
+  displayName: string;
+  avatar: File | null
+  organization: string;
+}
+
 export interface User {
     _id: string;
     email: string;

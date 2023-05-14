@@ -71,9 +71,24 @@ const ProjectPage = () => {
         <Divider />
         <List>
           <Typography style={{fontWeight: 700}}>Project team:</Typography>
-          <ListItem>Leader: {project?.leader.displayName}</ListItem>
+          <ListItem>Leader:
+            <Typography
+            component='a'
+            href={'/profile/'+project?.leader._id}
+            style={{textDecoration: 'none', paddingLeft: '8px'}}>
+              {project?.leader.displayName}
+          </Typography>
+          </ListItem>
           {project?.participants.map((item, idx) => (
-            <ListItem key={idx}>{item.role}: {item.user.displayName}</ListItem>
+            <ListItem key={idx}>
+              {item.role}:
+              <Typography
+                component='a'  href={'/profile/' + item.user._id}
+                style={{textDecoration: 'none', paddingLeft: '8px'}}
+              >
+                {item.user.displayName}
+              </Typography>
+            </ListItem>
           ))}
         </List>
         <Typography component="p">

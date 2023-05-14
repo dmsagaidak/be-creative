@@ -164,7 +164,7 @@ usersRouter.delete('/sessions', async (req, res, next) => {
     }
 });
 
-usersRouter.put('/:id', auth, imagesUpload.single('avatar'), async (req, res, next) => {
+usersRouter.patch('/:id', auth, imagesUpload.single('avatar'), async (req, res, next) => {
     try{
         const user = (req as RequestWithUser).user;
         const updatingUser = await User.findById(req.params.id);
@@ -179,7 +179,6 @@ usersRouter.put('/:id', auth, imagesUpload.single('avatar'), async (req, res, ne
 
         updatingUser.email =  req.body.email || updatingUser.email;
         updatingUser.displayName =  req.body.displayName || updatingUser.displayName;
-        updatingUser.password = req.body.password || updatingUser.password;
         if(req.file) {
             updatingUser.avatar = req.file.filename
         }

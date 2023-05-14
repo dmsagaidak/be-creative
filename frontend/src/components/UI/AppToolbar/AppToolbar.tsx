@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppBar, Grid, styled, Toolbar, Typography } from '@mui/material';
-import { Link as NavLink } from 'react-router-dom';
+import { AppBar, Button, Grid, styled, Toolbar, Typography } from '@mui/material';
+import { Link as NavLink, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../app/hooks';
 import {
   selectLoginLoading,
@@ -25,6 +25,7 @@ const AppToolbar = () => {
   const loginLoading = useAppSelector(selectLoginLoading);
   const registerLoading = useAppSelector(selectRegisterLoading);
   const logoutLoading = useAppSelector(selectLogoutLoading);
+  const navigate = useNavigate();
 
   return (
     <AppBar position="sticky" sx={{ mb: 2, background: '#2F4F4F' }}>
@@ -33,6 +34,25 @@ const AppToolbar = () => {
           <Typography variant="h6" component="div">
             <Link to="/">BeCreative</Link>
           </Typography>
+          <Grid
+            item
+            container
+            alignItems="center"
+            justifyContent="flex-end"
+            xs={12}
+            md={9}
+          >
+            <Button
+              onClick={() => navigate('/calendar')} color="inherit"
+            >
+              Calendar
+            </Button>
+            <Button
+              onClick={() => navigate('/chat')} color="inherit"
+            >
+              Chat
+            </Button>
+          </Grid>
           <Grid item>
             {loginLoading || registerLoading || logoutLoading ? (
               <CircularProgressElement />

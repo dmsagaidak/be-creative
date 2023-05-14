@@ -58,6 +58,7 @@ const run = async () => {
         token: crypto.randomUUID(),
         displayName: 'Alex Dias',
         role: 'admin',
+        organization: 'Alex & partners',
         avatar: 'fixtures/alex.jpg',
     });
 

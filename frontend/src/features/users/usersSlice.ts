@@ -1,6 +1,6 @@
 import { GlobalError, User, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, findUserById, googleLogin, login, logout, register } from './usersThunks';
+import { fetchUsers, findUserById, googleLogin, login, logout, register, updateUser } from './usersThunks';
 import { RootState } from '../../app/store';
 
 interface UsersState {
@@ -10,6 +10,8 @@ interface UsersState {
   fetchLoading: boolean;
   fetchOneLoading: boolean;
   registerLoading: boolean;
+  updateUserLoading: boolean;
+  updateUserError: ValidationError | null;
   registerError: ValidationError | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
@@ -23,7 +25,9 @@ const initialState: UsersState = {
   fetchLoading: false,
   fetchOneLoading: false,
   registerLoading: false,
+  updateUserLoading: false,
   registerError: null,
+  updateUserError: null,
   loginLoading: false,
   loginError: null,
   logoutLoading: false,
@@ -99,6 +103,16 @@ export const usersSlice = createSlice({
     builder.addCase(logout.rejected, (state) => {
       state.logoutLoading = false;
     });
+    builder.addCase(updateUser.pending, (state) => {
+      state.updateUserError = null;
+      state.updateUserLoading = true;
+    });
+    builder.addCase(updateUser.fulfilled, (state) => {
+      state.updateUserLoading = false;
+    });
+    builder.addCase(updateUser.rejected, (state, { payload: error }) => {
+      state.updateUserError = error || null;
+    });
   }
 });
 
@@ -111,3 +125,4 @@ export const selectRegisterError = (state: RootState) => state.users.registerErr
 export const selectLoginLoading = (state: RootState) => state.users.loginLoading;
 export const selectLoginError = (state: RootState) => state.users.loginError;
 export const selectLogoutLoading = (state: RootState) => state.users.logoutLoading;
+export const selectUpdateUserError = (state: RootState) => state.users.updateUserError;

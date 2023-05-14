@@ -15,6 +15,7 @@ import NewTask from './features/ tasks/NewTask';
 import EditTask from './features/ tasks/EditTask';
 import Chat from './features/chat/Chat';
 import Calendar from './features/calendar/Calendar';
+import EditUser from './features/users/EditUser';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/profile/:id' element={<Profile/>}/>
+          <Route path='/edit-user/:id' element={<EditUser/>}/>
           <Route path='/projects/new' element={<NewProject/>}/>
           <Route path='/projects/:id' element={<ProjectPage/>}/>
           <Route path='/edit-project/:id' element={<EditProject/>}/>

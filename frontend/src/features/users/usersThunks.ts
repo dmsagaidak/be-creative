@@ -1,5 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { GlobalError, LoginMutation, RegisterMutation, RegisterResponse, User, ValidationError } from '../../types';
+import {
+  GlobalError,
+  LoginMutation,
+  RegisterMutation,
+  RegisterResponse,
+  UpdateUserMutation,
+  User,
+  ValidationError
+} from '../../types';
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
 
@@ -88,3 +96,27 @@ export const googleLogin = createAsyncThunk<User, string, { rejectValue: GlobalE
 export const logout = createAsyncThunk('users/logout', async () => {
   await axiosApi.delete('/users/sessions');
 });
+
+export const updateUser = createAsyncThunk<void, {id: string, userMutation: UpdateUserMutation},  { rejectValue: ValidationError }>(
+  '/users/update',
+  async ({id, userMutation}, {rejectWithValue}) => {
+    try{
+      const formData = new FormData();
+      const keys = Object.keys(userMutation) as (keyof UpdateUserMutation)[];
+      keys.forEach((key) => {
+        const value = userMutation[key];
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      });
+
+      await axiosApi.patch('/users/' + id, formData);
+    }catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      }
+      throw e;
+    }
+  }
+)
+
