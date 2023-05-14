@@ -196,4 +196,36 @@ usersRouter.patch('/:id', auth, imagesUpload.single('avatar'), async (req, res, 
     }
 });
 
+usersRouter.post('/change-password', auth, async (req, res, next) => {
+    try {
+        const { user } = req as RequestWithUser;
+        const { currentPassword, newPassword, confirmPassword } = req.body;
+
+        const isMatch = await user.checkPassword(currentPassword);
+
+        if (!isMatch) {
+            return res.status(400).send({ error: 'Wrong current password' });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res
+                .status(400)
+                .send({ error: 'Confirmed password does not match with your new password' });
+        }
+
+        user.password = newPassword;
+        await user.generateToken();
+        await user.save();
+        return res.send({
+            message: 'Password was changed successfully',
+            result: user,
+        });
+    } catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+        return next(e);
+    }
+});
+
 export default usersRouter;

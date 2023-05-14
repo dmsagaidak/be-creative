@@ -78,6 +78,12 @@ export interface User {
     googleId: null | string;
 }
 
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export interface RegisterResponse {
     message: string;
     user: User;
@@ -126,4 +132,9 @@ export interface EventMutation {
   title: string;
   start: string;
   end: string;
+}
+
+export interface ApiResponse<Type> {
+  message: 'string';
+  result: Type;
 }

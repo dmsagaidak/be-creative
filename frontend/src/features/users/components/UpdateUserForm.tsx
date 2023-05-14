@@ -3,7 +3,8 @@ import { UpdateUserMutation } from '../../../types';
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import FileInput from '../../../components/UI/FileInput/FileInput';
 import { useAppSelector } from '../../../app/hooks';
-import { selectUpdateUserError } from '../usersSlice';
+import { selectUpdateUserError, selectUser } from '../usersSlice';
+import { Navigate } from 'react-router-dom';
 
 interface Props {
   onSubmit: (updateMutation: UpdateUserMutation) => void;
@@ -20,6 +21,7 @@ const initialState: UpdateUserMutation = {
 const UpdateUserForm: React.FC<Props> = ({onSubmit, existingUser}) => {
   const [state, setState] = useState<UpdateUserMutation>(existingUser || initialState);
   const error = useAppSelector(selectUpdateUserError);
+  const user = useAppSelector(selectUser);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -48,6 +50,10 @@ const UpdateUserForm: React.FC<Props> = ({onSubmit, existingUser}) => {
       return undefined;
     }
   };
+
+  if(!user){
+    return <Navigate to={'/login'}/>
+  }
 
   return (
     <Container component="main" maxWidth="lg">

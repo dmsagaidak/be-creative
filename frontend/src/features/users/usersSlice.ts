@@ -1,6 +1,15 @@
 import { GlobalError, User, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, findUserById, googleLogin, login, logout, register, updateUser } from './usersThunks';
+import {
+  changePassword,
+  fetchUsers,
+  findUserById,
+  googleLogin,
+  login,
+  logout,
+  register,
+  updateUser
+} from './usersThunks';
 import { RootState } from '../../app/store';
 
 interface UsersState {
@@ -11,6 +20,8 @@ interface UsersState {
   fetchOneLoading: boolean;
   registerLoading: boolean;
   updateUserLoading: boolean;
+  passwordChanging: boolean;
+  passwordChangeError: GlobalError | null;
   updateUserError: ValidationError | null;
   registerError: ValidationError | null;
   loginLoading: boolean;
@@ -26,6 +37,8 @@ const initialState: UsersState = {
   fetchOneLoading: false,
   registerLoading: false,
   updateUserLoading: false,
+  passwordChanging: false,
+  passwordChangeError: null,
   registerError: null,
   updateUserError: null,
   loginLoading: false,
@@ -113,6 +126,19 @@ export const usersSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, { payload: error }) => {
       state.updateUserError = error || null;
     });
+    builder.addCase(changePassword.pending, (state) => {
+      state.passwordChangeError = null;
+      state.passwordChanging = true;
+    });
+    builder.addCase(changePassword.fulfilled, (state, { payload: user }) => {
+      state.passwordChangeError = null;
+      state.passwordChanging = false;
+      state.user = user;
+    });
+    builder.addCase(changePassword.rejected, (state, { payload: error }) => {
+      state.passwordChanging = false;
+      state.passwordChangeError = error || null;
+    });
   }
 });
 
@@ -126,3 +152,7 @@ export const selectLoginLoading = (state: RootState) => state.users.loginLoading
 export const selectLoginError = (state: RootState) => state.users.loginError;
 export const selectLogoutLoading = (state: RootState) => state.users.logoutLoading;
 export const selectUpdateUserError = (state: RootState) => state.users.updateUserError;
+export const selectPasswordChanging = (state: RootState) =>
+  state.users.passwordChanging;
+export const selectPasswordChangeError = (state: RootState) =>
+  state.users.passwordChangeError;

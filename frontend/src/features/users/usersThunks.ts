@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  GlobalError,
+  ApiResponse,
+  GlobalError, IChangePassword,
   LoginMutation,
   RegisterMutation,
   RegisterResponse,
@@ -117,6 +118,28 @@ export const updateUser = createAsyncThunk<void, {id: string, userMutation: Upda
       }
       throw e;
     }
+  });
+
+export const changePassword = createAsyncThunk<
+  User,
+  IChangePassword,
+  { rejectValue: GlobalError }
+>('users/changePassword', async (passwords, { rejectWithValue }) => {
+  try {
+    const { data } = await axiosApi.post<ApiResponse<User>>(
+      '/users/change-password',
+      passwords,
+    );
+    return data.result as User;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as GlobalError);
+    }
+    throw error;
   }
-)
+});
 

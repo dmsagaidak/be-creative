@@ -6,7 +6,7 @@ import {randomUUID} from "crypto";
 
 const SALT_WORK_FACTOR = 10;
 
-interface IUserMethods {
+export interface IUserMethods {
     checkPassword(password: string): Promise<boolean>;
     generateToken(): void;
 }

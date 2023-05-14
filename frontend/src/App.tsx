@@ -16,6 +16,7 @@ import EditTask from './features/ tasks/EditTask';
 import Chat from './features/chat/Chat';
 import Calendar from './features/calendar/Calendar';
 import EditUser from './features/users/EditUser';
+import ChangePassword from './features/users/ChangePassword';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/profile/:id' element={<Profile/>}/>
+          <Route path='/profile/:id/change-password' element={<ChangePassword/>}/>
           <Route path='/edit-user/:id' element={<EditUser/>}/>
           <Route path='/projects/new' element={<NewProject/>}/>
           <Route path='/projects/:id' element={<ProjectPage/>}/>

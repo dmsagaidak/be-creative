@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import noAvatar from '../../../src/assets/images/no-avatar.png'
 import { findUserById } from './usersThunks';
 import EditIcon from '@mui/icons-material/Edit';
+import PasswordIcon from '@mui/icons-material/Password';
 
 const Profile = () => {
   const { id } = useParams() as { id: string };
@@ -25,9 +26,14 @@ const Profile = () => {
         <Grid item container>
           <Typography variant="h4">{profileUser?.displayName}</Typography>
           {user?._id === profileUser?._id &&
-            (<IconButton onClick={() => navigate(`/edit-user/${profileUser?._id}`)}>
-              <EditIcon/>
-            </IconButton>)}
+            (<>
+                <IconButton onClick={() => navigate(`/edit-user/${profileUser?._id}`)}>
+                  <EditIcon/>
+                </IconButton>
+                <IconButton onClick={() => navigate(`/profile/${profileUser?._id}/change-password`)}>
+                  <PasswordIcon/>
+                </IconButton>
+            </>)}
         </Grid>
         <Divider/>
         <Grid item container xs sx={{pt: 3}}>
