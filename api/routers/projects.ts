@@ -126,6 +126,6 @@ projectsRouter.put('/:id', auth, imagesUpload.single('image'), async (req, res, 
             return next(e);
         }
     }
-})
+});
 
 export default projectsRouter;

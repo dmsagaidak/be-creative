@@ -19,7 +19,12 @@ const TaskItem: React.FC<Props> = ({task, onDelete}) => {
           <CardContent>
             <Typography component='p'>{task.description}</Typography>
             <Typography component='p'>{task.user ?
-              (<Typography component='span'>Assigned to {task.user.displayName}</Typography>) :
+              (<Typography component='span'>Assigned to <Typography
+                component="a"
+                href={'/profile/' + task.user._id}>
+                {task.user.displayName}
+              </Typography>
+              </Typography>) :
               (<Typography component='span'>Unassigned</Typography>)
             }</Typography>
             <Button onClick={() => navigate(`/tasks/${task._id}`)}>See details</Button>

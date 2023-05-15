@@ -7,6 +7,7 @@ import { Container, Divider, Grid, IconButton, Typography } from '@mui/material'
 import { pageBodyStyle, pageTopStyle } from '../../styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { selectUser } from '../users/usersSlice';
 import dayjs from 'dayjs';
 
@@ -28,6 +29,8 @@ const TaskPage = () => {
       navigate('/projects/' + project);
     }
   }
+
+  console.log(task)
 
   return (
     <Container>
@@ -52,10 +55,26 @@ const TaskPage = () => {
         <Typography component='p' style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}>Status: {task?.status}</Typography>
         <Divider />
         {task?.user ?
-          (<Typography style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}} component='p'>Assigned to {task.user.displayName}</Typography>) :
+          (<Typography style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}} component='p'>Assigned to
+            <Typography
+              component="a"
+              style={{fontWeight: 700, paddingLeft: '10px', textDecoration: 'none'}}
+              href={`/profile/${task.user._id}`}>
+              {task.user.displayName}
+            </Typography>
+          </Typography>) :
           (<Typography fontWeight={700}  component='p'>Unassigned</Typography>)}
         <Divider/>
         <Typography style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}} component='p'>Deadline: {dayjs(task?.deadline).format('DD.MM.YYYY')}</Typography>
+        <Divider/>
+        <Typography
+          style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}
+          component='div'>
+          Link:
+          {task?.link ?
+            (<IconButton component="a" href={task.link}><DoubleArrowIcon/></IconButton>) :
+            (<Typography>No link provided</Typography>)}
+        </Typography>
       </Grid>
     </Container>
   );

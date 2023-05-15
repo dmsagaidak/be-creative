@@ -14,7 +14,11 @@ const ParticipantsSchema = new Schema({
             message: 'User does not exist',
         },
     }
-})
+});
+
+function validateDeadline(this: any, deadline: Date): boolean {
+    return deadline >= this.start;
+}
 
 const ProjectSchema = new Schema({
     title: {
@@ -49,6 +53,10 @@ const ProjectSchema = new Schema({
     deadline: {
         type: Date,
         required: true,
+        validate: {
+            validator: validateDeadline,
+            message: 'Deadline must be later than start date',
+        },
     },
     image: {
         type: String,
