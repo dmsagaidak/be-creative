@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createProject, fetchOneProject, fetchProjectsByUser, removeProject, updateProject } from './projectsThunks';
+import {
+  createProject,
+  fetchOneProject,
+  fetchProjectsByUser,
+  removeProject,
+  updateProject
+} from './projectsThunks';
 import { RootState } from '../../app/store';
 import { Project, ValidationError } from '../../types';
 
@@ -82,7 +88,7 @@ const projectsSlice = createSlice({
     builder.addCase(updateProject.rejected, (state, {payload: error}) => {
       state.updateLoading = false;
       state.updateProjectError = error || null;
-    })
+    });
   }
 });
 
@@ -97,4 +103,5 @@ export const selectProjectRemoving = (state: RootState) => state.projects.delete
 export const selectProjectUpdating = (state: RootState) => state.projects.updateLoading;
 export const selectProjectCreateError = (state: RootState) => state.projects.createProjectError;
 export const selectProjectUpdateError = (state: RootState) => state.projects.updateProjectError;
+
 

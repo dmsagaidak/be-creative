@@ -68,5 +68,17 @@ const ProjectSchema = new Schema({
     },
 });
 
+ProjectSchema.pre('save', function (next) {
+    const currentDate = new Date();
+    if (this.start > currentDate) {
+        this.status = 'Not started';
+    } else if (this.start <= currentDate && this.deadline > currentDate) {
+        this.status = 'Ongoing';
+    } else if (this.deadline <= currentDate) {
+        this.status = 'Finished';
+    }
+    next();
+});
+
 const Project = mongoose.model('Project', ProjectSchema);
 export default Project;

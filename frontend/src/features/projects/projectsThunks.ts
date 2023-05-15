@@ -81,6 +81,4 @@ export const updateProject = createAsyncThunk<
       }
       throw e;
     }
-  }
-
-)
+  });
