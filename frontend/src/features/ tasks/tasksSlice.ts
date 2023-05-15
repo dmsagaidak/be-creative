@@ -1,6 +1,6 @@
 import { Task } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createTask, fetchOneTask, fetchTasksByProject, removeTask, updateTask } from './tasksThunks';
+import { createTask, fetchOneTask, fetchTasksByProject, fetchTasksByUser, removeTask, updateTask } from './tasksThunks';
 import { RootState } from '../../app/store';
 
 interface TaskState {
@@ -36,6 +36,16 @@ export const tasksSlice = createSlice({
       state.items = payload;
     });
     builder.addCase(fetchTasksByProject.rejected, (state) => {
+      state.fetchLoading = false;
+    });
+    builder.addCase(fetchTasksByUser.pending, (state) => {
+      state.fetchLoading = true;
+    });
+    builder.addCase(fetchTasksByUser.fulfilled, (state, {payload}) => {
+      state.fetchLoading = false;
+      state.items = payload;
+    });
+    builder.addCase(fetchTasksByUser.rejected, (state) => {
       state.fetchLoading = false;
     });
     builder.addCase(fetchOneTask.pending, (state) => {

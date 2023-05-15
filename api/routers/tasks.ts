@@ -11,6 +11,11 @@ tasksRouter.get('/', auth, async (req, res, next) => {
             const tasks = await Task.find({project: req.query.project}).populate('project').populate('createdBy').populate('user');
             return res.send(tasks);
         }
+
+        if(req.query.user) {
+            const tasks = await Task.find({user: req.query.user}).populate('project').populate('createdBy').populate('user');
+            return res.send(tasks);
+        }
     }catch (e) {
         return next(e);
     }

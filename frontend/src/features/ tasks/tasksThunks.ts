@@ -10,6 +10,13 @@ export const fetchTasksByProject = createAsyncThunk<Task[], string>(
     return response.data;
   });
 
+export const fetchTasksByUser = createAsyncThunk<Task[], string>(
+  'tasks/fetchByUser',
+  async (id) => {
+    const response = await axiosApi.get(`/tasks?user=${id}`);
+    return response.data;
+  });
+
 export const fetchOneTask = createAsyncThunk<Task, string>(
   'tasks/fetchOne',
   async (id) => {

@@ -1,24 +1,31 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUser, selectUserById } from './usersSlice';
-import { Container, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { Alert, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { apiUrl } from '../../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import noAvatar from '../../../src/assets/images/no-avatar.png'
 import { findUserById } from './usersThunks';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
+import { fetchTasksByUser } from '../ tasks/tasksThunks';
+import { selectTasks } from '../ tasks/tasksSlice';
+import TaskCard from '../ tasks/components/TaskCard';
 
 const Profile = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const profileUser = useAppSelector(selectUserById);
   const user = useAppSelector(selectUser);
+  const tasks = useAppSelector(selectTasks);
   const navigate = useNavigate();
 
   useEffect(() => {
     void dispatch(findUserById(id));
+    void dispatch(fetchTasksByUser(id));
   }, [dispatch, id]);
+
+  console.log(tasks)
 
   return (
     <Container>
@@ -36,7 +43,7 @@ const Profile = () => {
             </>)}
         </Grid>
         <Divider/>
-        <Grid item container xs sx={{pt: 3}}>
+        <Grid item container xs sx={{pt: 3, pb: 3}}>
           {profileUser?.avatar ?
             (<Typography
             component="img"
@@ -52,11 +59,19 @@ const Profile = () => {
             />)}
 
           <Grid item sx={{ml: 2}}>
-            <Typography component="p">Email: {profileUser?.email}</Typography>
-            <Typography component="p">Works at {profileUser?.organization}</Typography>
+            <Typography component="p" fontSize="25px">Email: {profileUser?.email}</Typography>
+            <Typography component="p" fontSize="25px">Works at {profileUser?.organization}</Typography>
           </Grid>
 
         </Grid>
+        <Divider/>
+        <Grid item container direction="column" sx={{mt: 3}}>
+          <Typography variant="h6">{profileUser?.displayName}'s tasks: </Typography>
+          {tasks.length ?  tasks.map((task) => (
+            <TaskCard key={task._id} task={task}/>
+          )) : (<Alert severity="info">This user has no tasks assigned</Alert>)}
+        </Grid>
+
       </Grid>
     </Container>
   );
