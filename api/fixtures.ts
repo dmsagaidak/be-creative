@@ -63,7 +63,7 @@ const run = async () => {
     });
 
     const [proj1, proj2] = await Project.create({
-        title: 'Test project',
+        title: 'Create CRM system for Marketing school',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim, neque vel dignissim tempus, purus ex ornare mauris, non maximus quam quam eu arcu. Vestibulum ultricies sapien urna, ut sagittis est maximus quis. Class aptent taciti sociosqu ad litora torquent.',
         leader: joe,
         start: '2023-03-22T18:00:00.000Z',
@@ -74,7 +74,7 @@ const run = async () => {
             {role: 'Developer', user: jack},
         ]
     }, {
-        title: 'Website development',
+        title: 'Redesign website for Beeline company',
         description: 'Duis molestie consequat sodales. Donec ornare porta sem, eu euismod diam commodo placerat. In pulvinar nec sapien vel rutrum. Fusce porttitor ante eu metus vulputate.',
         leader: mary,
         start: '2023-05-12T18:00:00.000Z',
@@ -89,7 +89,7 @@ const run = async () => {
     await Task.create({
         project: proj1,
         createdBy: joe,
-        title: 'Test title1',
+        title: 'Develop mockup',
         description: 'Cras eros ex, gravida eget gravida eu, tempus in dolor. Aenean bibendum vel tortor dignissim.',
         status: 'In progress',
         user: jack,
@@ -98,7 +98,7 @@ const run = async () => {
     }, {
         project: proj1,
         createdBy: joe,
-        title: 'Test title2',
+        title: 'Create database',
         description: 'Design something great',
         status: 'To do',
         user: ann,
@@ -107,7 +107,7 @@ const run = async () => {
     }, {
         project: proj2,
         createdBy: mary,
-        title: 'Test test 1',
+        title: 'Rearrange current website project',
         description: 'Test descr',
         status: 'To do',
         link: null,
@@ -115,14 +115,14 @@ const run = async () => {
     });
 
     await Event.create({
-        title: 'Event1',
-        start: '2023-05-19',
-        end: '2023-05-23'
+        title: proj1.title,
+        start: proj1.start,
+        end: proj1.deadline,
     }, {
-        title: 'Event2',
-        start: '2023-05-10',
-        end: '2023-05-11'
-    })
+        title: proj2.title,
+        start: proj2.start,
+        end: proj2.deadline,
+    });
 
     await db.close();
 };

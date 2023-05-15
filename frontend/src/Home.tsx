@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from './app/hooks';
 import { selectUser } from './features/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchProjectsByUser } from './features/projects/projectsThunks';
-import { selectProjects } from './features/projects/projectsSlice';
+import { selectProjects, selectProjectsFetching } from './features/projects/projectsSlice';
 import ProjectItem from './features/projects/components/ProjectItem';
+import CircularProgressElement from './components/UI/CircularProgressElement/CircularProgressElement';
 
 const headingFS ={xs: '20px', sm: '30px', md: '40px', lg: '55px'}
 const picWidth = {xs: '150px', sm: '300px', lg: '400px'}
@@ -15,6 +16,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const projects = useAppSelector(selectProjects);
+  const projectsFetching = useAppSelector(selectProjectsFetching);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +24,11 @@ const Home = () => {
       void dispatch(fetchProjectsByUser(user._id));
     }
   }, [dispatch, user]);
+
+  const currentProjects = (projects.length ? projects.map((project) => (
+      <ProjectItem key={project._id} project={project}/>
+    )) : (<Alert severity="info">You haven't created any project</Alert>)
+  )
 
   return (
     <Container>
@@ -41,9 +48,7 @@ const Home = () => {
       </Grid>
       <Grid container direction='column' style={{paddingTop: '35px'}}>
         <Typography variant='h4'>Your projects</Typography>
-        {projects.length ? projects.map((project) => (
-          <ProjectItem key={project._id} project={project}/>
-        )) : (<Alert severity="info">You haven't created any project</Alert>)}
+        {projectsFetching ? <CircularProgressElement/> : currentProjects}
       </Grid>
 
     </Container>
