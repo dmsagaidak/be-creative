@@ -21,6 +21,9 @@ const theme = createTheme({
        success: {
           main: 'rgb(7, 135, 67)'
        },
+       info: {
+          main: '#399cbd'
+       }
      },
       typography: {
         fontFamily: 'Lato, sans-serif',

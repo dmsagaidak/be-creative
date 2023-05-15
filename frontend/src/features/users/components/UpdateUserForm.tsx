@@ -86,7 +86,13 @@ const UpdateUserForm: React.FC<Props> = ({onSubmit, existingUser}) => {
             />
           </Grid>
           <Grid item xs>
-            <FileInput onChange={fileInputChangeHandler} name="avatar" label="Update your photo"/>
+            <FileInput
+              onChange={fileInputChangeHandler}
+              name="avatar"
+              label="Update your photo"
+              type="image/*"
+              errorCheck={getFieldError}
+            />
           </Grid>
           <Grid item xs>
             <TextField

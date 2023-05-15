@@ -20,8 +20,8 @@ const ProjectItem: React.FC<Props> = ({project}) => {
   const navigate = useNavigate();
 
   const styleColor = project.status === 'Not started' ?
-    theme.palette.primary.main : project.status === 'Ongoing' ?
-      theme.palette.success.main : '#000';
+    theme.palette.info.main : project.status === 'Ongoing' ?
+      theme.palette.success.main : 'red';
 
   return (
     <Card style={styles}>

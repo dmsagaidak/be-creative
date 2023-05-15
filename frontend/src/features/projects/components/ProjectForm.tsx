@@ -151,7 +151,13 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             </LocalizationProvider>
           </Grid>
           <Grid item xs>
-            <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
+            <FileInput
+              onChange={fileInputChangeHandler}
+              name="image"
+              label="Image"
+              type="image/*"
+              errorCheck={getFieldError}
+            />
           </Grid>
           <Grid item xs>
             <Typography component='p' sx={{mb: 1}}>Participants:</Typography>

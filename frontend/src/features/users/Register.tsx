@@ -112,7 +112,13 @@ const Register = () => {
               />
             </Grid>
             <Grid item xs>
-              <FileInput onChange={fileInputChangeHandler} name="avatar" label="Avatar" />
+              <FileInput
+                onChange={fileInputChangeHandler}
+                name="avatar"
+                label="Avatar"
+                type="image/*"
+                errorCheck={getFieldError}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
