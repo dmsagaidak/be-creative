@@ -38,6 +38,7 @@ const initialState: TaskMutation = {
 const status = {
   todo: 'To do',
   inProgress: 'In progress',
+  onHold: 'On hold',
   done: 'Done'
 }
 
@@ -133,6 +134,7 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
             >
               <MenuItem value={status.todo}>To do</MenuItem>
               <MenuItem value={status.inProgress}>In progress</MenuItem>
+              <MenuItem value={status.onHold}>On hold</MenuItem>
               <MenuItem value={status.done}>Done</MenuItem>
             </TextField>
           </Grid>

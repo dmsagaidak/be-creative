@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneTask } from './tasksSlice';
-import { fetchOneTask, removeTask } from './tasksThunks';
-import { Container, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { fetchOneTask, removeTask, taskToggleStatus } from './tasksThunks';
+import { Button, Container, Divider, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material';
 import { pageBodyStyle, pageTopStyle } from '../../styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -22,6 +22,10 @@ const TaskPage = () => {
     void dispatch(fetchOneTask(id));
   }, [dispatch, id]);
 
+  useEffect(() => {
+    setState({ status: task?.status || '' });
+  }, [task]);
+
   const deleteTask = async (id: string) => {
     if(window.confirm('Do you really want to remove this task?')) {
       await dispatch(removeTask(id));
@@ -30,7 +34,54 @@ const TaskPage = () => {
     }
   }
 
-  console.log(task)
+
+  const statusValue = {
+    todo: 'To do',
+    inProgress: 'In progress',
+    onHold: 'On hold',
+    done: 'Done'
+  }
+
+  const [state, setState] = useState({status: ''});
+
+  const inputChangeHandler = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setState((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+
+  };
+
+  const onTaskSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (task) {
+      await dispatch(taskToggleStatus({...task, status: state.status}));
+      await dispatch(fetchOneTask(id));
+    }
+  };
+
+  const changeStatus = (
+    <>
+      <form onSubmit={onTaskSubmit}>
+        <TextField
+          select
+          label="Choose status"
+          id="status"
+          name="status"
+          value={state.status}
+          onChange={inputChangeHandler}
+          required
+        >
+          <MenuItem value={statusValue.todo}>To do</MenuItem>
+          <MenuItem value={statusValue.inProgress}>In progress</MenuItem>
+          <MenuItem value={statusValue.onHold}>On hold</MenuItem>
+          <MenuItem value={statusValue.done}>Done</MenuItem>
+        </TextField>
+        <Button type="submit">Change</Button>
+      </form>
+    </>
+
+  )
 
   return (
     <Container>
@@ -53,6 +104,8 @@ const TaskPage = () => {
         <Typography component='p' sx={{pb: 1}}>{task?.description}</Typography>
         <Divider />
         <Typography component='p' style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}>Status: {task?.status}</Typography>
+        {user && user._id === task?.createdBy._id || user && user._id === task?.user._id  ?
+          (<Typography component='div'>{changeStatus}</Typography>) : (<Typography></Typography>)}
         <Divider />
         {task?.user ?
           (<Typography style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}} component='p'>Assigned to

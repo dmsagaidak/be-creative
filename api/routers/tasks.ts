@@ -114,4 +114,27 @@ tasksRouter.put('/:id', auth, async (req, res, next) => {
     }
 });
 
+tasksRouter.patch('/:id/toggleStatus', auth, async (req, res, next) => {
+    try {
+        const user = (req as RequestWithUser).user;
+        const updatingTask = await Task.findById(req.params.id);
+
+        if (!user) {
+            return res.status(401).send({ error: 'Wrong token' });
+        } else if (!updatingTask) {
+            return res.status(404).send({ error: 'Not found' });
+        } else if (
+            !user._id.equals(updatingTask.createdBy) &&
+            (updatingTask.user && !updatingTask.user.equals(user._id))
+        ) {
+            return res.status(403).send({ error: 'You have no rights to toggle this task status' });
+        } else {
+            await Task.updateOne({ _id: req.params.id }, { $set: { status: req.body.status } });
+            return res.send({ message: `Task status was updated for ${updatingTask.status}` });
+        }
+    } catch (e) {
+        return next(e);
+    }
+});
+
 export default tasksRouter;

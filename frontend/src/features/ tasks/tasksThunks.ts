@@ -50,6 +50,15 @@ export const updateTask = createAsyncThunk<void, {id: string, task: TaskMutation
       }
       throw e;
     }
-  }
+  });
 
-);
+export const taskToggleStatus = createAsyncThunk<void, Task>(
+  'tasks/toggleStatus',
+  async (task) => {
+    try{
+      await axiosApi.patch(`/tasks/${task._id}/toggleStatus`, task);
+    }catch (e) {
+      console.log(e);
+    }
+  }
+)

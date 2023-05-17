@@ -34,7 +34,7 @@ const TaskSchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['To do', 'In progress', 'Done'],
+        enum: ['To do', 'In progress', 'On hold', 'Done'],
         default: 'To do',
     },
     user: {
