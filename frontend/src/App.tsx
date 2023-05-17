@@ -17,6 +17,7 @@ import Chat from './features/chat/Chat';
 import Calendar from './features/calendar/Calendar';
 import EditUser from './features/users/EditUser';
 import ChangePassword from './features/users/ChangePassword';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path='/edit-task/:id' element={<EditTask/>}/>
           <Route path='/chat' element={<Chat/>}/>
           <Route path='/calendar' element={<Calendar/>}/>
+          <Route path='/error-page' element={<ErrorPage/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>

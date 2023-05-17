@@ -65,7 +65,7 @@ const TaskPage = () => {
       <form onSubmit={onTaskSubmit}>
         <TextField
           select
-          label="Choose status"
+          label="Change status"
           id="status"
           name="status"
           value={state.status}

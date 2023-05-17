@@ -5,6 +5,7 @@ import Project from "../models/Project";
 import Event from "../models/Event";
 import {imagesUpload} from "../multer";
 import dayjs from "dayjs";
+import Task from "../models/Task";
 
 const projectsRouter = express.Router();
 
@@ -73,16 +74,19 @@ projectsRouter.delete('/:id', auth, async (req, res, next) => {
     try{
         const user = (req as RequestWithUser).user;
         const removingItem = await Project.findById(req.params.id);
+        const relatedTasks = await Task.find({project: req.params.id});
 
         if(!user){
             return res.status(401).send({ error: 'Wrong token!' });
         }else if(!removingItem) {
-            return res.status(404).send({error: 'Project not found'})
+            return res.status(404).send({error: 'Project not found'});
         }else if(removingItem.leader.toString() !== user._id.toString()) {
-            return res.send(403).send({error: 'You can remove only your projects'})
-        }else {
+            return res.status(403).send({error: 'You can remove only your projects'});
+        }else if(relatedTasks.length){
+            return res.status(403).send({error: 'Projects having related tasks cannot be removed'});
+        } else {
             await Project.deleteOne({_id: req.params.id});
-            return res.send({message: `Project with id: ${removingItem._id} was removed`})
+            return res.send({message: `Project with id: ${removingItem._id} was removed`});
         }
     }catch (e) {
         return next(e);

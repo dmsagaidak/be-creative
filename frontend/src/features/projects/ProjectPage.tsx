@@ -34,7 +34,12 @@ const ProjectPage = () => {
 
   const deleteProject = async (projectId: string) => {
     if(window.confirm('Do you really want to remove this project?')) {
-      await dispatch(removeProject(projectId));
+      const result = await dispatch(removeProject(projectId));
+
+      if(result.meta.requestStatus === 'rejected') {
+        navigate('/error-page');
+      }
+
       navigate('/');
     }
   };

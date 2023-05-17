@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Project, ProjectMutation, ValidationError } from '../../types';
+import { GlobalError, Project, ProjectMutation, ValidationError } from '../../types';
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
 
@@ -45,10 +45,17 @@ export const createProject = createAsyncThunk<void, {project: ProjectMutation}, 
     }
   });
 
-export const removeProject = createAsyncThunk<void, string>(
+export const removeProject = createAsyncThunk<void, string, { rejectValue: GlobalError }>(
   'projects/remove',
-  async (id) => {
-    await axiosApi.delete(`/projects/${id}`);
+  async (id, { rejectWithValue }) => {
+    try{
+      await axiosApi.delete(`/projects/${id}`);
+    }catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as GlobalError);
+      }
+      throw e;
+    }
   }
 );
 
