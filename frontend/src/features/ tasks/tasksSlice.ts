@@ -1,4 +1,4 @@
-import { Task } from '../../types';
+import { Task, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createTask,
@@ -20,6 +20,8 @@ interface TaskState {
   deleteLoading: false | string;
   updateLoading: boolean;
   statusToggling: boolean;
+  creatingError: ValidationError | null;
+  updatingError: ValidationError | null;
 }
 
 const initialState: TaskState = {
@@ -31,6 +33,8 @@ const initialState: TaskState = {
   deleteLoading: false,
   updateLoading: false,
   statusToggling: false,
+  creatingError: null,
+  updatingError: null,
 }
 
 export const tasksSlice = createSlice({
@@ -70,12 +74,14 @@ export const tasksSlice = createSlice({
     });
     builder.addCase(createTask.pending, (state) => {
       state.createLoading = true;
+      state.creatingError = null;
     });
     builder.addCase(createTask.fulfilled, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(createTask.rejected, (state) => {
+    builder.addCase(createTask.rejected, (state, {payload: error}) => {
       state.createLoading = false;
+      state.creatingError = error || null;
     });
     builder.addCase(removeTask.pending, (state, {meta: {arg: taskId}}) => {
       state.deleteLoading = taskId;
@@ -88,12 +94,14 @@ export const tasksSlice = createSlice({
     });
     builder.addCase(updateTask.pending, (state) => {
       state.updateLoading = true;
+      state.updatingError = null
     });
     builder.addCase(updateTask.fulfilled, (state) => {
       state.updateLoading = false;
     });
-    builder.addCase(updateTask.rejected, (state) => {
+    builder.addCase(updateTask.rejected, (state, {payload: error}) => {
       state.updateLoading = false;
+      state.updatingError = error || null;
     });
     builder.addCase(taskToggleStatus.pending, (state) => {
       state.statusToggling = true;
@@ -117,4 +125,6 @@ export const selectTaskCreating = (state: RootState) => state.tasks.createLoadin
 export const selectTaskDeleting = (state: RootState) => state.tasks.deleteLoading;
 export const selectTaskUpdating = (state: RootState) => state.tasks.updateLoading;
 export const selectTaskTogglingStatus = (state: RootState) => state.tasks.statusToggling;
+export const selectTaskCreatingError = (state: RootState) => state.tasks.creatingError;
+export const selectTaskUpdatingError = (state: RootState) => state.tasks.updatingError;
 

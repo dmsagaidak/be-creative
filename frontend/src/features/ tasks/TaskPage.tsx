@@ -8,8 +8,10 @@ import { pageBodyStyle, pageTopStyle } from '../../styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { selectUser } from '../users/usersSlice';
 import dayjs from 'dayjs';
+import { apiUrl } from '../../constants';
 
 const TaskPage = () => {
   const {id} = useParams() as {id: string};
@@ -80,8 +82,9 @@ const TaskPage = () => {
         <Button type="submit">Change</Button>
       </form>
     </>
+  );
 
-  )
+  console.log(task)
 
   return (
     <Container>
@@ -127,6 +130,16 @@ const TaskPage = () => {
           {task?.link ?
             (<IconButton component="a" href={task.link}><DoubleArrowIcon/></IconButton>) :
             (<Typography>No link provided</Typography>)}
+        </Typography>
+        <Divider/>
+        <Typography
+          style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}
+          component="div">
+          PDF file:
+          {task?.pdfFile ?
+            (<IconButton component="a" href={apiUrl + '/' + task.pdfFile}><FileDownloadIcon/></IconButton>) :
+            (<Typography>No file provided</Typography>)
+          }
         </Typography>
       </Grid>
     </Container>

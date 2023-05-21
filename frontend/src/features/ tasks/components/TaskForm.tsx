@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TaskMutation } from '../../../types';
+import { TaskMutation, ValidationError } from '../../../types';
 import {
   Button, CircularProgress,
   Container,
@@ -16,12 +16,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import FileInput from '../../../components/UI/FileInput/FileInput';
 
 interface Props {
   onSubmit: (mutation: TaskMutation) => void;
   loading?: boolean;
   fetchTaskLoading?: boolean;
   existingTask?: TaskMutation;
+  error: ValidationError | null;
   isEdit?: boolean;
 }
 
@@ -32,6 +34,7 @@ const initialState: TaskMutation = {
   status: '',
   user: '',
   link: '',
+  pdfFile: null,
   deadline: '',
 }
 
@@ -42,7 +45,7 @@ const status = {
   done: 'Done'
 }
 
-const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, loading, isEdit}) => {
+const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, loading, isEdit, error}) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const projects = useAppSelector(selectProjects);
@@ -68,6 +71,22 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
+  };
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: files && files[0] ? files[0] : null,
+    }));
+  };
+
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
   };
 
   return (
@@ -162,6 +181,13 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               onChange={inputChangeHandler}
               disabled={loading}
             />
+          </Grid>
+          <Grid item xs>
+            <FileInput
+              onChange={fileInputChangeHandler}
+              name="pdfFile"
+              label="Upload File"
+              errorCheck={getFieldError}/>
           </Grid>
           <Grid item xs>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

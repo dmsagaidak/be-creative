@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectOneTask, selectOneTaskFetching, selectTaskUpdating } from './tasksSlice';
+import { selectOneTask, selectOneTaskFetching, selectTaskUpdating, selectTaskUpdatingError } from './tasksSlice';
 import { selectUser } from '../users/usersSlice';
 import { fetchOneTask, updateTask } from './tasksThunks';
 import { TaskMutation } from '../../types';
@@ -14,6 +14,7 @@ const EditTask = () => {
   const user = useAppSelector(selectUser);
   const updateLoading = useAppSelector(selectTaskUpdating);
   const fetchLoading = useAppSelector(selectOneTaskFetching)
+  const error = useAppSelector(selectTaskUpdatingError);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const EditTask = () => {
     status: task.status,
     user: task.user._id,
     link: task.link,
+    pdfFile: null,
     deadline: task.deadline,
   };
 
@@ -53,6 +55,7 @@ if(!user){
           loading={updateLoading}
           fetchTaskLoading={fetchLoading}
           existingTask={existingTask}
+          error={error}
           isEdit
         />
       )}

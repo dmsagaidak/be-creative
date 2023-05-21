@@ -25,10 +25,26 @@ export const fetchOneTask = createAsyncThunk<Task, string>(
   }
 );
 
-export const createTask = createAsyncThunk<void, TaskMutation>(
+export const createTask = createAsyncThunk<void, TaskMutation, {rejectValue: ValidationError}>(
   'tasks/create',
-  async (taskMutation) => {
-    await axiosApi.post('/tasks/', taskMutation);
+  async (taskMutation, {rejectWithValue}) => {
+    try{
+      const formData = new FormData();
+      const keys = Object.keys(taskMutation) as (keyof TaskMutation)[];
+      keys.forEach((key) => {
+        const value = taskMutation[key];
+
+        if(value !== null){
+          formData.append(key, value);
+        }
+      });
+      await axiosApi.post('/tasks/', formData);
+    }catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as ValidationError);
+      }
+      throw e;
+    }
   }
 );
 
@@ -43,7 +59,17 @@ export const updateTask = createAsyncThunk<void, {id: string, task: TaskMutation
   'tasks/edit',
   async ({id, task}, {rejectWithValue}) => {
     try{
-      await axiosApi.put(`/tasks/${id}`, task);
+      const formData = new FormData();
+      const keys = Object.keys(task) as (keyof TaskMutation)[];
+      keys.forEach((key) => {
+        const value = task[key];
+
+        if(value !== null){
+          formData.append(key, value);
+        }
+      });
+
+      await axiosApi.put(`/tasks/${id}`, formData);
     }catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 400) {
         return rejectWithValue(e.response.data as ValidationError);

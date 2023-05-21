@@ -4,16 +4,18 @@ import { createTask } from './tasksThunks';
 import { TaskMutation } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import TaskForm from './components/TaskForm';
-import { selectTaskCreating } from './tasksSlice';
+import { selectTaskCreating, selectTaskCreatingError } from './tasksSlice';
 
 const NewTask = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const createLoading = useAppSelector(selectTaskCreating);
+  const error = useAppSelector(selectTaskCreatingError);
+
   const onFormSubmit = async (taskMutation: TaskMutation) => {
     try{
       await dispatch(createTask(taskMutation)).unwrap();
-      navigate('/');
+      navigate(-1);
     }catch (e) {
       console.log(e);
     }
@@ -23,6 +25,7 @@ const NewTask = () => {
     <>
       <TaskForm
         onSubmit={onFormSubmit}
+        error={error}
         loading={createLoading}
       />
     </>

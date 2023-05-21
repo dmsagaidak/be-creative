@@ -94,6 +94,7 @@ const run = async () => {
         status: 'In progress',
         user: jack,
         link: 'https://bit.ly/3GNVEXT',
+        pdfFile: 'fixtures/sample.pdf',
         deadline: '2023-04-22T06:00:00.000Z'
     }, {
         project: proj1,
@@ -103,6 +104,7 @@ const run = async () => {
         status: 'To do',
         user: ann,
         link: null,
+        pdfFile: null,
         deadline: '2023-04-22T06:00:00.000Z'
     }, {
         project: proj2,
@@ -111,6 +113,7 @@ const run = async () => {
         description: 'Test descr',
         status: 'To do',
         link: null,
+        pdfFile: null,
         deadline: '2023-06-23T06:00:00.000Z',
     });
 

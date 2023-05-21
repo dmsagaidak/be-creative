@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import auth, {RequestWithUser} from "../middleware/auth";
 import Task from "../models/Task";
+import {pdfUpload} from "../multer";
 
 const tasksRouter = express.Router();
 
@@ -34,7 +35,7 @@ tasksRouter.get('/:id', auth, async (req, res, next) => {
     }
 });
 
-tasksRouter.post('/', auth, async (req, res, next) => {
+tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) => {
     try{
         const user = (req as RequestWithUser).user;
 
@@ -50,6 +51,7 @@ tasksRouter.post('/', auth, async (req, res, next) => {
             status: req.body.status,
             user: req.body.user,
             link: req.body.link,
+            pdfFile: req.file ? req.file.filename : null,
             deadline: req.body.deadline
         });
 
@@ -83,7 +85,7 @@ tasksRouter.delete('/:id', auth, async (req, res, next) => {
     }
 });
 
-tasksRouter.put('/:id', auth, async (req, res, next) => {
+tasksRouter.put('/:id', auth, pdfUpload.single('pdfFile'), async (req, res, next) => {
     try{
         const user = (req as RequestWithUser).user;
         const editingTask = await Task.findById(req.params.id);
@@ -101,6 +103,10 @@ tasksRouter.put('/:id', auth, async (req, res, next) => {
             editingTask.user = req.body.user || editingTask.user;
             editingTask.link = req.body.link || editingTask.link;
             editingTask.deadline = req.body.deadline || editingTask.deadline;
+
+            if(req.file) {
+                editingTask.pdfFile = req.file.filename;
+            }
 
             await editingTask.save();
             return res.send({message: 'Task was updated', editingTask});

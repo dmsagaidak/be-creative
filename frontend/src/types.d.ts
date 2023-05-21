@@ -39,6 +39,7 @@ export interface Task {
   status: string;
   user: User;
   link: string;
+  pdfFile: string | null;
   deadline: string;
 }
 
@@ -49,6 +50,7 @@ export interface TaskMutation {
   status: string;
   user: string;
   link: string;
+  pdfFile: File | null;
   deadline: string;
 }
 

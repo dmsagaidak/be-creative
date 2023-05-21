@@ -46,6 +46,7 @@ const TaskSchema = new Schema({
             },
     },
     link: String,
+    pdfFile: String,
     deadline: {
         type: Date,
         required: true,
