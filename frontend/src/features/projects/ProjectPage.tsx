@@ -37,10 +37,10 @@ const ProjectPage = () => {
       const result = await dispatch(removeProject(projectId));
 
       if(result.meta.requestStatus === 'rejected') {
-        navigate('/error-page');
+        window.alert('This project cannot be removed because it has related tasks');
+      }else {
+        navigate('/');
       }
-
-      navigate('/');
     }
   };
 

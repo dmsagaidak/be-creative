@@ -26,4 +26,5 @@ eventsRouter.post('/', async (req, res, next) => {
     }
 });
 
+
 export default eventsRouter;
