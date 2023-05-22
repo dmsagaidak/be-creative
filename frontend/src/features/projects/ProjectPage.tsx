@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { pageTopStyle } from '../../styles';
 import { pageBodyStyle } from '../../styles';
 import { fetchTasksByProject, removeTask } from '../ tasks/tasksThunks';
-import { selectTasks } from '../ tasks/tasksSlice';
+import { selectTasks, selectTasksFetching } from '../ tasks/tasksSlice';
 import TaskItem from '../ tasks/components/TaskItem';
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
@@ -23,6 +23,7 @@ const ProjectPage = () => {
   const dispatch = useAppDispatch();
   const project = useAppSelector(selectOneProject);
   const projectFetching = useAppSelector(selectOneProjectFetching);
+  const tasksFetching = useAppSelector(selectTasksFetching);
   const tasks = useAppSelector(selectTasks);
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ const ProjectPage = () => {
             </Typography>
             <Grid item xs sx={{pb: 3}}>
               <Typography component='p' style={{fontWeight: 700}}>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
-              {tasks.length ?  tasks.map((task) => (
+              {tasksFetching ? <CircularProgressElement/> : tasks.length ?  tasks.map((task) => (
                 <TaskItem
                   key={task._id}
                   task={task}

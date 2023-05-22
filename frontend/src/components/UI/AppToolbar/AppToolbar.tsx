@@ -42,16 +42,19 @@ const AppToolbar = () => {
             xs={12}
             md={9}
           >
-            <Button
-              onClick={() => navigate('/calendar')} color="inherit"
-            >
-              Calendar
-            </Button>
-            <Button
-              onClick={() => navigate('/chat')} color="inherit"
-            >
-              Chat
-            </Button>
+            {user ?
+              (<><Button
+                onClick={() => navigate('/calendar')} color="inherit"
+              >
+                Calendar
+              </Button>
+                <Button
+                  onClick={() => navigate('/chat')} color="inherit"
+                >
+                  Chat
+                </Button>
+              </>) : (<Typography></Typography>)}
+
           </Grid>
           <Grid item>
             {loginLoading || registerLoading || logoutLoading ? (

@@ -48,6 +48,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       </Button>
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={() => navigate('/profile/' + user._id)}>My Profile</MenuItem>
+        <MenuItem onClick={() => navigate(`/user/${user._id}/projects`)}>My projects</MenuItem>
+        <MenuItem onClick={() => navigate(`/user/${user._id}/tasks`)}>My tasks</MenuItem>
+        <MenuItem onClick={() => navigate('/calendar')}>Calendar</MenuItem>
+        <MenuItem onClick={() => navigate('/chat')}>Chat</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

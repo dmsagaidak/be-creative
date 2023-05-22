@@ -20,3 +20,9 @@ export const pageBodyStyle = {
   paddingLeft: '17px',
   paddingRight: '17px',
 };
+
+export const ListItemStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  margin: '0 0 25px 0 ',
+}

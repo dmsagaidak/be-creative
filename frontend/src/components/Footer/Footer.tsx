@@ -1,12 +1,22 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import theme from '../../theme';
 
 const Footer = () => {
   return (
-    <Container sx={{mt: 2}}>
-      <Typography component='p'>BeCreative</Typography>
-      <Typography component='p'> © All rights reserved</Typography>
-    </Container>
+    <>
+      <Grid
+        container
+        direction="column"
+        sx={{mt: 2, background: theme.palette.primary.main, color: '#fff', pt: 2, pb: 2}}>
+        <Grid item xs sx={{ml: 3}}>
+          <Typography component='p'>BeCreative</Typography>
+          <Typography component='p'> © All rights reserved</Typography>
+        </Grid>
+
+      </Grid>
+    </>
+
   );
 };
 

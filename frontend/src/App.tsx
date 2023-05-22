@@ -17,6 +17,8 @@ import Chat from './features/chat/Chat';
 import Calendar from './features/events/Calendar';
 import EditUser from './features/users/EditUser';
 import ChangePassword from './features/users/ChangePassword';
+import MyProjects from './features/users/MyProjects';
+import MyTasks from './features/users/MyTasks';
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path='/tasks/new' element={<NewTask/>}/>
           <Route path='/edit-task/:id' element={<EditTask/>}/>
           <Route path='/chat' element={<Chat/>}/>
+          <Route path='/user/:id/projects' element={<MyProjects/>}/>
+          <Route path='/user/:id/tasks' element={<MyTasks/>}/>
           <Route path='/calendar' element={<Calendar/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
