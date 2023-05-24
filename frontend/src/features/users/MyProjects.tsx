@@ -3,18 +3,21 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUserById } from './usersSlice';
 import { selectProjects, selectProjectsFetching } from '../projects/projectsSlice';
 import { fetchProjectsByUser } from '../projects/projectsThunks';
-import { Alert, Container, Grid, Typography } from '@mui/material';
+import { Alert, Container, Grid, IconButton, Typography } from '@mui/material';
 import ProjectItem from '../projects/components/ProjectItem';
 import CircularProgressElement from '../../components/UI/CircularProgressElement/CircularProgressElement';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { findUserById } from './usersThunks';
+import AddIcon from '@mui/icons-material/Add';
 
 const MyProjects = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useAppSelector(selectUserById);
   const projects = useAppSelector(selectProjects);
   const projectsFetching = useAppSelector(selectProjectsFetching);
+
 
   useEffect(() => {
     void dispatch(fetchProjectsByUser(id));
@@ -26,10 +29,23 @@ const MyProjects = () => {
     )) : (<Alert severity="info">You haven't created any project</Alert>)
   );
 
+  if(!user){
+    return <Navigate to={`/login`}/>;
+  }
+
   return (
     <Container>
       <Grid container direction='column' style={{paddingTop: '35px'}}>
-        <Typography variant='h4' style={{paddingBottom: '20px'}}>{user?.displayName}'s projects</Typography>
+        <Typography
+          variant='h4'
+          style={{paddingBottom: '20px'}}
+        >
+          {user?.displayName}'s projects
+          <IconButton
+            onClick={() => navigate('/projects/new')}
+          ><AddIcon/>
+          </IconButton>
+        </Typography>
         {projectsFetching ? <CircularProgressElement/> : currentProjects}
       </Grid>
     </Container>

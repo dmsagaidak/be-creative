@@ -27,7 +27,7 @@ const Chat = () => {
           ...prev,
           {
             text: decodedMessage.payload.text,
-            username: user.displayName,
+            username: decodedMessage.payload.username,
             datetime: new Date().toISOString()
           },
         ]);
