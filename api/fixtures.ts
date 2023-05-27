@@ -121,10 +121,12 @@ const run = async () => {
         title: proj1.title,
         start: proj1.start,
         end: proj1.deadline,
+        createdBy: proj1.leader,
     }, {
         title: proj2.title,
         start: proj2.start,
         end: proj2.deadline,
+        createdBy: proj2.leader,
     });
 
     await db.close();

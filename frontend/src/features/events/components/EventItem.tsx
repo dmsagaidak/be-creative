@@ -4,11 +4,12 @@ import dayjs from 'dayjs';
 
 interface Props {
   title: string;
+  createdBy: string;
   start?: Date;
   end?: Date;
 }
 
-const EventItem: React.FC<Props> = ({title, start, end}) => {
+const EventItem: React.FC<Props> = ({title, start, end }) => {
   return (
     <Grid container spacing={2} direction="column" sx={{p: 2}}>
       <Typography variant="h5" component="p">

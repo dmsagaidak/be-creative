@@ -16,3 +16,10 @@ export const createEvent = createAsyncThunk<void, EventMutation>(
     await axiosApi.post('/events/', eventMutation);
   }
 );
+
+export const removeEvent = createAsyncThunk<void, string>(
+  'events/remove',
+  async (id) => {
+    await axiosApi.delete(`/events/${id}`);
+  }
+);

@@ -58,6 +58,7 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
             title: req.body.title,
             start: dayjs(req.body.start).format('YYYY-MM-DD'),
             end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
+            createdBy: userId,
         });
 
         return res.send({project: project, event: event});

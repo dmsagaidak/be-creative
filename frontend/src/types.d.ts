@@ -128,6 +128,7 @@ export interface Event {
   title: string;
   start: string;
   end: string;
+  createdBy: User;
 }
 
 export interface EventMutation {

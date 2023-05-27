@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, {Types} from "mongoose";
+import User from "./User";
 
 const Schema = mongoose.Schema;
 
@@ -14,6 +15,15 @@ const EventSchema = new Schema({
     end: {
         type: Date,
         required: true,
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        validate: {
+            validator: async (value: Types.ObjectId) => User.findById(value),
+            message: 'User does not exist',
+        },
     },
 });
 

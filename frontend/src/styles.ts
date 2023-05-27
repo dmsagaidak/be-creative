@@ -25,4 +25,6 @@ export const ListItemStyle = {
   display: 'flex',
   alignItems: 'center',
   margin: '0 0 25px 0 ',
-}
+};
+
+export const headingFS = {xs: '20px', sm: '30px', md: '40px', lg: '55px'}

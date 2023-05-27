@@ -34,7 +34,7 @@ const TaskPage = () => {
       const project = task?.project._id;
       navigate('/projects/' + project);
     }
-  }
+  };
 
 
   const statusValue = {
@@ -42,7 +42,7 @@ const TaskPage = () => {
     inProgress: 'In progress',
     onHold: 'On hold',
     done: 'Done'
-  }
+  };
 
   const [state, setState] = useState({status: ''});
 

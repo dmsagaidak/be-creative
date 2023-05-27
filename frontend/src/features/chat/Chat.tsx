@@ -6,13 +6,11 @@ import ChatForm from './components/ChatForm';
 import { useAppSelector } from '../../app/hooks';
 import { selectUser } from '../users/usersSlice';
 
-
 const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useAppSelector(selectUser);
   const ws = useRef<null | WebSocket>(null);
-
 
   useEffect(() => {
     ws.current = new WebSocket('ws://localhost:8000/chat');
@@ -34,15 +32,12 @@ const Chat = () => {
       }
     };
 
-
     return () => {
       if (ws.current) {
         ws.current.close();
       }
     };
   }, []);
-
-  console.log(messages)
 
   const handleLogin = () => {
     if (!ws.current) return;
@@ -65,7 +60,6 @@ const Chat = () => {
     }
   }, [user]);
 
-
   const handleSendMessage = (messageText: string) => {
     if (!ws.current) return;
     ws.current.send(
@@ -76,7 +70,6 @@ const Chat = () => {
       })
     );
   };
-
 
   return (
     <Container>
