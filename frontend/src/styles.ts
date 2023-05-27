@@ -35,3 +35,10 @@ export const pageSubheading = {
   paddingTop: '7px',
   paddingBottom: '7px',
 };
+
+export const projectItemStyle = {
+  boxShadow,
+  marginTop: '7px',
+  width: '70vw',
+  cursor: 'pointer',
+}

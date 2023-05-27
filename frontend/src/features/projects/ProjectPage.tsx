@@ -8,9 +8,9 @@ import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { pageSubheading, pageTopStyle } from '../../styles';
+import { headingFS, pageSubheading, pageTopStyle } from '../../styles';
 import { pageBodyStyle } from '../../styles';
-import { fetchTasksByProject, removeTask } from '../ tasks/tasksThunks';
+import { fetchTasksByProject } from '../ tasks/tasksThunks';
 import { selectTasks, selectTasksFetching } from '../ tasks/tasksSlice';
 import TaskItem from '../ tasks/components/TaskItem';
 import AddIcon from '@mui/icons-material/Add';
@@ -46,13 +46,6 @@ const ProjectPage = () => {
     }
   };
 
-  const deleteTask = async (taskId: string) => {
-    if(window.confirm('Do you really want to remove this task?')) {
-      await dispatch(removeTask(taskId));
-      await dispatch(fetchTasksByProject(id));
-    }
-  }
-
   const styleColor = project?.status === 'Not started' ?
     theme.palette.info.main : project?.status === 'Ongoing' ?
       theme.palette.success.main : 'red';
@@ -63,7 +56,7 @@ const ProjectPage = () => {
         <CircularProgressElement/> :
         (<>
           <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
-            <Typography variant='h3'>{project?.title}</Typography>
+            <Typography variant='h3' fontSize={headingFS}>{project?.title}</Typography>
             {project && user?._id === project?.leader._id ? (
               <Grid item>
                 <IconButton
@@ -127,7 +120,6 @@ const ProjectPage = () => {
                   <TaskItem
                     key={task._id}
                     task={task}
-                    onDelete={() => deleteTask(task._id)}
                   />
                 )) :
                     (<Alert severity="info">

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Task } from '../../../types';
-import { Button, Card, CardContent, CardHeader, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { Card, CardContent, CardHeader, IconButton, Typography, useMediaQuery } from '@mui/material';
 import { ArrowRight } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../app/hooks';
-import { selectUser } from '../../users/usersSlice';
+import { boxShadow } from '../../../styles';
 
 const cardWidth = {
   xs: '70vw',
@@ -14,12 +13,10 @@ const cardWidth = {
 
 interface Props {
   task: Task;
-  onDelete: (taskId: string) => void;
 }
 
-const TaskItem: React.FC<Props> = ({task, onDelete}) => {
+const TaskItem: React.FC<Props> = ({task}) => {
   const navigate = useNavigate();
-  const user = useAppSelector(selectUser);
 
   const isXs = useMediaQuery('(max-width:599px)');
   const isSm = useMediaQuery('(min-width:600px) and (max-width:899px)');
@@ -27,7 +24,11 @@ const TaskItem: React.FC<Props> = ({task, onDelete}) => {
   return (
         <Card
           sx={{mt: 1, mb: 2, mr: 1}}
-          style={{width: isXs ? cardWidth.xs : isSm ? cardWidth.sm : cardWidth.md}}
+          style={
+          {width: isXs ? cardWidth.xs : isSm ? cardWidth.sm : cardWidth.md,
+            cursor: 'pointer',
+          boxShadow}}
+          onClick={() => navigate(`/tasks/${task._id}`)}
         >
           <CardHeader
             title={task.title}
@@ -44,7 +45,8 @@ const TaskItem: React.FC<Props> = ({task, onDelete}) => {
             >
               {task.description}
             </Typography>
-            <Typography component='p'>{task.user ?
+            <Typography component='div' sx={{mt: 2, mb: 2}}>
+              {task.user ?
               (<Typography component='span'>Assigned to <Typography
                 component="a"
                 href={'/profile/' + task.user._id}
@@ -55,12 +57,6 @@ const TaskItem: React.FC<Props> = ({task, onDelete}) => {
               </Typography>) :
               (<Typography component='span'>Unassigned</Typography>)
             }</Typography>
-            {user?._id === task.createdBy._id ?
-              (<Typography component='div'>
-                <Button onClick={() => onDelete(task._id)} color='error' variant='contained'>Remove</Button>
-              </Typography>) :
-              (<Typography></Typography>)
-            }
           </CardContent>
         </Card>
   );

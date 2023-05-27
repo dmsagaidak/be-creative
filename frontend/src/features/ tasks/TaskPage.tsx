@@ -36,7 +36,6 @@ const TaskPage = () => {
     }
   };
 
-
   const statusValue = {
     todo: 'To do',
     inProgress: 'In progress',
@@ -51,7 +50,6 @@ const TaskPage = () => {
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
-
   };
 
   const onTaskSubmit = async (e: React.FormEvent) => {
@@ -83,8 +81,6 @@ const TaskPage = () => {
       </form>
     </>
   );
-
-  console.log(task)
 
   return (
     <Container>
