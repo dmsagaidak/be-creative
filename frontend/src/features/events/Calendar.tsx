@@ -12,6 +12,7 @@ import EventForm from './components/EventForm';
 import { EventClickArg } from 'fullcalendar';
 import EventItem from './components/EventItem';
 import { selectUser } from '../users/usersSlice';
+import { Navigate } from 'react-router-dom';
 
 const Calendar = () => {
   const dispatch = useAppDispatch();
@@ -48,6 +49,9 @@ const Calendar = () => {
     }
   };
 
+  if(!user) {
+    return <Navigate to={'/login'}/>
+  }
 
   return (
     <Container>

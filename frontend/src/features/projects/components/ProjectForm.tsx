@@ -93,9 +93,10 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
 
   return (
     <Container component="main" maxWidth="lg">
+      <Typography variant="h4" sx={{mb: 4}}>{isEdit ? 'Update' : 'Create new'} project</Typography>
       <form onSubmit={submitFormHandler} autoComplete="off">
         <Grid container direction='column' spacing={2}>
-          <Grid item xs>
+          <Grid item xs sx={{pb: 2}}>
             <TextField
               required
               id='title'
@@ -108,7 +109,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
               helperText={getFieldError('title')}
             />
           </Grid>
-          <Grid item xs>
+          <Grid item xs sx={{pb: 2}}>
             <TextField
               multiline
               rows={3}
@@ -124,7 +125,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             />
           </Grid>
           <Grid item xs>
-            <Typography component='p'>Start:</Typography>
+            <Typography component='p' sx={{pb: 2}}>Start:</Typography>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
             >
@@ -138,7 +139,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             </LocalizationProvider>
           </Grid>
           <Grid item xs>
-            <Typography component='p'>Deadline:</Typography>
+            <Typography component='p' sx={{pb: 2}}>Deadline:</Typography>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}>
               <DatePicker
@@ -150,7 +151,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs>
+          <Grid item xs sx={{pb: 2}}>
             <FileInput
               onChange={fileInputChangeHandler}
               name="image"
@@ -160,9 +161,9 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             />
           </Grid>
           <Grid item xs>
-            <Typography component='p' sx={{mb: 1}}>Participants:</Typography>
+            <Typography component='p' sx={{pb: 2}}>Participants:</Typography>
             {state.participants.map((item, index) => (
-              <Grid item container key={index} direction="column">
+              <Grid item container key={index} direction="row" sx={{mb: 2}}>
                 <Grid item xs sx={{mb: 1}}>
                   <TextField
                     id='role'
@@ -173,6 +174,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
                     required
                     error={Boolean(getFieldError('role'))}
                     helperText={getFieldError('role')}
+                    sx={{pr: 2}}
                   />
                 </Grid>
                 <Grid item xs>
@@ -186,6 +188,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
                     required
                     error={Boolean(getFieldError('user'))}
                     helperText={getFieldError('user')}
+                    sx={{pr: 1}}
                   >
                     {users.map((user) => (
                       <MenuItem key={user._id} value={user._id}>{user.displayName}</MenuItem>

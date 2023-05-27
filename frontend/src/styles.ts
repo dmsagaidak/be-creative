@@ -17,8 +17,8 @@ export const pageBodyStyle = {
   borderColor: theme.palette.primary.light,
   borderBottomRightRadius: '7px',
   borderBottomLeftRadius: '7px',
-  paddingLeft: '17px',
-  paddingRight: '17px',
+  paddingLeft: '20px',
+  paddingRight: '20px',
 };
 
 export const ListItemStyle = {
@@ -28,3 +28,10 @@ export const ListItemStyle = {
 };
 
 export const headingFS = {xs: '20px', sm: '30px', md: '40px', lg: '55px'}
+
+export const pageSubheading = {
+  fontSize: '20px',
+  fontWeight: 700,
+  paddingTop: '7px',
+  paddingBottom: '7px',
+};

@@ -8,7 +8,7 @@ import theme from '../../theme';
 import { selectUser } from '../users/usersSlice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { pageTopStyle } from '../../styles';
+import { pageSubheading, pageTopStyle } from '../../styles';
 import { pageBodyStyle } from '../../styles';
 import { fetchTasksByProject, removeTask } from '../ tasks/tasksThunks';
 import { selectTasks, selectTasksFetching } from '../ tasks/tasksSlice';
@@ -16,6 +16,7 @@ import TaskItem from '../ tasks/components/TaskItem';
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
 import CircularProgressElement from '../../components/UI/CircularProgressElement/CircularProgressElement';
+import { apiUrl } from '../../constants';
 
 
 const ProjectPage = () => {
@@ -74,46 +75,65 @@ const ProjectPage = () => {
               </Grid>
             ) : (<> <Typography></Typography></>)}
           </Grid>
-          <Grid container direction='column' style={pageBodyStyle}>
-            <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
-            <Typography component='p' sx={{pb: 1}}>{project?.description}</Typography>
-            <Divider />
-            <Typography component='p' style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}>Status: <Typography component='span' style={{color: styleColor}}>{project?.status}</Typography></Typography>
-            <Divider />
-            <List>
-              <Typography style={{fontWeight: 700}}>Project team:</Typography>
-              <ListItem>Leader:
+            <Grid container direction="column" style={pageBodyStyle}>
+              <Grid item xs sx={{p: 2, textAlign: 'center'}}>
                 <Typography
-                  component='a'
-                  href={'/profile/'+project?.leader._id}
-                  style={{textDecoration: 'none', paddingLeft: '8px'}}>
-                  {project?.leader.displayName}
-                </Typography>
-              </ListItem>
-              {project?.participants.map((item, idx) => (
-                <ListItem key={idx}>
-                  {item.role}:
-                  <Typography
-                    component='a'  href={'/profile/' + item.user._id}
-                    style={{textDecoration: 'none', paddingLeft: '8px'}}
-                  >
-                    {item.user.displayName}
-                  </Typography>
-                </ListItem>
-              ))}
-            </List>
-            <Typography component="p">
-              From {dayjs(project?.start).format('DD.MM.YYYY')} to {dayjs(project?.deadline).format('DD.MM.YYYY')}
-            </Typography>
-            <Grid item xs sx={{pb: 3}}>
-              <Typography component='p' style={{fontWeight: 700}}>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
-              {tasksFetching ? <CircularProgressElement/> : tasks.length ?  tasks.map((task) => (
-                <TaskItem
-                  key={task._id}
-                  task={task}
-                  onDelete={() => deleteTask(task._id)}
+                  component="img"
+                  src={apiUrl + '/' + project?.image}
+                  alt={project?.title}
+                  width="50vw"
+                  borderRadius="10px"
                 />
-              )) : (<Alert severity="info">No tasks in this project. Please push + button to add one</Alert>)}
+              </Grid>
+              <Grid item xs>
+                <Typography component='p' style={pageSubheading}>Description:</Typography>
+                <Typography component='p' sx={{pb: 1}}>{project?.description}</Typography>
+                <Divider />
+                <Typography component='p' style={pageSubheading}>Status: <Typography component='span' style={{color: styleColor}}>{project?.status}</Typography></Typography>
+                <Divider />
+                <List>
+                  <Typography style={pageSubheading}>Project team:</Typography>
+                  <ListItem>Leader:
+                    <Typography
+                      component='a'
+                      href={'/profile/'+project?.leader._id}
+                      style={{textDecoration: 'none', paddingLeft: '8px'}}>
+                      {project?.leader.displayName}
+                    </Typography>
+                  </ListItem>
+                  {project?.participants.map((item, idx) => (
+                    <ListItem key={idx}>
+                      {item.role}:
+                      <Typography
+                        component='a'  href={'/profile/' + item.user._id}
+                        style={{textDecoration: 'none', paddingLeft: '8px'}}
+                      >
+                        {item.user.displayName}
+                      </Typography>
+                    </ListItem>
+                  ))}
+                </List>
+                <Typography component="p">
+                  From {dayjs(project?.start).format('DD.MM.YYYY')} to {dayjs(project?.deadline).format('DD.MM.YYYY')}
+                </Typography>
+              </Grid>
+            <Grid item xs sx={{pb: 3}}>
+              <Typography component='p' style={pageSubheading}>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
+              <Grid item container direction="column" alignContent="center">
+                {tasksFetching ?
+                  <CircularProgressElement/> :
+                  tasks.length ?
+                    tasks.map((task) => (
+                  <TaskItem
+                    key={task._id}
+                    task={task}
+                    onDelete={() => deleteTask(task._id)}
+                  />
+                )) :
+                    (<Alert severity="info">
+                      No tasks in this project. Please push + button to add one
+                    </Alert>)}
+              </Grid>
             </Grid>
           </Grid>
         </>)}

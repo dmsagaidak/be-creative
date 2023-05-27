@@ -4,7 +4,7 @@ import { selectUser } from '../users/usersSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { ProjectMutation } from '../../types';
 import { createProject } from './projectsThunks';
-import { Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import ProjectForm from './components/ProjectForm';
 import { selectProjectCreateError, selectProjectCreating } from './projectsSlice';
 
@@ -30,10 +30,9 @@ const NewProject = () => {
   }
 
   return (
-    <>
-      <Typography variant="h4" sx={{ mb: 2 }}>Create new project</Typography>
+    <Container>
       <ProjectForm onSubmit={onFormSubmit} loading={loading} error={error}/>
-    </>
+    </Container>
   );
 };
 

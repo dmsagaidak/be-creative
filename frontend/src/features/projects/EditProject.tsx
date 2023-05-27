@@ -9,7 +9,7 @@ import { selectUser } from '../users/usersSlice';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { fetchOneProject, updateProject } from './projectsThunks';
 import { ProjectMutation } from '../../types';
-import { Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import ProjectForm from './components/ProjectForm';
 
 const EditProject = () => {
@@ -52,15 +52,14 @@ const EditProject = () => {
   }
 
   return (
-    <>
-      <Typography variant="h4" sx={{ mb: 2 }}>Update project</Typography>
+    <Container>
       {existingProject && (<ProjectForm
         onSubmit={onSubmit}
         loading={loading}
         error={error}
         existingProject={existingProject}
         isEdit/>)}
-    </>
+    </Container>
   );
 };
 
