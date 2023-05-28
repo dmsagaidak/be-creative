@@ -80,7 +80,7 @@ export const updateProject = createAsyncThunk<
         }
       });
 
-      await axiosApi.put('/projects/' + id, formData);
+      await axiosApi.put(`/projects/${id}`, formData);
 
     }catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 400) {

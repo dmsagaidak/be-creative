@@ -10,6 +10,14 @@ export const fetchEvents = createAsyncThunk<Event[]>(
   }
 );
 
+export const fetchOneEvent = createAsyncThunk<Event, string>(
+  'events/fetchOne',
+  async (id) => {
+    const response = await axiosApi.get(`/events/${id}`);
+    return response.data;
+  }
+);
+
 export const createEvent = createAsyncThunk<void, EventMutation>(
   'events/create',
   async (eventMutation) => {
@@ -21,5 +29,12 @@ export const removeEvent = createAsyncThunk<void, string>(
   'events/remove',
   async (id) => {
     await axiosApi.delete(`/events/${id}`);
+  }
+);
+
+export const updateEvent = createAsyncThunk<void, {id: string, event: EventMutation}>(
+  'events/update',
+  async({id, event}) => {
+    await axiosApi.put(`/events/${id}`, event);
   }
 );

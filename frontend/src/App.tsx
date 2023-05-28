@@ -19,6 +19,8 @@ import EditUser from './features/users/EditUser';
 import ChangePassword from './features/users/ChangePassword';
 import MyProjects from './features/users/MyProjects';
 import MyTasks from './features/users/MyTasks';
+import NewEvent from './features/events/NewEvent';
+import UpdateEvent from './features/events/UpdateEvent';
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
           <Route path='/user/:id/projects' element={<MyProjects/>}/>
           <Route path='/user/:id/tasks' element={<MyTasks/>}/>
           <Route path='/calendar' element={<Calendar/>}/>
+          <Route path='/events/new' element={<NewEvent/>}/>
+          <Route path='/edit-event/:id' element={<UpdateEvent/>}/>
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>

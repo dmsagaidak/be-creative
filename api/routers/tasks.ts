@@ -22,7 +22,7 @@ tasksRouter.get('/', auth, async (req, res, next) => {
     }
 });
 
-tasksRouter.get('/:id', auth, async (req, res, next) => {
+tasksRouter.get('/:id', async (req, res, next) => {
     try{
         const task = await Task.findById(req.params.id).populate('project').populate('createdBy').populate('user');
 

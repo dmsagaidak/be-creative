@@ -5,40 +5,27 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Button, Container, Dialog, DialogContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectEventCreating, selectEventDeleting, selectEvents, selectEventsFetching } from './eventsSlice';
-import { createEvent, fetchEvents, removeEvent } from './eventsThunks';
-import { EventMutation } from '../../types';
-import EventForm from './components/EventForm';
+import {  selectEventDeleting, selectEvents, selectEventsFetching } from './eventsSlice';
+import { fetchEvents, removeEvent } from './eventsThunks';
 import { EventClickArg } from 'fullcalendar';
 import EventItem from './components/EventItem';
 import { selectUser } from '../users/usersSlice';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import CircularProgressElement from '../../components/UI/CircularProgressElement/CircularProgressElement';
 
 const Calendar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const events = useAppSelector(selectEvents);
+  const navigate = useNavigate();
   const eventsFetching = useAppSelector(selectEventsFetching);
-  const eventCreating = useAppSelector(selectEventCreating);
   const eventDeleting = useAppSelector(selectEventDeleting);
-  const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<EventClickArg | null>(null);
 
   useEffect(() => {
     void dispatch(fetchEvents());
   }, [dispatch]);
-
-  const closeDialog = () => {
-    setOpenCreateDialog(false);
-  }
-
-  const onFormSubmit = async (mutation: EventMutation) => {
-    await dispatch(createEvent(mutation));
-    await dispatch(fetchEvents());
-    setOpenCreateDialog(false)
-  };
 
   const handleEventClick = (clickInfo: EventClickArg) => {
     setCurrentEvent(clickInfo);
@@ -59,7 +46,7 @@ const Calendar = () => {
 
   return (
     <Container>
-      <Button type="button" onClick={() => setOpenCreateDialog(true)}>Add event</Button>
+      <Button type="button" onClick={() => navigate('/events/new')}>Add event</Button>
 
       {eventsFetching ?
         <CircularProgressElement/> :
@@ -72,15 +59,6 @@ const Calendar = () => {
           selectMirror={true}
           eventClick={handleEventClick}
         />)}
-
-      <Dialog open={openCreateDialog} onClose={closeDialog}>
-        <DialogContent>
-          <EventForm
-            onSubmit={onFormSubmit}
-            loading={eventCreating}
-          />
-        </DialogContent>
-      </Dialog>
       <Dialog open={openEventDialog} onClose={() => setOpenEventDialog(false)}>
         <DialogContent>
           {currentEvent
@@ -92,16 +70,27 @@ const Calendar = () => {
                 end={currentEvent.event._instance?.range.end}
                 createdBy={currentEvent.event._def.extendedProps.createdBy}
               />
-              {user?._id === currentEvent.event._def.extendedProps.createdBy ?
+              {user?._id === currentEvent.event._def.extendedProps.createdBy._id ?
                 (
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={() => deleteEvent(currentEvent.event._def.extendedProps._id)}
-                    disabled={eventDeleting === currentEvent.event._def.extendedProps._id}
-                  >
-                    Remove
-                  </Button>) :
+                  <>
+                    <Button
+                      variant="outlined"
+                      color="info"
+                      onClick={() => navigate('/edit-event/' + currentEvent.event._def.extendedProps._id)}
+                      sx={{mr: 3}}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => deleteEvent(currentEvent.event._def.extendedProps._id)}
+                      disabled={eventDeleting === currentEvent.event._def.extendedProps._id}
+                    >
+                      Remove
+                    </Button>
+                  </>
+                  ) :
                   (<Typography></Typography>)}
             </>)
           }

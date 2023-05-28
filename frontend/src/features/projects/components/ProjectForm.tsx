@@ -130,11 +130,12 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
               dateAdapter={AdapterDayjs}
             >
               <DatePicker
-              label="Choose date"
+              label="Choose start date"
               value={dayjs(state.start)}
               onChange={(newValue) =>
                 setState((prevState) =>
                   ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+              format={'DD.MM.YYYY'}
               />
             </LocalizationProvider>
           </Grid>
@@ -143,11 +144,12 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             <LocalizationProvider
               dateAdapter={AdapterDayjs}>
               <DatePicker
-                label="Choose the date"
+                label="Choose deadline date"
                 value={dayjs(state.deadline)}
                 onChange={(newValue) =>
                   setState((prevState) =>
                     ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                format={'DD.MM.YYYY'}
               />
             </LocalizationProvider>
           </Grid>
