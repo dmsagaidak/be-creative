@@ -9,11 +9,9 @@ import Task from "../models/Task";
 
 const projectsRouter = express.Router();
 
-projectsRouter.get('/', auth, async (req, res, next) => {
+projectsRouter.get('/', async (req, res, next) => {
     try{
-        const user = (req as RequestWithUser).user;
-
-        const projects = await Project.find({leader: user._id}).populate('leader');
+        const projects = await Project.find({leader: req.query.user}).populate('leader');
         return res.send(projects);
     }catch (e) {
         return next(e);
