@@ -66,7 +66,7 @@ const Chat = () => {
       JSON.stringify({
         type: 'SEND_MESSAGE',
         payload: messageText,
-        username: user?.displayName, // добавить имя пользователя в объект сообщения
+        username: user?.displayName,
       })
     );
   };
@@ -79,7 +79,7 @@ const Chat = () => {
             <MessageItem key={idx} message={message}/>
           </Grid>
         ))}
-        <Grid item>
+        <Grid item xs sx={{mt: 3}}>
           <ChatForm sendMessage={handleSendMessage} />
         </Grid>
       </Grid>

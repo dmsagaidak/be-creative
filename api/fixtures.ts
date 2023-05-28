@@ -5,6 +5,7 @@ import User from "./models/User";
 import Project from "./models/Project";
 import Task from "./models/Task";
 import Event from "./models/Event"
+import Message from "./models/Message";
 
 const run = async () => {
     mongoose.set('strictQuery', false);
@@ -16,6 +17,7 @@ const run = async () => {
         await db.dropCollection('projects');
         await db.dropCollection('tasks');
         await db.dropCollection('events');
+        await db.dropCollection('messages');
     }catch (e) {
         console.log('Collections were not present, skipping drop...');
     }
@@ -127,6 +129,16 @@ const run = async () => {
         start: proj2.start,
         end: proj2.deadline,
         createdBy: proj2.leader,
+    });
+
+    await Message.create({
+        username: joe.displayName,
+        text: 'Hey guys, how are you?',
+        datetime: '2023-05-01T10:05:05.000Z'
+    }, {
+        username: alex.displayName,
+        text: `I'm fine. How are you?`,
+        datetime: '2023-05-01T10:06:15.000Z'
     });
 
     await db.close();
