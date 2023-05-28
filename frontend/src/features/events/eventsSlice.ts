@@ -56,3 +56,6 @@ export const eventsSlice = createSlice({
 export const eventsReducer = eventsSlice.reducer;
 
 export const selectEvents = (state: RootState) => state.events.items;
+export const selectEventsFetching = (state: RootState) => state.events.fetchLoading;
+export const selectEventCreating = (state: RootState) => state.events.createLoading;
+export const selectEventDeleting = (state: RootState) => state.events.deleteLoading;

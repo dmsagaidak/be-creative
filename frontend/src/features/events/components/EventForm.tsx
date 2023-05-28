@@ -3,10 +3,11 @@ import { EventMutation } from '../../../types';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
 interface Props {
-  onSubmit: (mutation: EventMutation) => void
+  onSubmit: (mutation: EventMutation) => void;
+  loading: boolean;
 }
 
-const EventForm: React.FC<Props> = ({onSubmit}) => {
+const EventForm: React.FC<Props> = ({ onSubmit, loading }) => {
   const [state, setState] = useState<EventMutation>({
     title: '',
     start: '',
@@ -39,6 +40,7 @@ const EventForm: React.FC<Props> = ({onSubmit}) => {
               label="Title"
               value={state.title}
               onChange={inputChangeHandler}
+              disabled={loading}
             />
           </Grid>
           <Grid item>
@@ -49,6 +51,7 @@ const EventForm: React.FC<Props> = ({onSubmit}) => {
               name="start"
               value={state.start}
               onChange={inputChangeHandler}
+              disabled={loading}
             />
           </Grid>
           <Grid item sx={{pb: 1}}>
@@ -59,10 +62,18 @@ const EventForm: React.FC<Props> = ({onSubmit}) => {
               name="end"
               value={state.end}
               onChange={inputChangeHandler}
+              disabled={loading}
             />
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" type='submit'>Submit</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type='submit'
+              disabled={loading}
+            >
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </form>

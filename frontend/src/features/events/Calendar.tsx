@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Button, Container, Dialog, DialogContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectEvents } from './eventsSlice';
+import { selectEventCreating, selectEventDeleting, selectEvents, selectEventsFetching } from './eventsSlice';
 import { createEvent, fetchEvents, removeEvent } from './eventsThunks';
 import { EventMutation } from '../../types';
 import EventForm from './components/EventForm';
@@ -13,11 +13,15 @@ import { EventClickArg } from 'fullcalendar';
 import EventItem from './components/EventItem';
 import { selectUser } from '../users/usersSlice';
 import { Navigate } from 'react-router-dom';
+import CircularProgressElement from '../../components/UI/CircularProgressElement/CircularProgressElement';
 
 const Calendar = () => {
   const dispatch = useAppDispatch();
-  const events = useAppSelector(selectEvents);
   const user = useAppSelector(selectUser);
+  const events = useAppSelector(selectEvents);
+  const eventsFetching = useAppSelector(selectEventsFetching);
+  const eventCreating = useAppSelector(selectEventCreating);
+  const eventDeleting = useAppSelector(selectEventDeleting);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<EventClickArg | null>(null);
@@ -56,18 +60,25 @@ const Calendar = () => {
   return (
     <Container>
       <Button type="button" onClick={() => setOpenCreateDialog(true)}>Add event</Button>
-      <FullCalendar
-        plugins={[ dayGridPlugin, timeGridPlugin, interactionPlugin ]}
-        initialView="dayGridMonth"
-        events={events}
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        eventClick={handleEventClick}
-      />
+
+      {eventsFetching ?
+        <CircularProgressElement/> :
+        (<FullCalendar
+          plugins={[ dayGridPlugin, timeGridPlugin, interactionPlugin ]}
+          initialView="dayGridMonth"
+          events={events}
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          eventClick={handleEventClick}
+        />)}
+
       <Dialog open={openCreateDialog} onClose={closeDialog}>
         <DialogContent>
-          <EventForm onSubmit={onFormSubmit}/>
+          <EventForm
+            onSubmit={onFormSubmit}
+            loading={eventCreating}
+          />
         </DialogContent>
       </Dialog>
       <Dialog open={openEventDialog} onClose={() => setOpenEventDialog(false)}>
@@ -87,6 +98,7 @@ const Calendar = () => {
                     variant="outlined"
                     color="error"
                     onClick={() => deleteEvent(currentEvent.event._def.extendedProps._id)}
+                    disabled={eventDeleting === currentEvent.event._def.extendedProps._id}
                   >
                     Remove
                   </Button>) :
