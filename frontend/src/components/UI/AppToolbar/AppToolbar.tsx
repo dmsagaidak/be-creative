@@ -31,20 +31,24 @@ const AppToolbar = () => {
     <AppBar position="sticky" sx={{ mb: 2, background: '#2F4F4F' }}>
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Typography variant="h6" component="div">
-            <Link to="/">BeCreative</Link>
-          </Typography>
+          <Grid item xs={1}>
+            <Typography variant="h6" component="div">
+              <Link to="/">BeCreative</Link>
+            </Typography>
+          </Grid>
           <Grid
             item
             container
             alignItems="center"
             justifyContent="flex-end"
-            xs={12}
+            xs={11}
             md={9}
           >
             {user ?
-              (<><Button
-                onClick={() => navigate('/calendar')} color="inherit"
+              (<Typography display={{xs: 'none', sm: 'block'}}>
+                <Button
+                onClick={() => navigate('/calendar')}
+                color="inherit"
               >
                 Calendar
               </Button>
@@ -53,10 +57,7 @@ const AppToolbar = () => {
                 >
                   Chat
                 </Button>
-              </>) : (<Typography></Typography>)}
-
-          </Grid>
-          <Grid item>
+              </Typography>) : (<Typography></Typography>)}
             {loginLoading || registerLoading || logoutLoading ? (
               <CircularProgressElement />
             ) : user ? (

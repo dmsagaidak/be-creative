@@ -43,6 +43,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           src={userImg}
           alt={user.displayName}
           style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '15px' }}
+          display={{xs: 'none', sm: 'inline'}}
         />{' '}
         Hello, {user.displayName}
       </Button>

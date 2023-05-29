@@ -6,8 +6,24 @@ import { ListItemStyle } from '../../styles';
 const OurAdvantages = () => {
   return (
     <Container>
-      <Grid item container xs sx={{mt: 4, mb: 4}}>
-        <Typography variant='h3' color="primary" textAlign="center">Our advantages</Typography>
+      <Grid
+        container
+        xs
+        sx={{mt: 4, mb: 4}}
+      >
+        <Grid
+          item
+          xs
+          textAlign="center"
+        >
+          <Typography
+            variant='h3'
+            color="primary"
+            fontSize={{xs: '30px', sm: '40px'}}
+          >Our advantages
+          </Typography>
+        </Grid>
+
         <Grid item style={ListItemStyle} sx={{pt: 3}}>
             <StarIcon fontSize="small"/>
             <Typography style={{margin: '0 0 0 15px'}}>
