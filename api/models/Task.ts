@@ -4,6 +4,10 @@ import User from "./User";
 
 const Schema = mongoose.Schema;
 
+function validateDeadline(this: any, deadline: Date): boolean {
+    return deadline >= this.start;
+}
+
 const TaskSchema = new Schema({
     project: {
         type: Schema.Types.ObjectId,
@@ -47,11 +51,27 @@ const TaskSchema = new Schema({
     },
     link: String,
     pdfFile: String,
-    deadline: {
+    start: {
         type: Date,
         required: true,
     },
+    deadline: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: validateDeadline,
+            message: 'Deadline must be later than start date',
+        },
+    },
 });
+
+TaskSchema.path('deadline').validate(async function(value: Date) {
+    const project = await Project.findById(this.project);
+    if(project) {
+        return value >= this.start && value <= project.deadline;
+    }
+}, 'Deadline must be later than start date and earlier than project deadline');
+
 
 const Task = mongoose.model('Task', TaskSchema);
 export default Task;

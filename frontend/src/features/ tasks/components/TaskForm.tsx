@@ -35,6 +35,7 @@ const initialState: TaskMutation = {
   user: '',
   link: '',
   pdfFile: null,
+  start: '',
   deadline: '',
 }
 
@@ -188,6 +189,18 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               name="pdfFile"
               label="Upload File"
               errorCheck={getFieldError}/>
+          </Grid>
+          <Grid item xs>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Choose start date"
+                value={dayjs(state.start)}
+                onChange={(newValue) =>
+                  setState((prevState) =>
+                    ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                format={'DD.MM.YYYY'}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item xs>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

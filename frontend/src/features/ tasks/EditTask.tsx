@@ -40,6 +40,7 @@ const EditTask = () => {
     user: task.user._id,
     link: task.link,
     pdfFile: null,
+    start: task.start,
     deadline: task.deadline,
   };
 

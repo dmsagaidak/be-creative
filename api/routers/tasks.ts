@@ -52,7 +52,8 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
             user: req.body.user,
             link: req.body.link,
             pdfFile: req.file ? req.file.filename : null,
-            deadline: req.body.deadline
+            start: req.body.start,
+            deadline: req.body.deadline,
         });
 
         return res.send(task);
@@ -102,6 +103,7 @@ tasksRouter.put('/:id', auth, pdfUpload.single('pdfFile'), async (req, res, next
             editingTask.status = req.body.status || editingTask.status;
             editingTask.user = req.body.user || editingTask.user;
             editingTask.link = req.body.link || editingTask.link;
+            editingTask.start = req.body.start || editingTask.start;
             editingTask.deadline = req.body.deadline || editingTask.deadline;
 
             if(req.file) {

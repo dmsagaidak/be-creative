@@ -151,6 +151,13 @@ const TaskPage = () => {
             style={{fontWeight: 700}}
             component='p'
           >
+            Start:
+            {dayjs(task?.start).format('DD.MM.YYYY')}
+          </Typography>
+          <Typography
+            style={{fontWeight: 700}}
+            component='p'
+          >
             Deadline:
             {dayjs(task?.deadline).format('DD.MM.YYYY')}
           </Typography>
