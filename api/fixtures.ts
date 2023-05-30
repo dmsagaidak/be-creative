@@ -88,7 +88,7 @@ const run = async () => {
         ]
     });
 
-    await Task.create({
+    const [task1pr1, task2pr1, task1pr2] = await Task.create({
         project: proj1,
         createdBy: joe,
         title: 'Develop mockup',
@@ -132,6 +132,21 @@ const run = async () => {
         start: proj2.start,
         end: proj2.deadline,
         createdBy: proj2.leader,
+    }, {
+        title: task1pr1.title,
+        start: task1pr1.start,
+        end: task1pr1.deadline,
+        createdBy: task1pr1.createdBy,
+    }, {
+        title: task2pr1.title,
+        start: task2pr1.start,
+        end: task2pr1.deadline,
+        createdBy: task2pr1.createdBy,
+    }, {
+        title: task1pr2.title,
+        start: task1pr2.start,
+        end: task1pr2.deadline,
+        createdBy: task1pr2.createdBy,
     });
 
     await Message.create({

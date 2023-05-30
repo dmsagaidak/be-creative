@@ -149,10 +149,9 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               name="status"
               value={state.status}
               onChange={inputChangeHandler}
-              required
               disabled={loading}
             >
-              <MenuItem value={status.todo}>To do</MenuItem>
+              <MenuItem autoFocus value={status.todo}>To do</MenuItem>
               <MenuItem value={status.inProgress}>In progress</MenuItem>
               <MenuItem value={status.onHold}>On hold</MenuItem>
               <MenuItem value={status.done}>Done</MenuItem>
@@ -199,6 +198,11 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                   setState((prevState) =>
                     ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
                 format={'DD.MM.YYYY'}
+                slotProps={{
+                  textField: {
+                    required: true,
+                  },
+                }}
               />
             </LocalizationProvider>
           </Grid>
@@ -211,6 +215,11 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                   setState((prevState) =>
                     ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
                 format={'DD.MM.YYYY'}
+                slotProps={{
+                  textField: {
+                    required: true,
+                  },
+                }}
               />
             </LocalizationProvider>
           </Grid>

@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import auth, {RequestWithUser} from "../middleware/auth";
 import Task from "../models/Task";
 import {pdfUpload} from "../multer";
+import dayjs from "dayjs";
+import Event from "../models/Event";
 
 const tasksRouter = express.Router();
 
@@ -43,6 +45,8 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
             return res.status(401).send({ error: 'Wrong token!' });
         }
 
+        const userId = user._id.toString();
+
         const task = await Task.create({
             project: req.body.project,
             createdBy: user._id.toString(),
@@ -56,7 +60,13 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
             deadline: req.body.deadline,
         });
 
-        return res.send(task);
+        const event = await Event.create({
+            title: req.body.title,
+            start: dayjs(req.body.start).format('YYYY-MM-DD'),
+            end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
+            createdBy: userId,
+        })
+        return res.send({task: task, event: event});
     }catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
             return res.status(400).send(e);

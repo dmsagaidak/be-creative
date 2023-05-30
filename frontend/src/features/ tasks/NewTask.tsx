@@ -15,7 +15,7 @@ const NewTask = () => {
   const onFormSubmit = async (taskMutation: TaskMutation) => {
     try{
       await dispatch(createTask(taskMutation)).unwrap();
-      navigate(-1);
+      navigate('/projects/' + taskMutation.project);
     }catch (e) {
       console.log(e);
     }
