@@ -57,6 +57,8 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
             start: dayjs(req.body.start).format('YYYY-MM-DD'),
             end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
             createdBy: userId,
+            backgroundColor: '#2f4f4f',
+            borderColor: '#2f4f4f',
         });
 
         return res.send({project: project, event: event});

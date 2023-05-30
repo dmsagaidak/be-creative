@@ -131,6 +131,8 @@ export interface Event {
   start: string;
   end: string;
   createdBy: User;
+  backgroundColor: string;
+  borderColor: string;
 }
 
 export interface EventMutation {

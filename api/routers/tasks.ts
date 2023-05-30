@@ -65,6 +65,8 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
             start: dayjs(req.body.start).format('YYYY-MM-DD'),
             end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
             createdBy: userId,
+            backgroundColor: '#6f98f7',
+            borderColor: '#6f98f7',
         })
         return res.send({task: task, event: event});
     }catch (e) {

@@ -25,6 +25,8 @@ const EventSchema = new Schema({
             message: 'User does not exist',
         },
     },
+    backgroundColor: String,
+    borderColor: String,
 });
 
 const Event = mongoose.model('Event', EventSchema);

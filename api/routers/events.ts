@@ -41,7 +41,9 @@ eventsRouter.post('/', auth, async (req, res, next) => {
             title: req.body.title,
             start: req.body.start,
             end: req.body.end,
-            createdBy: userId
+            createdBy: userId,
+            backgroundColor: '#6e6e6e',
+            borderColor: '#6e6e6e',
         });
 
         return res.send(event);

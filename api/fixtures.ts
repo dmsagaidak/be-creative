@@ -127,26 +127,36 @@ const run = async () => {
         start: proj1.start,
         end: proj1.deadline,
         createdBy: proj1.leader,
+        backgroundColor: '#2f4f4f',
+        borderColor: '#2f4f4f',
     }, {
         title: proj2.title,
         start: proj2.start,
         end: proj2.deadline,
         createdBy: proj2.leader,
+        backgroundColor: '#2f4f4f',
+        borderColor: '#2f4f4f',
     }, {
         title: task1pr1.title,
         start: task1pr1.start,
         end: task1pr1.deadline,
         createdBy: task1pr1.createdBy,
+        backgroundColor: '#6f98f7',
+        borderColor: '#6f98f7',
     }, {
         title: task2pr1.title,
         start: task2pr1.start,
         end: task2pr1.deadline,
         createdBy: task2pr1.createdBy,
+        backgroundColor: '#6f98f7',
+        borderColor: '#6f98f7',
     }, {
         title: task1pr2.title,
         start: task1pr2.start,
         end: task1pr2.deadline,
         createdBy: task1pr2.createdBy,
+        backgroundColor: '#6f98f7',
+        borderColor: '#6f98f7',
     });
 
     await Message.create({
