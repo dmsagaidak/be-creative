@@ -201,6 +201,7 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                 slotProps={{
                   textField: {
                     required: true,
+                    helperText: getFieldError('start'),
                   },
                 }}
               />
@@ -218,6 +219,7 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                 slotProps={{
                   textField: {
                     required: true,
+                    helperText: getFieldError('deadline')
                   },
                 }}
               />

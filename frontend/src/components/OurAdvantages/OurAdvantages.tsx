@@ -8,7 +8,6 @@ const OurAdvantages = () => {
     <Container>
       <Grid
         container
-        xs
         sx={{mt: 4, mb: 4}}
       >
         <Grid

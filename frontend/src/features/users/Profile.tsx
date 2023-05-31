@@ -29,8 +29,6 @@ const Profile = () => {
     void dispatch(fetchTasksByUser(id));
   }, [dispatch, id]);
 
-  console.log(tasks)
-
   let userImg;
 
   if (user?.avatar && user?.googleId){

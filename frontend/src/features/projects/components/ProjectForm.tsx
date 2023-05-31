@@ -42,7 +42,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
 
   useEffect(() => {
     void dispatch(fetchUsers({organization}))
-  }, [dispatch])
+  }, [dispatch, organization])
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -130,12 +130,18 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
               dateAdapter={AdapterDayjs}
             >
               <DatePicker
-              label="Choose start date"
-              value={dayjs(state.start)}
-              onChange={(newValue) =>
-                setState((prevState) =>
-                  ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
-              format={'DD.MM.YYYY'}
+                label="Choose start date"
+                value={dayjs(state.start)}
+                defaultValue={dayjs('2023=01-01')}
+                onChange={(newValue) =>
+                  setState((prevState) => ({ ...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '' }))}
+                format={'DD.MM.YYYY'}
+                slotProps={{
+                  textField: {
+                    required: true,
+                    helperText: getFieldError('start'),
+                  },
+                }}
               />
             </LocalizationProvider>
           </Grid>
@@ -150,6 +156,12 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
                   setState((prevState) =>
                     ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
                 format={'DD.MM.YYYY'}
+                slotProps={{
+                  textField: {
+                    required: true,
+                    helperText: getFieldError('deadline'),
+                  },
+                }}
               />
             </LocalizationProvider>
           </Grid>

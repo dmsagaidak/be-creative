@@ -36,7 +36,6 @@ const chatRouter = () => {
 
         ws.on('message', async (message) => {
             const decodedMessage = JSON.parse(message.toString()) as IncomingMessage;
-            console.log(decodedMessage)
             switch (decodedMessage.type) {
                 case 'LOGIN':
                     user = await User.findOne({token: decodedMessage.payload});

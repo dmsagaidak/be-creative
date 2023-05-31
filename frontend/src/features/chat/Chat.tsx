@@ -75,8 +75,8 @@ const Chat = () => {
     <Container>
       <Grid container direction='column'>
         {messages.map((message, idx) => (
-          <Grid item xs>
-            <MessageItem key={idx} message={message}/>
+          <Grid item xs key={idx}>
+            <MessageItem message={message}/>
           </Grid>
         ))}
         <Grid item xs sx={{mt: 3}}>
