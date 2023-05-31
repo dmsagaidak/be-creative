@@ -19,7 +19,7 @@ const NewProject = () => {
   const onFormSubmit = async (project: ProjectMutation) => {
     try{
       await dispatch(createProject({project})).unwrap();
-      navigate('/');
+      navigate(`/user/${user?._id}/projects`);
     }catch (e) {
       console.log(e);
     }

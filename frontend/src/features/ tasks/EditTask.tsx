@@ -26,7 +26,7 @@ const EditTask = () => {
   const onSubmit = async (task: TaskMutation) => {
     try{
       await dispatch(updateTask({id, task})).unwrap();
-      navigate(`/projects/${task.project}`)
+      navigate(`/tasks/${id}`)
     }catch (e) {
       console.log(e);
     }

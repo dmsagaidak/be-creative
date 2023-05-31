@@ -6,7 +6,7 @@ import { fetchProjectsByUser } from '../projects/projectsThunks';
 import { Alert, Container, Grid, IconButton, Typography } from '@mui/material';
 import ProjectItem from '../projects/components/ProjectItem';
 import CircularProgressElement from '../../components/UI/CircularProgressElement/CircularProgressElement';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { findUserById } from './usersThunks';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -28,10 +28,6 @@ const MyProjects = () => {
       <ProjectItem key={project._id} project={project}/>
     )) : (<Alert severity="info">You haven't created any project</Alert>)
   );
-
-  if(!user){
-    return <Navigate to={`/login`}/>;
-  }
 
   return (
     <Container>

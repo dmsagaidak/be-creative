@@ -72,6 +72,13 @@ TaskSchema.path('deadline').validate(async function(value: Date) {
     }
 }, 'Deadline must be later than start date and earlier than project deadline');
 
+TaskSchema.path('start').validate(async function(value: Date) {
+    const project = await Project.findById(this.project);
+    if(project) {
+        return value >= project.start && value <= project.deadline;
+    }
+}, 'Start must be equal or later than project start date and earlier than project deadline');
+
 
 const Task = mongoose.model('Task', TaskSchema);
 export default Task;

@@ -18,7 +18,6 @@ import dayjs from 'dayjs';
 import CircularProgressElement from '../../components/UI/CircularProgressElement/CircularProgressElement';
 import { apiUrl } from '../../constants';
 
-
 const ProjectPage = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
@@ -41,7 +40,7 @@ const ProjectPage = () => {
       if(result.meta.requestStatus === 'rejected') {
         window.alert('This project cannot be removed because it has related tasks');
       }else {
-        navigate('/');
+        navigate(`/user/${user?._id}/projects`);
       }
     }
   };
