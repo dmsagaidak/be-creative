@@ -102,6 +102,7 @@ projectsRouter.put('/:id', auth, imagesUpload.single('image'), async (req, res, 
         const user = (req as RequestWithUser).user;
 
         const updatingProject = await Project.findById(req.params.id);
+        const relatedEvent = await Event.findOne({project: req.params.id});
 
         if(!updatingProject){
             return res.status(404).send({error: 'Project not found'});
@@ -125,7 +126,15 @@ projectsRouter.put('/:id', auth, imagesUpload.single('image'), async (req, res, 
 
         await updatingProject.save();
 
-        return res.send({message: 'Project was updated', updatingProject})
+        if(relatedEvent) {
+            relatedEvent.title = req.body.title || relatedEvent.title;
+            relatedEvent.start = req.body.start || relatedEvent.start;
+            relatedEvent.end = req.body.deadline || relatedEvent.end;
+
+            await relatedEvent.save();
+        }
+
+        return res.send({message: 'Project and related event  were updated', updatingProject})
 
     }catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {

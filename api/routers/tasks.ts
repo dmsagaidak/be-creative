@@ -104,6 +104,7 @@ tasksRouter.put('/:id', auth, pdfUpload.single('pdfFile'), async (req, res, next
     try{
         const user = (req as RequestWithUser).user;
         const editingTask = await Task.findById(req.params.id);
+        const relatedEvent = await Event.findOne({task: req.params.id});
 
         if(!user){
             return res.status(401).send({error: 'Wrong token'});
@@ -125,7 +126,15 @@ tasksRouter.put('/:id', auth, pdfUpload.single('pdfFile'), async (req, res, next
             }
 
             await editingTask.save();
-            return res.send({message: 'Task was updated', editingTask});
+
+            if(relatedEvent) {
+                relatedEvent.title = req.body.title || relatedEvent.title;
+                relatedEvent.start = req.body.start || relatedEvent.start;
+                relatedEvent.end = req.body.deadline || relatedEvent.end;
+
+                await relatedEvent.save();
+            }
+            return res.send({message: 'Task and related event were updated', editingTask});
         }
     }catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
