@@ -67,6 +67,7 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
             createdBy: userId,
             backgroundColor: '#6f98f7',
             borderColor: '#6f98f7',
+            task: task._id,
         })
         return res.send({task: task, event: event});
     }catch (e) {
@@ -91,7 +92,8 @@ tasksRouter.delete('/:id', auth, async (req, res, next) => {
             return res.status(403).send({error: 'You can remove tasks only from your projects'})
         }else {
             await Task.deleteOne({_id: req.params.id});
-            return res.send({message: 'Task was removed', removingTask})
+            await Event.deleteOne({task: req.params.id});
+            return res.send({message: 'Task and related event were removed', removingTask})
         }
     }catch (e) {
         return next(e);

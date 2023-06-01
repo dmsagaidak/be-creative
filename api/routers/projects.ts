@@ -59,6 +59,7 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
             createdBy: userId,
             backgroundColor: '#2f4f4f',
             borderColor: '#2f4f4f',
+            project: project._id,
         });
 
         return res.send({project: project, event: event});
@@ -87,7 +88,9 @@ projectsRouter.delete('/:id', auth, async (req, res, next) => {
             return res.status(403).send({error: 'Projects having related tasks cannot be removed'});
         } else {
             await Project.deleteOne({_id: req.params.id});
-            return res.send({message: `Project with id: ${removingItem._id} was removed`});
+            await Event.deleteOne({project: req.params.id});
+            return res.send({message: `Project with id: ${removingItem._id} was removed, 
+            related event was also removed`});
         }
     }catch (e) {
         return next(e);

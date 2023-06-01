@@ -30,6 +30,7 @@ const Calendar = () => {
   const handleEventClick = (clickInfo: EventClickArg) => {
     setCurrentEvent(clickInfo);
     setOpenEventDialog(true);
+    console.log(clickInfo)
   };
 
   const deleteEvent = async (id: string) => {

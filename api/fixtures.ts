@@ -129,6 +129,7 @@ const run = async () => {
         createdBy: proj1.leader,
         backgroundColor: '#2f4f4f',
         borderColor: '#2f4f4f',
+        project: proj1,
     }, {
         title: proj2.title,
         start: proj2.start,
@@ -136,6 +137,7 @@ const run = async () => {
         createdBy: proj2.leader,
         backgroundColor: '#2f4f4f',
         borderColor: '#2f4f4f',
+        project: proj2,
     }, {
         title: task1pr1.title,
         start: task1pr1.start,
@@ -143,6 +145,7 @@ const run = async () => {
         createdBy: task1pr1.createdBy,
         backgroundColor: '#6f98f7',
         borderColor: '#6f98f7',
+        task: task1pr1,
     }, {
         title: task2pr1.title,
         start: task2pr1.start,
@@ -150,6 +153,7 @@ const run = async () => {
         createdBy: task2pr1.createdBy,
         backgroundColor: '#6f98f7',
         borderColor: '#6f98f7',
+        task: task2pr1,
     }, {
         title: task1pr2.title,
         start: task1pr2.start,
@@ -157,6 +161,7 @@ const run = async () => {
         createdBy: task1pr2.createdBy,
         backgroundColor: '#6f98f7',
         borderColor: '#6f98f7',
+        task: task1pr2,
     });
 
     await Message.create({

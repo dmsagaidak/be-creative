@@ -133,6 +133,8 @@ export interface Event {
   createdBy: User;
   backgroundColor: string;
   borderColor: string;
+  project: string | null;
+  task: string | null;
 }
 
 export interface EventMutation {
