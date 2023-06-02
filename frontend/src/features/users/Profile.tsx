@@ -111,10 +111,13 @@ const Profile = () => {
           <Typography
             variant="h6">
             {profileUser?.displayName}'s Projects
-            <IconButton
+            {user?._id === profileUser?._id ?
+              (<IconButton
               onClick={() => navigate('/projects/new')}
             ><AddIcon/>
-            </IconButton>
+            </IconButton>) :
+              (<Typography></Typography>)
+            }
           </Typography>
           {projects.length ? projects.map((project) => (
             <Card

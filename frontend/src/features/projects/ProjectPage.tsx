@@ -110,7 +110,18 @@ const ProjectPage = () => {
                 </Typography>
               </Grid>
             <Grid item xs sx={{pb: 3}}>
-              <Typography component='p' style={pageSubheading}>Tasks:{' '} <IconButton component={Link} href="/tasks/new"><AddIcon/></IconButton> </Typography>
+              <Typography
+                component='p'
+                style={pageSubheading}
+              >
+                Tasks:{' '}
+                {project?.status !== 'Finished' &&
+                  (<IconButton
+                    component={Link}
+                    href="/tasks/new"><AddIcon/>
+                  </IconButton> )
+                }
+              </Typography>
               <Grid item container direction="column" alignContent="center">
                 {tasksFetching ?
                   <CircularProgressElement/> :
