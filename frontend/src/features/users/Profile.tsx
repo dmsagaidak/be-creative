@@ -12,7 +12,8 @@ import { fetchTasksByUser } from '../ tasks/tasksThunks';
 import { selectTasks } from '../ tasks/tasksSlice';
 import { fetchProjectsByUser } from '../projects/projectsThunks';
 import { selectProjects } from '../projects/projectsSlice';
-import { profileItemCard } from '../../styles';
+import {  profileItemCard } from '../../styles';
+import AddIcon from '@mui/icons-material/Add';
 
 const Profile = () => {
   const { id } = useParams() as { id: string };
@@ -107,7 +108,14 @@ const Profile = () => {
           </Grid>
         </Grid>
         <Grid item container direction="column">
-          <Typography variant="h6">{profileUser?.displayName}'s Projects</Typography>
+          <Typography
+            variant="h6">
+            {profileUser?.displayName}'s Projects
+            <IconButton
+              onClick={() => navigate('/projects/new')}
+            ><AddIcon/>
+            </IconButton>
+          </Typography>
           {projects.length ? projects.map((project) => (
             <Card
               key={project._id}

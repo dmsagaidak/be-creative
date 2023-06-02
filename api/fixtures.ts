@@ -64,7 +64,7 @@ const run = async () => {
         avatar: 'fixtures/alex.jpg',
     });
 
-    const [proj1, proj2] = await Project.create({
+    const [proj1, proj2, proj3, proj4] = await Project.create({
         title: 'Create CRM system for Marketing school',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim, neque vel dignissim tempus, purus ex ornare mauris, non maximus quam quam eu arcu. Vestibulum ultricies sapien urna, ut sagittis est maximus quis. Class aptent taciti sociosqu ad litora torquent.',
         leader: joe,
@@ -74,7 +74,7 @@ const run = async () => {
         participants: [
             {role: 'Analyst', user: ann},
             {role: 'Developer', user: jack},
-        ]
+        ],
     }, {
         title: 'Redesign website for Beeline company',
         description: 'Duis molestie consequat sodales. Donec ornare porta sem, eu euismod diam commodo placerat. In pulvinar nec sapien vel rutrum. Fusce porttitor ante eu metus vulputate.',
@@ -85,8 +85,27 @@ const run = async () => {
         participants: [
             {role: 'Designer', user: joe},
             {role: 'Developer', user: jack},
-        ]
-    });
+        ],
+    }, {
+        title: 'MyCourse app',
+        description: 'Integer euismod eget tortor eu auctor. Donec aliquet mi augue, ut pretium enim lacinia rutrum.',
+        leader: joe,
+        start: '2023-06-01T18:00:00.000Z',
+        deadline: '2023-07-01T18:00:00.000Z',
+        image: 'fixtures/proj3.png',
+        participants: [
+            {role: 'Developer', user: ann},
+            {role: 'Coordinator', user: jack}
+        ],
+    }, {
+        title: 'Website for Trip.kg company',
+        description: 'Duis pretium bibendum finibus. Nullam ante mauris, mollis id ex auctor, varius consectetur velit.',
+        leader: joe,
+        start: '2023-07-12T09:00:00.000Z',
+        deadline: '2023-08-13T09:00:00.000Z',
+        image: 'fixtures/proj4.jpg',
+        participants: [],
+    },);
 
     const [task1pr1, task2pr1, task1pr2] = await Task.create({
         project: proj1,
@@ -138,6 +157,22 @@ const run = async () => {
         backgroundColor: '#2f4f4f',
         borderColor: '#2f4f4f',
         project: proj2,
+    }, {
+        title: proj3.title,
+        start: proj3.start,
+        end: proj3.deadline,
+        createdBy: proj3.leader,
+        backgroundColor: '#2f4f4f',
+        borderColor: '#2f4f4f',
+        project: proj3,
+    }, {
+        title: proj4.title,
+        start: proj4.start,
+        end: proj4.deadline,
+        createdBy: proj4.leader,
+        backgroundColor: '#2f4f4f',
+        borderColor: '#2f4f4f',
+        project: proj4,
     }, {
         title: task1pr1.title,
         start: task1pr1.start,

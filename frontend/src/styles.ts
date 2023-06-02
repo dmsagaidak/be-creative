@@ -44,9 +44,9 @@ export const projectItemStyle = {
 };
 
 export const profileItemCard = {
-  maxWidth: '30vw',
   padding: '10px',
   boxShadow,
   cursor: 'pointer',
   marginTop: '15px'
 }
+
