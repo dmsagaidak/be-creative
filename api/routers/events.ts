@@ -1,6 +1,7 @@
 import express from "express";
 import Event from '../models/Event'
 import auth, {RequestWithUser} from "../middleware/auth";
+import mongoose from "mongoose";
 
 const eventsRouter = express.Router();
 
@@ -48,7 +49,11 @@ eventsRouter.post('/', auth, async (req, res, next) => {
 
         return res.send(event);
     }catch (e) {
-        return next(e);
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        } else {
+            return next(e);
+        }
     }
 });
 
@@ -92,7 +97,11 @@ eventsRouter.put('/:id', auth, async (req, res, next) => {
             return res.send({message: 'Event was updated', updatingEvent});
         }
     }catch (e) {
-        return next(e);
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        } else {
+            return next(e);
+        }
     }
 });
 

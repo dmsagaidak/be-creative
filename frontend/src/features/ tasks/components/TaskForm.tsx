@@ -7,11 +7,10 @@ import {
   MenuItem,
   TextField, Typography,
 } from '@mui/material';
-import { fetchProjectsByUser } from '../../projects/projectsThunks';
+import { fetchOneProject, fetchProjectsByUser } from '../../projects/projectsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { selectUser, selectUsers } from '../../users/usersSlice';
-import { selectProjects } from '../../projects/projectsSlice';
-import { fetchUsers } from '../../users/usersThunks';
+import { selectUser } from '../../users/usersSlice';
+import { selectOneProject, selectProjects } from '../../projects/projectsSlice';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -50,17 +49,21 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const projects = useAppSelector(selectProjects);
-  const users = useAppSelector(selectUsers);
+  const chosenProject = useAppSelector(selectOneProject);
 
   const [state, setState] = useState<TaskMutation>(existingTask || initialState);
 
   useEffect(() => {
     if(user) {
       void dispatch(fetchProjectsByUser(user._id));
-      const organization = user.organization;
-      void dispatch(fetchUsers({organization}))
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+    if(state.project) {
+      void dispatch(fetchOneProject(state.project))
+    }
+  }, [dispatch, state.project]);
 
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,6 +111,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               onChange={inputChangeHandler}
               required
               disabled={loading}
+              error={Boolean(getFieldError('project'))}
+              helperText={getFieldError('project')}
             >
               <MenuItem value="" disabled>
                 Please, choose a project{' '}
@@ -126,6 +131,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               onChange={inputChangeHandler}
               required
               disabled={loading}
+              error={Boolean(getFieldError('title'))}
+              helperText={getFieldError('title')}
             />
           </Grid>
           <Grid item xs>
@@ -139,6 +146,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               onChange={inputChangeHandler}
               required
               disabled={loading}
+              error={Boolean(getFieldError('description'))}
+              helperText={getFieldError('description')}
             />
           </Grid>
           <Grid item xs>
@@ -150,6 +159,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               value={state.status}
               onChange={inputChangeHandler}
               disabled={loading}
+              error={Boolean(getFieldError('status'))}
+              helperText={getFieldError('status')}
             >
               <MenuItem autoFocus value={status.todo}>To do</MenuItem>
               <MenuItem value={status.inProgress}>In progress</MenuItem>
@@ -165,10 +176,12 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               name="user"
               value={state.user}
               onChange={inputChangeHandler}
-              disabled={loading}
+              disabled={loading || state.project === ''}
+              error={Boolean(getFieldError('user'))}
+              helperText={getFieldError('user')}
             >
-              {users.map((user) => (
-                <MenuItem key={user._id} value={user._id}>{user.displayName}</MenuItem>
+              {chosenProject?.participants.map((item) => (
+                <MenuItem key={item.user._id} value={item.user._id}>{item.user.displayName}</MenuItem>
               ))}
             </TextField>
           </Grid>
@@ -180,6 +193,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               value={state.link}
               onChange={inputChangeHandler}
               disabled={loading}
+              error={Boolean(getFieldError('link'))}
+              helperText={getFieldError('link')}
             />
           </Grid>
           <Grid item xs>

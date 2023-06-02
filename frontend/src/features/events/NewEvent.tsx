@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectEventCreating } from './eventsSlice';
+import { selectEventCreating, selectEventCreatingError } from './eventsSlice';
 import { useNavigate } from 'react-router-dom';
 import { EventMutation } from '../../types';
 import { createEvent } from './eventsThunks';
@@ -10,6 +10,7 @@ import EventForm from './components/EventForm';
 const NewEvent = () => {
   const dispatch = useAppDispatch();
   const eventCreating = useAppSelector(selectEventCreating);
+  const error = useAppSelector(selectEventCreatingError);
   const navigate = useNavigate();
 
   const onFormSubmit = async (mutation: EventMutation) => {
@@ -19,7 +20,11 @@ const NewEvent = () => {
 
   return (
     <Container>
-      <EventForm onSubmit={onFormSubmit} loading={eventCreating}/>
+      <EventForm
+        onSubmit={onFormSubmit}
+        loading={eventCreating}
+        error={error}
+      />
     </Container>
   );
 };

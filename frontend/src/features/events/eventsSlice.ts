@@ -1,4 +1,4 @@
-import { Event } from '../../types'
+import { Event, ValidationError } from '../../types'
 import { createSlice } from '@reduxjs/toolkit';
 import { createEvent, fetchEvents, fetchOneEvent, removeEvent, updateEvent } from './eventsThunks';
 import { RootState } from '../../app/store';
@@ -11,6 +11,8 @@ interface EventState {
   createLoading: boolean;
   deleteLoading: false | string;
   updateLoading: boolean;
+  creatingError: ValidationError | null;
+  updatingError: ValidationError | null;
 }
 
 const initialState: EventState = {
@@ -21,6 +23,8 @@ const initialState: EventState = {
   createLoading: false,
   deleteLoading: false,
   updateLoading: false,
+  creatingError: null,
+  updatingError: null,
 };
 
 export const eventsSlice = createSlice({
@@ -54,8 +58,9 @@ export const eventsSlice = createSlice({
     builder.addCase(createEvent.fulfilled, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(createEvent.rejected, (state) => {
+    builder.addCase(createEvent.rejected, (state, {payload: error}) => {
       state.createLoading = false;
+      state.creatingError = error || null;
     });
     builder.addCase(removeEvent.pending, (state, {meta: {arg: eventId}}) => {
       state.deleteLoading = eventId;
@@ -72,8 +77,9 @@ export const eventsSlice = createSlice({
     builder.addCase(updateEvent.fulfilled, (state) => {
       state.updateLoading = false;
     });
-    builder.addCase(updateEvent.rejected, (state) => {
+    builder.addCase(updateEvent.rejected, (state, {payload: error}) => {
       state.updateLoading = false;
+      state.updatingError = error || null;
     });
   }
 });
@@ -87,3 +93,5 @@ export const selectOneEventFetching = (state: RootState) => state.events.fetchOn
 export const selectEventCreating = (state: RootState) => state.events.createLoading;
 export const selectEventDeleting = (state: RootState) => state.events.deleteLoading;
 export const selectEventUpdating = (state: RootState) => state.events.updateLoading;
+export const selectEventCreatingError = (state: RootState) => state.events.creatingError;
+export const selectEventUpdatingError = (state: RootState) => state.events.updatingError;

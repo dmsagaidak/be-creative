@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EventMutation } from '../../../types';
+import { EventMutation, ValidationError } from '../../../types';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,6 +11,7 @@ interface Props {
   loading?: boolean;
   existingEvent?: EventMutation;
   isEdit?: boolean;
+  error: ValidationError | null;
 }
 
 const initialState: EventMutation = {
@@ -19,7 +20,7 @@ const initialState: EventMutation = {
   end: '',
 }
 
-const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit }) => {
+const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit, error }) => {
   const [state, setState] = useState<EventMutation>(existingEvent || initialState);
 
   const inputChangeHandler = (
@@ -34,7 +35,15 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit }
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(state);
-  }
+  };
+
+  const getFieldError = (fieldName: string) => {
+    try {
+      return error?.errors[fieldName].message;
+    } catch {
+      return undefined;
+    }
+  };
 
   return (
     <>
@@ -49,6 +58,8 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit }
               value={state.title}
               onChange={inputChangeHandler}
               disabled={loading}
+              error={Boolean(getFieldError('title'))}
+              helperText={getFieldError('title')}
             />
           </Grid>
           <Grid item>
@@ -61,6 +72,12 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit }
                   setState((prevState) =>
                     ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
                 format={'DD.MM.YYYY'}
+                slotProps={{
+                  textField: {
+                    required: true,
+                    helperText: getFieldError('start')
+                  },
+                }}
                 />
             </LocalizationProvider>
           </Grid>
@@ -74,6 +91,12 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit }
               setState((prevState) =>
                 ({...prevState, end: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
                 format={'DD.MM.YYYY'}
+                slotProps={{
+                  textField: {
+                    required: true,
+                    helperText: getFieldError('end')
+                  },
+                }}
                 />
             </LocalizationProvider>
           </Grid>

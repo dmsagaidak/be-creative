@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Button, Container, Dialog, DialogContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {  selectEventDeleting, selectEvents, selectEventsFetching } from './eventsSlice';
+import { selectEventDeleting, selectEvents, selectEventsFetching, selectOneEventFetching } from './eventsSlice';
 import { fetchEvents, removeEvent } from './eventsThunks';
 import { EventClickArg } from 'fullcalendar';
 import EventItem from './components/EventItem';
@@ -19,6 +19,7 @@ const Calendar = () => {
   const events = useAppSelector(selectEvents);
   const navigate = useNavigate();
   const eventsFetching = useAppSelector(selectEventsFetching);
+  const oneEventFetching = useAppSelector(selectOneEventFetching);
   const eventDeleting = useAppSelector(selectEventDeleting);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<EventClickArg | null>(null);
@@ -30,7 +31,6 @@ const Calendar = () => {
   const handleEventClick = (clickInfo: EventClickArg) => {
     setCurrentEvent(clickInfo);
     setOpenEventDialog(true);
-    console.log(clickInfo)
   };
 
   const deleteEvent = async (id: string) => {
@@ -62,7 +62,9 @@ const Calendar = () => {
         />)}
       <Dialog open={openEventDialog} onClose={() => setOpenEventDialog(false)}>
         <DialogContent>
-          {currentEvent
+          {oneEventFetching ?
+            <CircularProgressElement/>
+            : currentEvent
             &&
             (<>
               <EventItem

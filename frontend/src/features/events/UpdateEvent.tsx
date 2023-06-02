@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectEventUpdating, selectOneEvent } from './eventsSlice';
+import { selectEventUpdating, selectEventUpdatingError, selectOneEvent } from './eventsSlice';
 import { fetchOneEvent, updateEvent } from './eventsThunks';
 import { EventMutation } from '../../types';
 import EventForm from './components/EventForm';
@@ -12,6 +12,7 @@ const UpdateEvent = () => {
   const dispatch = useAppDispatch();
   const event = useAppSelector(selectOneEvent);
   const eventUpdating = useAppSelector(selectEventUpdating);
+  const error = useAppSelector(selectEventUpdatingError);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const UpdateEvent = () => {
         loading={eventUpdating}
         existingEvent={existingEvent}
         isEdit
+        error={error}
         />}
     </Container>
   );
