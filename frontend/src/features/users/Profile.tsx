@@ -26,9 +26,9 @@ const Profile = () => {
 
   useEffect(() => {
     void dispatch(findUserById(id));
-      void dispatch(fetchProjectsByUser(id));
+    void dispatch(fetchProjectsByUser(id));
     void dispatch(fetchTasksByUser(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, user?.avatar]);
 
   let userImg;
 

@@ -183,7 +183,7 @@ usersRouter.patch('/:id', auth, imagesUpload.single('avatar'), async (req, res, 
             updatingUser.avatar = req.file.filename
         }
         updatingUser.organization =  req.body.organization || updatingUser.organization;
-        updatingUser.generateToken();
+
         await updatingUser.save();
         return res.send({message: 'User data was successfully updated', updatingUser});
 
