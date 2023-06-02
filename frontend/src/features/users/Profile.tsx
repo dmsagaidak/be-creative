@@ -28,15 +28,15 @@ const Profile = () => {
     void dispatch(findUserById(id));
     void dispatch(fetchProjectsByUser(id));
     void dispatch(fetchTasksByUser(id));
-  }, [dispatch, id, user?.avatar]);
+  }, [dispatch, id]);
 
   let userImg;
 
-  if (user?.avatar && user?.googleId){
-    const avatarUrl = user.avatar.slice(8);
+  if (profileUser?.avatar && user?.googleId){
+    const avatarUrl = profileUser.avatar.slice(8);
     userImg = apiUrl + '/' + avatarUrl;
   } else {
-    userImg = apiUrl + '/' + user?.avatar;
+    userImg = apiUrl + '/' + profileUser?.avatar;
   }
 
   return (
