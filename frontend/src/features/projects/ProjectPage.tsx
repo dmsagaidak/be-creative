@@ -46,8 +46,8 @@ const ProjectPage = () => {
   };
 
   const styleColor = project?.status === 'Not started' ?
-    theme.palette.info.main : project?.status === 'Ongoing' ?
-      theme.palette.success.main : 'red';
+    theme.palette.primary.main : project?.status === 'Ongoing' ?
+'#32CD32' : theme.palette.secondary.light;
 
   return (
     <Container>
@@ -81,7 +81,7 @@ const ProjectPage = () => {
                 <Typography component='p' style={pageSubheading}>Description:</Typography>
                 <Typography component='p' sx={{pb: 1}}>{project?.description}</Typography>
                 <Divider />
-                <Typography component='p' style={pageSubheading}>Status: <Typography component='span' style={{color: styleColor}}>{project?.status}</Typography></Typography>
+                <Typography component='p' style={pageSubheading}>Status: <Typography component='span' style={{color: styleColor, fontWeight: 700}}>{project?.status}</Typography></Typography>
                 <Divider />
                 <List>
                   <Typography style={pageSubheading}>Project team:</Typography>
