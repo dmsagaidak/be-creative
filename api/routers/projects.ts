@@ -12,6 +12,10 @@ const projectsRouter = express.Router();
 projectsRouter.get('/', async (req, res, next) => {
     try{
         const projects = await Project.find({leader: req.query.user}).populate('leader');
+        if(req.query.participant) {
+            const projects = await Project.find({participants: {$elemMatch: {user: req.query.participant}}});
+            return res.send(projects);
+        }
         return res.send(projects);
     }catch (e) {
         return next(e);

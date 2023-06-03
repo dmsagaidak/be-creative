@@ -21,6 +21,7 @@ import MyProjects from './features/users/MyProjects';
 import MyTasks from './features/users/MyTasks';
 import NewEvent from './features/events/NewEvent';
 import UpdateEvent from './features/events/UpdateEvent';
+import InvolvedProjects from './features/users/InvolvedProjects';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path='/chat' element={<Chat/>}/>
           <Route path='/user/:id/projects' element={<MyProjects/>}/>
           <Route path='/user/:id/tasks' element={<MyTasks/>}/>
+          <Route path='/user/:id/involved' element={<InvolvedProjects/>}/>
           <Route path='/calendar' element={<Calendar/>}/>
           <Route path='/events/new' element={<NewEvent/>}/>
           <Route path='/edit-event/:id' element={<UpdateEvent/>}/>

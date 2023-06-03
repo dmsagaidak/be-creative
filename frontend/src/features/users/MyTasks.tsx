@@ -19,7 +19,6 @@ const MyTasks = () => {
     void dispatch(fetchTasksByUser(id));
   }, [dispatch, id]);
 
-
   return (
     <Container>
       <Grid container direction="column">

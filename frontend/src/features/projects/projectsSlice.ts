@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createProject,
-  fetchOneProject,
+  fetchOneProject, fetchProjectByParticipant,
   fetchProjectsByUser,
   removeProject,
   updateProject
@@ -11,6 +11,7 @@ import { GlobalError, Project, ValidationError } from '../../types';
 
 interface ProjectsState {
   items: Project[];
+  itemsByParticipant: Project[];
   oneItem: Project | null;
   fetchLoading: boolean;
   fetchOneLoading: boolean;
@@ -24,6 +25,7 @@ interface ProjectsState {
 
 const initialState: ProjectsState = {
   items: [],
+  itemsByParticipant: [],
   oneItem: null,
   fetchLoading: false,
   fetchOneLoading: false,
@@ -48,6 +50,16 @@ const projectsSlice = createSlice({
       state.items = payload;
     });
     builder.addCase(fetchProjectsByUser.rejected, (state) => {
+      state.fetchLoading = false;
+    });
+    builder.addCase(fetchProjectByParticipant.pending, (state) => {
+      state.fetchLoading = true;
+    });
+    builder.addCase(fetchProjectByParticipant.fulfilled, (state, {payload}) => {
+      state.fetchLoading = false;
+      state.itemsByParticipant = payload;
+    });
+    builder.addCase(fetchProjectByParticipant.rejected, (state) => {
       state.fetchLoading = false;
     });
     builder.addCase(fetchOneProject.pending, (state) => {
@@ -98,6 +110,7 @@ const projectsSlice = createSlice({
 export const projectsReducer = projectsSlice.reducer;
 
 export const selectProjects = (state: RootState) => state.projects.items;
+export const selectProjectsByParticipant = (state: RootState) => state.projects.itemsByParticipant;
 export const selectOneProject = (state: RootState) => state.projects.oneItem;
 export const selectProjectsFetching = (state: RootState) => state.projects.fetchLoading;
 export const selectProjectCreating = (state: RootState) => state.projects.createLoading;
@@ -107,5 +120,6 @@ export const selectProjectUpdating = (state: RootState) => state.projects.update
 export const selectProjectCreateError = (state: RootState) => state.projects.createProjectError;
 export const selectProjectUpdateError = (state: RootState) => state.projects.updateProjectError;
 export const selectProjectRemoveError = (state: RootState) => state.projects.removeProjectError;
+
 
 

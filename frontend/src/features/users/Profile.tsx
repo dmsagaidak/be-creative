@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUser, selectUserById } from './usersSlice';
-import { Alert, Card, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { Alert, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { apiUrl } from '../../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import noAvatar from '../../../src/assets/images/no-avatar.png'
@@ -10,10 +10,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
 import { fetchTasksByUser } from '../ tasks/tasksThunks';
 import { selectTasks } from '../ tasks/tasksSlice';
-import { fetchProjectsByUser } from '../projects/projectsThunks';
-import { selectProjects } from '../projects/projectsSlice';
-import {  profileItemCard } from '../../styles';
+import { fetchProjectByParticipant, fetchProjectsByUser } from '../projects/projectsThunks';
+import { selectProjects, selectProjectsByParticipant } from '../projects/projectsSlice';
 import AddIcon from '@mui/icons-material/Add';
+import ProjectCard from '../projects/components/ProjectCard';
+import TaskCardMini from '../ tasks/components/TaskCardMini';
 
 const Profile = () => {
   const { id } = useParams() as { id: string };
@@ -22,11 +23,13 @@ const Profile = () => {
   const user = useAppSelector(selectUser);
   const tasks = useAppSelector(selectTasks);
   const projects = useAppSelector(selectProjects);
+  const projectsByParticipant = useAppSelector(selectProjectsByParticipant);
   const navigate = useNavigate();
 
   useEffect(() => {
     void dispatch(findUserById(id));
     void dispatch(fetchProjectsByUser(id));
+    void dispatch(fetchProjectByParticipant(id));
     void dispatch(fetchTasksByUser(id));
   }, [dispatch, id]);
 
@@ -120,29 +123,33 @@ const Profile = () => {
             }
           </Typography>
           {projects.length ? projects.map((project) => (
-            <Card
+            <ProjectCard
               key={project._id}
-              onClick={() => navigate(`/projects/${project._id}`)}
-              style={profileItemCard}
-            >
-              <Typography component="p" fontWeight={700}>{project.title}</Typography>
-              <Typography>{project.status}</Typography>
-            </Card>
+              project={project}
+            />
           )) :
             (<Alert severity="info">{profileUser?.displayName} hasn't created any project</Alert>)}
         </Grid>
         <Grid item container direction="column" sx={{mt: 3}}>
+          <Typography
+            variant="h6">
+            Projects {profileUser?.displayName} participates in
+          </Typography>
+          {projectsByParticipant.length ? projectsByParticipant.map((project) => (
+            <ProjectCard
+              key={project._id}
+              project={project}
+            />
+          )) :
+            (<Alert severity="info">{profileUser?.displayName} isn't involved in any project</Alert>)}
+        </Grid>
+        <Grid item container direction="column" sx={{mt: 3}}>
           <Typography variant="h6">{profileUser?.displayName}'s tasks</Typography>
           {tasks.length ? tasks.map((task) => (
-            <Card
+            <TaskCardMini
               key={task._id}
-              onClick={() => navigate(`/tasks/${task._id}`)}
-              style={profileItemCard}
-            >
-              <Typography component="p" fontWeight={700}>{task.title}</Typography>
-              <Typography component="p">Project: {task.project.title}</Typography>
-              <Typography component="p">Status: {task.status}</Typography>
-            </Card>
+              task={task}
+            />
           )) : (<Alert severity="info">{profileUser?.displayName} has no tasks assigned</Alert>)}
         </Grid>
       </Grid>

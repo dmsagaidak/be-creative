@@ -11,6 +11,14 @@ export const fetchProjectsByUser = createAsyncThunk<Project[], string>(
   }
 );
 
+export const fetchProjectByParticipant = createAsyncThunk<Project[], string>(
+  'projects/fetchByParticipant',
+  async (id) => {
+    const response = await axiosApi.get(`/projects?participant=${id}`);
+    return response.data;
+  }
+);
+
 export const fetchOneProject = createAsyncThunk<Project, string>(
   'projects/fetchOne',
   async (id) => {
