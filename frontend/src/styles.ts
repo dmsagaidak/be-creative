@@ -36,11 +36,12 @@ export const pageSubheading = {
   paddingBottom: '7px',
 };
 
-export const projectItemStyle = {
+export const itemStyle = {
   boxShadow,
   marginTop: '7px',
   width: '70vw',
   cursor: 'pointer',
+  marginBottom: '15px',
 };
 
 export const profileItemCard = {

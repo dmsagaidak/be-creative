@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, IconButton, Typography } from '@mui/material';
 import { Project } from '../../../types';
-import { pageSubheading, projectItemStyle } from '../../../styles';
+import { pageSubheading, itemStyle } from '../../../styles';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from '@mui/icons-material';
 import theme from '../../../theme';
+import ProjectColorIndicator from '../../../components/UI/ProjectColorIndicator/ProjectColorIndicator';
 
 interface Props {
   project: Project;
@@ -15,14 +16,15 @@ const ProjectItem: React.FC<Props> = ({ project }) => {
 
   const styleColor =
     project.status === 'Not started'
-      ? theme.palette.info.main
+      ? theme.palette.primary.main
       : project.status === 'Ongoing'
-      ? theme.palette.success.main
-      : 'red';
+      ? '#32CD32'
+      : '#6f98f7';
 
   return (
-    <Card style={projectItemStyle} onClick={() => navigate(`/projects/${project._id}`)}>
+    <Card style={itemStyle} sx={{ position: 'relative' }} onClick={() => navigate(`/projects/${project._id}`)}>
       <CardHeader
+        sx={{ pl: 6 }}
         title={project.title}
         action={
           <IconButton onClick={() => navigate(`/projects/${project._id}`)}>
@@ -30,12 +32,13 @@ const ProjectItem: React.FC<Props> = ({ project }) => {
           </IconButton>
         }
       />
+      <ProjectColorIndicator project={project} />
       <CardContent>
         <Typography component="p" style={pageSubheading}>
-          What's to be done:
+          What&apos;s to be done:
         </Typography>
         <Typography component="p">{project.description}</Typography>
-        <Typography component="p" style={{ color: styleColor }}>
+        <Typography component="p" fontWeight={700} style={{ color: styleColor }}>
           {project.status}
         </Typography>
       </CardContent>

@@ -1,17 +1,14 @@
 import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
-import { profileItemCard } from '../../../styles';
-import { useNavigate } from 'react-router-dom';
 import { Task } from '../../../types';
+import { Typography } from '@mui/material';
 
 interface Props {
   task: Task;
 }
 
-const TaskCardMini: React.FC<Props> = ({ task }) => {
-  const navigate = useNavigate();
+const TaskColorIndicator: React.FC<Props> = ({ task }) => {
   return (
-    <Card onClick={() => navigate(`/tasks/${task._id}`)} style={profileItemCard} sx={{ position: 'relative' }}>
+    <>
       <Typography
         component="div"
         style={{
@@ -38,16 +35,9 @@ const TaskCardMini: React.FC<Props> = ({ task }) => {
               ? '20px solid #FFA500'
               : '20px solid #6f98f7',
         }}
-      ></Typography>
-      <CardContent>
-        <Typography component="p" fontWeight={700}>
-          {task.title}
-        </Typography>
-        <Typography component="p">Project: {task.project.title}</Typography>
-        <Typography component="p">Status: {task.status}</Typography>
-      </CardContent>
-    </Card>
+      />
+    </>
   );
 };
 
-export default TaskCardMini;
+export default TaskColorIndicator;

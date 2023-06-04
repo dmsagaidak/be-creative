@@ -8,13 +8,13 @@ import noAvatar from '../../../src/assets/images/no-avatar.png';
 import { findUserById } from './usersThunks';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
-import { fetchTasksByUser } from '../ tasks/tasksThunks';
-import { selectTasks } from '../ tasks/tasksSlice';
+import { fetchTasksByUser } from '../tasks/tasksThunks';
+import { selectTasks } from '../tasks/tasksSlice';
 import { fetchProjectByParticipant, fetchProjectsByUser } from '../projects/projectsThunks';
 import { selectProjects, selectProjectsByParticipant } from '../projects/projectsSlice';
 import AddIcon from '@mui/icons-material/Add';
 import ProjectCard from '../projects/components/ProjectCard';
-import TaskCardMini from '../ tasks/components/TaskCardMini';
+import TaskCardMini from '../tasks/components/TaskCardMini';
 
 const Profile = () => {
   const { id } = useParams() as { id: string };
@@ -90,7 +90,7 @@ const Profile = () => {
         </Grid>
         <Grid item container direction="column">
           <Typography variant="h6">
-            {profileUser?.displayName}'s Projects
+            {profileUser?.displayName}&apos;s Projects
             {user?._id === profileUser?._id ? (
               <IconButton onClick={() => navigate('/projects/new')}>
                 <AddIcon />
@@ -102,7 +102,7 @@ const Profile = () => {
           {projects.length ? (
             projects.map((project) => <ProjectCard key={project._id} project={project} />)
           ) : (
-            <Alert severity="info">{profileUser?.displayName} hasn't created any project</Alert>
+            <Alert severity="info">{profileUser?.displayName} hasn&apos;t created any project</Alert>
           )}
         </Grid>
         <Grid item container direction="column" sx={{ mt: 3 }}>
@@ -110,11 +110,11 @@ const Profile = () => {
           {projectsByParticipant.length ? (
             projectsByParticipant.map((project) => <ProjectCard key={project._id} project={project} />)
           ) : (
-            <Alert severity="info">{profileUser?.displayName} isn't involved in any project</Alert>
+            <Alert severity="info">{profileUser?.displayName} isn&apos;t involved in any project</Alert>
           )}
         </Grid>
         <Grid item container direction="column" sx={{ mt: 3 }}>
-          <Typography variant="h6">{profileUser?.displayName}'s tasks</Typography>
+          <Typography variant="h6">{profileUser?.displayName}&apos;s tasks</Typography>
           {tasks.length ? (
             tasks.map((task) => <TaskCardMini key={task._id} task={task} />)
           ) : (
