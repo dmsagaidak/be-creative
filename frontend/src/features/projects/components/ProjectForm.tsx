@@ -24,10 +24,10 @@ const initialState: ProjectMutation = {
   start: '',
   deadline: '',
   image: null,
-  participants: []
-}
+  participants: [],
+};
 
-const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject, isEdit}) => {
+const ProjectForm: React.FC<Props> = ({ onSubmit, loading, error, existingProject, isEdit }) => {
   const [state, setState] = useState<ProjectMutation>(existingProject || initialState);
   const user = useAppSelector(selectUser);
   const users = useAppSelector(selectUsers);
@@ -41,8 +41,8 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
   };
 
   useEffect(() => {
-    void dispatch(fetchUsers({organization}))
-  }, [dispatch, organization])
+    void dispatch(fetchUsers({ organization }));
+  }, [dispatch, organization]);
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,24 +55,24 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
     const { name, value } = e.target;
     setState((prevState) => {
       const newParticipants = [...prevState.participants];
-      newParticipants[index] = {...newParticipants[index], [name]: value};
-      return {...prevState, participants: newParticipants}
+      newParticipants[index] = { ...newParticipants[index], [name]: value };
+      return { ...prevState, participants: newParticipants };
     });
   };
 
   const addParticipant = () => {
     setState((prevState) => {
-      const updatedParticipants = [...prevState.participants, {role: '', user: ''}]
-      return {...prevState, participants: updatedParticipants}
-    })
+      const updatedParticipants = [...prevState.participants, { role: '', user: '' }];
+      return { ...prevState, participants: updatedParticipants };
+    });
   };
 
   const removeParticipant = (index: number) => {
     setState((prevState) => {
       const updatedParticipants = [...prevState.participants];
       updatedParticipants.splice(index, 1);
-      return {...prevState, participants: updatedParticipants};
-    })
+      return { ...prevState, participants: updatedParticipants };
+    });
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,14 +93,16 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
 
   return (
     <Container component="main" maxWidth="lg">
-      <Typography variant="h4" sx={{mb: 4}}>{isEdit ? 'Update' : 'Create new'} project</Typography>
+      <Typography variant="h4" sx={{ mb: 4 }}>
+        {isEdit ? 'Update' : 'Create new'} project
+      </Typography>
       <form onSubmit={submitFormHandler} autoComplete="off">
-        <Grid container direction='column' spacing={2}>
-          <Grid item xs sx={{pb: 2}}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item xs sx={{ pb: 2 }}>
             <TextField
               required
-              id='title'
-              name='title'
+              id="title"
+              name="title"
               label="Title"
               value={state.title}
               onChange={inputChangeHandler}
@@ -109,13 +111,13 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
               helperText={getFieldError('title')}
             />
           </Grid>
-          <Grid item xs sx={{pb: 2}}>
+          <Grid item xs sx={{ pb: 2 }}>
             <TextField
               multiline
               rows={3}
               required
-              id='description'
-              name='description'
+              id="description"
+              name="description"
               label="Description"
               value={state.description}
               onChange={inputChangeHandler}
@@ -125,16 +127,17 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             />
           </Grid>
           <Grid item xs>
-            <Typography component='p' sx={{pb: 2}}>Start:</Typography>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-            >
+            <Typography component="p" sx={{ pb: 2 }}>
+              Start:
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Choose start date"
                 value={dayjs(state.start)}
                 defaultValue={dayjs('2023=01-01')}
                 onChange={(newValue) =>
-                  setState((prevState) => ({ ...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '' }))}
+                  setState((prevState) => ({ ...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '' }))
+                }
                 format={'DD.MM.YYYY'}
                 slotProps={{
                   textField: {
@@ -146,15 +149,16 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             </LocalizationProvider>
           </Grid>
           <Grid item xs>
-            <Typography component='p' sx={{pb: 2}}>Deadline:</Typography>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}>
+            <Typography component="p" sx={{ pb: 2 }}>
+              Deadline:
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Choose deadline date"
                 value={dayjs(state.deadline)}
                 onChange={(newValue) =>
-                  setState((prevState) =>
-                    ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                  setState((prevState) => ({ ...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '' }))
+                }
                 format={'DD.MM.YYYY'}
                 slotProps={{
                   textField: {
@@ -165,7 +169,7 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs sx={{pb: 2}}>
+          <Grid item xs sx={{ pb: 2 }}>
             <FileInput
               onChange={fileInputChangeHandler}
               name="image"
@@ -175,54 +179,62 @@ const ProjectForm: React.FC<Props> = ({onSubmit, loading, error, existingProject
             />
           </Grid>
           <Grid item xs>
-            <Typography component='p' sx={{pb: 2}}>Participants:</Typography>
+            <Typography component="p" sx={{ pb: 2 }}>
+              Participants:
+            </Typography>
             {state.participants.map((item, index) => (
-              <Grid item container key={index} direction="row" sx={{mb: 2}}>
-                <Grid item xs sx={{mb: 1}}>
+              <Grid item container key={index} direction="row" sx={{ mb: 2 }}>
+                <Grid item xs sx={{ mb: 1 }}>
                   <TextField
-                    id='role'
-                    label='Role'
-                    name='role'
+                    id="role"
+                    label="Role"
+                    name="role"
                     value={item.role}
                     onChange={(e) => participantsChangeHandler(e, index)}
                     required
                     error={Boolean(getFieldError('role'))}
                     helperText={getFieldError('role')}
-                    sx={{pr: 2}}
+                    sx={{ pr: 2 }}
                   />
                 </Grid>
                 <Grid item xs>
                   <TextField
                     select
-                    id='user'
-                    label='User'
-                    name='user'
+                    id="user"
+                    label="User"
+                    name="user"
                     value={item.user}
                     onChange={(e) => participantsChangeHandler(e, index)}
                     required
                     error={Boolean(getFieldError('user'))}
                     helperText={getFieldError('user')}
-                    sx={{pr: 1}}
+                    sx={{ pr: 1 }}
                   >
                     {users.map((user) => (
-                      <MenuItem key={user._id} value={user._id}>{user.displayName}</MenuItem>
+                      <MenuItem key={user._id} value={user._id}>
+                        {user.displayName}
+                      </MenuItem>
                     ))}
                   </TextField>
                 </Grid>
-                {state.participants.length > 1 &&
-                  (<Button onClick={() => removeParticipant(index)} color='error'>Remove</Button>)}
+                {state.participants.length > 1 && (
+                  <Button onClick={() => removeParticipant(index)} color="error">
+                    Remove
+                  </Button>
+                )}
               </Grid>
             ))}
-            <Button type='button' color='primary' onClick={addParticipant}>Add participant</Button>
+            <Button type="button" color="primary" onClick={addParticipant}>
+              Add participant
+            </Button>
           </Grid>
           <Grid item xs>
             <Button type="submit" color="success" variant="contained" disabled={loading}>
-              {isEdit? 'Update' : 'Create'} project
+              {isEdit ? 'Update' : 'Create'} project
             </Button>
           </Grid>
         </Grid>
       </form>
-      
     </Container>
   );
 };

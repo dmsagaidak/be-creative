@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button, Grid, TextField} from "@mui/material";
+import { Button, Grid, TextField } from '@mui/material';
 
 interface Props {
   sendMessage: (messageText: string) => void;
@@ -22,15 +22,12 @@ const ChatForm: React.FC<Props> = ({ sendMessage }) => {
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2} direction="column">
         <Grid item>
-          <TextField
-            label="Your message"
-            type="text"
-            value={messageText}
-            onChange={changeHandler}
-          />
+          <TextField label="Your message" type="text" value={messageText} onChange={changeHandler} />
         </Grid>
         <Grid item>
-          <Button type="submit" variant="contained" color="success">Send</Button>
+          <Button type="submit" variant="contained" color="success">
+            Send
+          </Button>
         </Grid>
       </Grid>
     </form>

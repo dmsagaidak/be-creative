@@ -13,21 +13,21 @@ const EditTask = () => {
   const task = useAppSelector(selectOneTask);
   const user = useAppSelector(selectUser);
   const updateLoading = useAppSelector(selectTaskUpdating);
-  const fetchLoading = useAppSelector(selectOneTaskFetching)
+  const fetchLoading = useAppSelector(selectOneTaskFetching);
   const error = useAppSelector(selectTaskUpdatingError);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(id) {
+    if (id) {
       void dispatch(fetchOneTask(id));
     }
   }, [dispatch, id]);
 
   const onSubmit = async (task: TaskMutation) => {
-    try{
-      await dispatch(updateTask({id, task})).unwrap();
-      navigate(`/tasks/${id}`)
-    }catch (e) {
+    try {
+      await dispatch(updateTask({ id, task })).unwrap();
+      navigate(`/tasks/${id}`);
+    } catch (e) {
       console.log(e);
     }
   };
@@ -44,9 +44,9 @@ const EditTask = () => {
     deadline: task.deadline,
   };
 
-if(!user){
-  return <Navigate to={'/login'}/>
-}
+  if (!user) {
+    return <Navigate to={'/login'} />;
+  }
 
   return (
     <>

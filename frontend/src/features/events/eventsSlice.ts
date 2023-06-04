@@ -1,4 +1,4 @@
-import { Event, ValidationError } from '../../types'
+import { Event, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { createEvent, fetchEvents, fetchOneEvent, removeEvent, updateEvent } from './eventsThunks';
 import { RootState } from '../../app/store';
@@ -35,7 +35,7 @@ export const eventsSlice = createSlice({
     builder.addCase(fetchEvents.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchEvents.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchEvents.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -45,7 +45,7 @@ export const eventsSlice = createSlice({
     builder.addCase(fetchOneEvent.pending, (state) => {
       state.fetchOneLoading = true;
     });
-    builder.addCase(fetchOneEvent.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchOneEvent.fulfilled, (state, { payload }) => {
       state.fetchOneLoading = false;
       state.oneItem = payload;
     });
@@ -58,11 +58,11 @@ export const eventsSlice = createSlice({
     builder.addCase(createEvent.fulfilled, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(createEvent.rejected, (state, {payload: error}) => {
+    builder.addCase(createEvent.rejected, (state, { payload: error }) => {
       state.createLoading = false;
       state.creatingError = error || null;
     });
-    builder.addCase(removeEvent.pending, (state, {meta: {arg: eventId}}) => {
+    builder.addCase(removeEvent.pending, (state, { meta: { arg: eventId } }) => {
       state.deleteLoading = eventId;
     });
     builder.addCase(removeEvent.fulfilled, (state) => {
@@ -77,11 +77,11 @@ export const eventsSlice = createSlice({
     builder.addCase(updateEvent.fulfilled, (state) => {
       state.updateLoading = false;
     });
-    builder.addCase(updateEvent.rejected, (state, {payload: error}) => {
+    builder.addCase(updateEvent.rejected, (state, { payload: error }) => {
       state.updateLoading = false;
       state.updatingError = error || null;
     });
-  }
+  },
 });
 
 export const eventsReducer = eventsSlice.reducer;

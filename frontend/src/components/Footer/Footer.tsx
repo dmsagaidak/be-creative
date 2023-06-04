@@ -8,15 +8,14 @@ const Footer = () => {
       <Grid
         container
         direction="column"
-        sx={{mt: 2, background: theme.palette.primary.main, color: '#fff', pt: 2, pb: 2}}>
-        <Grid item xs sx={{ml: 3}}>
-          <Typography component='p'>BeCreative</Typography>
-          <Typography component='p'> © All rights reserved</Typography>
+        sx={{ mt: 2, background: theme.palette.primary.main, color: '#fff', pt: 2, pb: 2 }}
+      >
+        <Grid item xs sx={{ ml: 3 }}>
+          <Typography component="p">BeCreative</Typography>
+          <Typography component="p"> © All rights reserved</Typography>
         </Grid>
-
       </Grid>
     </>
-
   );
 };
 

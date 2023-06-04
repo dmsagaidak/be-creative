@@ -53,7 +53,7 @@ const Login = () => {
         <Box sx={{ pt: 2 }}>
           <GoogleLogin
             onSuccess={(credentialResponse) => {
-              if(credentialResponse.credential) {
+              if (credentialResponse.credential) {
                 void googleLoginHandler(credentialResponse.credential);
               }
             }}
@@ -70,12 +70,7 @@ const Login = () => {
         <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                label="Email"
-                name="email"
-                value={state.email}
-                onChange={inputChangeHandler}
-              />
+              <TextField label="Email" name="email" value={state.email} onChange={inputChangeHandler} />
             </Grid>
             <Grid item xs={12}>
               <TextField

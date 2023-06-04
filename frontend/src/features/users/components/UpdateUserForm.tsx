@@ -16,9 +16,9 @@ const initialState: UpdateUserMutation = {
   displayName: '',
   avatar: null,
   organization: '',
-}
+};
 
-const UpdateUserForm: React.FC<Props> = ({onSubmit, existingUser}) => {
+const UpdateUserForm: React.FC<Props> = ({ onSubmit, existingUser }) => {
   const [state, setState] = useState<UpdateUserMutation>(existingUser || initialState);
   const error = useAppSelector(selectUpdateUserError);
   const user = useAppSelector(selectUser);
@@ -51,15 +51,17 @@ const UpdateUserForm: React.FC<Props> = ({onSubmit, existingUser}) => {
     }
   };
 
-  if(!user){
-    return <Navigate to={'/login'}/>
+  if (!user) {
+    return <Navigate to={'/login'} />;
   }
 
   return (
     <Container component="main" maxWidth="lg">
-      <Typography variant='h5' sx={{pb: 2}}>Update your profile</Typography>
+      <Typography variant="h5" sx={{ pb: 2 }}>
+        Update your profile
+      </Typography>
       <form onSubmit={submitFormHandler}>
-        <Grid container direction='column' spacing={2}>
+        <Grid container direction="column" spacing={2}>
           <Grid item xs>
             <TextField
               type="email"
@@ -107,7 +109,9 @@ const UpdateUserForm: React.FC<Props> = ({onSubmit, existingUser}) => {
             />
           </Grid>
           <Grid item xs>
-            <Button type="submit" variant="contained" color="primary">Update profile info</Button>
+            <Button type="submit" variant="contained" color="primary">
+              Update profile info
+            </Button>
           </Grid>
         </Grid>
       </form>

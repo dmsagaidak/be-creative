@@ -1,13 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   ApiResponse,
-  GlobalError, IChangePassword,
+  GlobalError,
+  IChangePassword,
   LoginMutation,
   RegisterMutation,
   RegisterResponse,
   UpdateUserMutation,
   User,
-  ValidationError
+  ValidationError,
 } from '../../types';
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
@@ -16,30 +17,24 @@ interface SearchParam {
   organization?: string;
 }
 
-export const fetchUsers = createAsyncThunk<User[], SearchParam | undefined>(
-  'users/fetch',
-  async (params) => {
-    const queryString =
-      params &&
-      Object.entries(params)
-        .filter(([_, value]) => value !== undefined)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
+export const fetchUsers = createAsyncThunk<User[], SearchParam | undefined>('users/fetch', async (params) => {
+  const queryString =
+    params &&
+    Object.entries(params)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
 
-    const url = `/users${queryString ? `?${queryString}` : ''}`;
+  const url = `/users${queryString ? `?${queryString}` : ''}`;
 
-    const response = await axiosApi.get<User[]>(url);
-    return response.data;
-  }
-)
+  const response = await axiosApi.get<User[]>(url);
+  return response.data;
+});
 
-export const findUserById = createAsyncThunk<User, string>(
-  'users/findById',
-  async (id) => {
-    const response = await axiosApi.get('/users/' + id);
-    return response.data;
-  }
-);
+export const findUserById = createAsyncThunk<User, string>('users/findById', async (id) => {
+  const response = await axiosApi.get('/users/' + id);
+  return response.data;
+});
 
 export const register = createAsyncThunk<User, RegisterMutation, { rejectValue: ValidationError }>(
   'users/register',
@@ -98,48 +93,41 @@ export const logout = createAsyncThunk('users/logout', async () => {
   await axiosApi.delete('/users/sessions');
 });
 
-export const updateUser = createAsyncThunk<void, {id: string, userMutation: UpdateUserMutation},  { rejectValue: ValidationError }>(
-  '/users/update',
-  async ({id, userMutation}, {rejectWithValue}) => {
-    try{
-      const formData = new FormData();
-      const keys = Object.keys(userMutation) as (keyof UpdateUserMutation)[];
-      keys.forEach((key) => {
-        const value = userMutation[key];
-        if (value !== null) {
-          formData.append(key, value);
-        }
-      });
-
-      await axiosApi.patch('/users/' + id, formData);
-    }catch (e) {
-      if (isAxiosError(e) && e.response && e.response.status === 400) {
-        return rejectWithValue(e.response.data as ValidationError);
-      }
-      throw e;
-    }
-  });
-
-export const changePassword = createAsyncThunk<
-  User,
-  IChangePassword,
-  { rejectValue: GlobalError }
->('users/changePassword', async (passwords, { rejectWithValue }) => {
+export const updateUser = createAsyncThunk<
+  void,
+  { id: string; userMutation: UpdateUserMutation },
+  { rejectValue: ValidationError }
+>('/users/update', async ({ id, userMutation }, { rejectWithValue }) => {
   try {
-    const { data } = await axiosApi.post<ApiResponse<User>>(
-      '/users/change-password',
-      passwords,
-    );
-    return data.result as User;
-  } catch (error) {
-    if (
-      isAxiosError(error) &&
-      error.response &&
-      error.response.status === 400
-    ) {
-      return rejectWithValue(error.response.data as GlobalError);
+    const formData = new FormData();
+    const keys = Object.keys(userMutation) as (keyof UpdateUserMutation)[];
+    keys.forEach((key) => {
+      const value = userMutation[key];
+      if (value !== null) {
+        formData.append(key, value);
+      }
+    });
+
+    await axiosApi.patch('/users/' + id, formData);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data as ValidationError);
     }
-    throw error;
+    throw e;
   }
 });
 
+export const changePassword = createAsyncThunk<User, IChangePassword, { rejectValue: GlobalError }>(
+  'users/changePassword',
+  async (passwords, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosApi.post<ApiResponse<User>>('/users/change-password', passwords);
+      return data.result as User;
+    } catch (error) {
+      if (isAxiosError(error) && error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data as GlobalError);
+      }
+      throw error;
+    }
+  },
+);

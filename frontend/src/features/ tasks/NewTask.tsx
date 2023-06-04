@@ -13,21 +13,17 @@ const NewTask = () => {
   const error = useAppSelector(selectTaskCreatingError);
 
   const onFormSubmit = async (taskMutation: TaskMutation) => {
-    try{
+    try {
       await dispatch(createTask(taskMutation)).unwrap();
       navigate('/projects/' + taskMutation.project);
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
   };
 
   return (
     <>
-      <TaskForm
-        onSubmit={onFormSubmit}
-        error={error}
-        loading={createLoading}
-      />
+      <TaskForm onSubmit={onFormSubmit} error={error} loading={createLoading} />
     </>
   );
 };

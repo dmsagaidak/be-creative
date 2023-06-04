@@ -26,7 +26,7 @@ const Chat = () => {
           {
             text: decodedMessage.payload.text,
             username: decodedMessage.payload.username,
-            datetime: new Date().toISOString()
+            datetime: new Date().toISOString(),
           },
         ]);
       }
@@ -47,11 +47,10 @@ const Chat = () => {
         JSON.stringify({
           type: 'LOGIN',
           payload: user?.token,
-        })
+        }),
       );
       setIsLoggedIn(true);
-    }
-
+    };
   };
 
   useEffect(() => {
@@ -67,24 +66,24 @@ const Chat = () => {
         type: 'SEND_MESSAGE',
         payload: messageText,
         username: user?.displayName,
-      })
+      }),
     );
   };
 
   return (
     <Container>
-      <Grid container direction='column'>
+      <Grid container direction="column">
         {messages.map((message, idx) => (
           <Grid item xs key={idx}>
-            <MessageItem message={message}/>
+            <MessageItem message={message} />
           </Grid>
         ))}
-        <Grid item xs sx={{mt: 3}}>
+        <Grid item xs sx={{ mt: 3 }}>
           <ChatForm sendMessage={handleSendMessage} />
         </Grid>
       </Grid>
     </Container>
-  )
+  );
 };
 
 export default Chat;

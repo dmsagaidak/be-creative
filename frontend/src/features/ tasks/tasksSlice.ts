@@ -7,7 +7,7 @@ import {
   fetchTasksByUser,
   removeTask,
   taskToggleStatus,
-  updateTask
+  updateTask,
 } from './tasksThunks';
 import { RootState } from '../../app/store';
 
@@ -35,7 +35,7 @@ const initialState: TaskState = {
   statusToggling: false,
   creatingError: null,
   updatingError: null,
-}
+};
 
 export const tasksSlice = createSlice({
   name: 'tasks',
@@ -45,7 +45,7 @@ export const tasksSlice = createSlice({
     builder.addCase(fetchTasksByProject.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTasksByProject.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchTasksByProject.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -55,7 +55,7 @@ export const tasksSlice = createSlice({
     builder.addCase(fetchTasksByUser.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchTasksByUser.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchTasksByUser.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.items = payload;
     });
@@ -65,7 +65,7 @@ export const tasksSlice = createSlice({
     builder.addCase(fetchOneTask.pending, (state) => {
       state.fetchOneLoading = true;
     });
-    builder.addCase(fetchOneTask.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchOneTask.fulfilled, (state, { payload }) => {
       state.fetchOneLoading = false;
       state.oneItem = payload;
     });
@@ -79,11 +79,11 @@ export const tasksSlice = createSlice({
     builder.addCase(createTask.fulfilled, (state) => {
       state.createLoading = false;
     });
-    builder.addCase(createTask.rejected, (state, {payload: error}) => {
+    builder.addCase(createTask.rejected, (state, { payload: error }) => {
       state.createLoading = false;
       state.creatingError = error || null;
     });
-    builder.addCase(removeTask.pending, (state, {meta: {arg: taskId}}) => {
+    builder.addCase(removeTask.pending, (state, { meta: { arg: taskId } }) => {
       state.deleteLoading = taskId;
     });
     builder.addCase(removeTask.fulfilled, (state) => {
@@ -94,12 +94,12 @@ export const tasksSlice = createSlice({
     });
     builder.addCase(updateTask.pending, (state) => {
       state.updateLoading = true;
-      state.updatingError = null
+      state.updatingError = null;
     });
     builder.addCase(updateTask.fulfilled, (state) => {
       state.updateLoading = false;
     });
-    builder.addCase(updateTask.rejected, (state, {payload: error}) => {
+    builder.addCase(updateTask.rejected, (state, { payload: error }) => {
       state.updateLoading = false;
       state.updatingError = error || null;
     });
@@ -112,7 +112,7 @@ export const tasksSlice = createSlice({
     builder.addCase(taskToggleStatus.rejected, (state) => {
       state.statusToggling = false;
     });
-   },
+  },
 });
 
 export const tasksReducer = tasksSlice.reducer;
@@ -127,4 +127,3 @@ export const selectTaskUpdating = (state: RootState) => state.tasks.updateLoadin
 export const selectTaskTogglingStatus = (state: RootState) => state.tasks.statusToggling;
 export const selectTaskCreatingError = (state: RootState) => state.tasks.creatingError;
 export const selectTaskUpdatingError = (state: RootState) => state.tasks.updatingError;
-

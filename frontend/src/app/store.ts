@@ -7,7 +7,6 @@ import { projectsReducer } from '../features/projects/projectsSlice';
 import { tasksReducer } from '../features/ tasks/tasksSlice';
 import { eventsReducer } from '../features/events/eventsSlice';
 
-
 const usersPersistConfig = {
   key: 'be-creative:users',
   storage,

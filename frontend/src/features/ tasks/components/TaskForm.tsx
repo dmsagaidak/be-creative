@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TaskMutation, ValidationError } from '../../../types';
-import {
-  Button, CircularProgress,
-  Container,
-  Grid,
-  MenuItem,
-  TextField, Typography,
-} from '@mui/material';
+import { Button, CircularProgress, Container, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import { fetchOneProject, fetchProjectsByUser } from '../../projects/projectsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectUser } from '../../users/usersSlice';
@@ -36,16 +30,16 @@ const initialState: TaskMutation = {
   pdfFile: null,
   start: '',
   deadline: '',
-}
+};
 
 const status = {
   todo: 'To do',
   inProgress: 'In progress',
   onHold: 'On hold',
-  done: 'Done'
-}
+  done: 'Done',
+};
 
-const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, loading, isEdit, error}) => {
+const TaskForm: React.FC<Props> = ({ onSubmit, existingTask, fetchTaskLoading, loading, isEdit, error }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const projects = useAppSelector(selectProjects);
@@ -54,14 +48,14 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
   const [state, setState] = useState<TaskMutation>(existingTask || initialState);
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       void dispatch(fetchProjectsByUser(user._id));
     }
   }, [dispatch, user]);
 
   useEffect(() => {
-    if(state.project) {
-      void dispatch(fetchOneProject(state.project))
+    if (state.project) {
+      void dispatch(fetchOneProject(state.project));
     }
   }, [dispatch, state.project]);
 
@@ -96,11 +90,11 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
   return (
     <Container component="main" maxWidth="lg">
       <form onSubmit={submitFormHandler} autoComplete="off">
-        <Typography variant='h5' sx={{pb: 2}}>
+        <Typography variant="h5" sx={{ pb: 2 }}>
           {isEdit ? 'Update' : 'Create new'} task
-          {fetchTaskLoading && (<CircularProgress size={20} sx={{ ml: 1 }} />)}
+          {fetchTaskLoading && <CircularProgress size={20} sx={{ ml: 1 }} />}
         </Typography>
-        <Grid container direction='column' spacing={2}>
+        <Grid container direction="column" spacing={2}>
           <Grid item xs>
             <TextField
               select
@@ -118,7 +112,9 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                 Please, choose a project{' '}
               </MenuItem>
               {projects.map((project) => (
-                <MenuItem key={project._id} value={project._id}>{project.title}</MenuItem>
+                <MenuItem key={project._id} value={project._id}>
+                  {project.title}
+                </MenuItem>
               ))}
             </TextField>
           </Grid>
@@ -140,7 +136,7 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               multiline
               rows={3}
               label="Description"
-              id='description'
+              id="description"
               name="description"
               value={state.description}
               onChange={inputChangeHandler}
@@ -162,7 +158,9 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               error={Boolean(getFieldError('status'))}
               helperText={getFieldError('status')}
             >
-              <MenuItem autoFocus value={status.todo}>To do</MenuItem>
+              <MenuItem autoFocus value={status.todo}>
+                To do
+              </MenuItem>
               <MenuItem value={status.inProgress}>In progress</MenuItem>
               <MenuItem value={status.onHold}>On hold</MenuItem>
               <MenuItem value={status.done}>Done</MenuItem>
@@ -181,7 +179,9 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               helperText={getFieldError('user')}
             >
               {chosenProject?.participants.map((item) => (
-                <MenuItem key={item.user._id} value={item.user._id}>{item.user.displayName}</MenuItem>
+                <MenuItem key={item.user._id} value={item.user._id}>
+                  {item.user.displayName}
+                </MenuItem>
               ))}
             </TextField>
           </Grid>
@@ -202,7 +202,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
               onChange={fileInputChangeHandler}
               name="pdfFile"
               label="Upload File"
-              errorCheck={getFieldError}/>
+              errorCheck={getFieldError}
+            />
           </Grid>
           <Grid item xs>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -210,8 +211,8 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                 label="Choose start date"
                 value={dayjs(state.start)}
                 onChange={(newValue) =>
-                  setState((prevState) =>
-                    ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                  setState((prevState) => ({ ...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '' }))
+                }
                 format={'DD.MM.YYYY'}
                 slotProps={{
                   textField: {
@@ -228,26 +229,22 @@ const TaskForm: React.FC<Props> = ({onSubmit, existingTask, fetchTaskLoading, lo
                 label="Choose deadline date"
                 value={dayjs(state.deadline)}
                 onChange={(newValue) =>
-                  setState((prevState) =>
-                    ({...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                  setState((prevState) => ({ ...prevState, deadline: newValue ? newValue.format('YYYY-MM-DD') : '' }))
+                }
                 format={'DD.MM.YYYY'}
                 slotProps={{
                   textField: {
                     required: true,
-                    helperText: getFieldError('deadline')
+                    helperText: getFieldError('deadline'),
                   },
                 }}
               />
             </LocalizationProvider>
           </Grid>
           <Grid item xs>
-            <Button
-              type="submit"
-              color="success"
-              variant="contained"
-              disabled={loading}
-            >
-              {isEdit? 'Update' : 'Create'} task</Button>
+            <Button type="submit" color="success" variant="contained" disabled={loading}>
+              {isEdit ? 'Update' : 'Create'} task
+            </Button>
           </Grid>
         </Grid>
       </form>

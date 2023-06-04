@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-import {ThemeProvider} from "@mui/material";
-import theme from "./theme";
+import { ThemeProvider } from '@mui/material';
+import theme from './theme';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './app/store';
@@ -14,9 +14,7 @@ import { addInterceptors } from './axiosApi';
 
 addInterceptors(store);
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <Provider store={store}>
@@ -28,5 +26,5 @@ root.render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </GoogleOAuthProvider>
+  </GoogleOAuthProvider>,
 );

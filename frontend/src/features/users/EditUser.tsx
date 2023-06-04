@@ -14,33 +14,24 @@ const EditUser = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(id) {
+    if (id) {
       void dispatch(findUserById(id));
     }
   }, [dispatch, id]);
 
   const onSubmit = async (userMutation: UpdateUserMutation) => {
-    await dispatch(updateUser({id, userMutation})).unwrap();
+    await dispatch(updateUser({ id, userMutation })).unwrap();
     navigate(`/profile/${user?._id}`);
-  }
+  };
 
   const existingUser = user && {
     email: user.email,
     displayName: user.displayName,
     avatar: null,
     organization: user.organization,
-  }
+  };
 
-  return (
-    <Grid container>
-      {existingUser && (
-        <UpdateUserForm
-          onSubmit={onSubmit}
-          existingUser={existingUser}
-        />
-      )}
-    </Grid>
-  );
+  return <Grid container>{existingUser && <UpdateUserForm onSubmit={onSubmit} existingUser={existingUser} />}</Grid>;
 };
 
 export default EditUser;

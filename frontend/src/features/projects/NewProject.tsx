@@ -15,23 +15,22 @@ const NewProject = () => {
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
 
-
   const onFormSubmit = async (project: ProjectMutation) => {
-    try{
-      await dispatch(createProject({project})).unwrap();
+    try {
+      await dispatch(createProject({ project })).unwrap();
       navigate(`/user/${user?._id}/projects`);
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
   };
 
-  if(!user) {
+  if (!user) {
     return <Navigate to={'/login'} />;
   }
 
   return (
     <Container>
-      <ProjectForm onSubmit={onFormSubmit} loading={loading} error={error}/>
+      <ProjectForm onSubmit={onFormSubmit} loading={loading} error={error} />
     </Container>
   );
 };

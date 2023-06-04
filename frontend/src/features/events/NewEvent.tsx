@@ -20,11 +20,7 @@ const NewEvent = () => {
 
   return (
     <Container>
-      <EventForm
-        onSubmit={onFormSubmit}
-        loading={eventCreating}
-        error={error}
-      />
+      <EventForm onSubmit={onFormSubmit} loading={eventCreating} error={error} />
     </Container>
   );
 };

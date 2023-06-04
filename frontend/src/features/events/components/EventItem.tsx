@@ -10,21 +10,15 @@ interface Props {
   end?: Date;
 }
 
-const EventItem: React.FC<Props> = ({title, start, end, createdBy }) => {
+const EventItem: React.FC<Props> = ({ title, start, end, createdBy }) => {
   return (
-    <Grid container spacing={2} direction="column" sx={{p: 2}}>
+    <Grid container spacing={2} direction="column" sx={{ p: 2 }}>
       <Typography variant="h5" component="p">
         {title}
       </Typography>
-      <Typography component="p">
-        Start: {dayjs(start).format('DD.MM.YYYY')}
-      </Typography>
-      <Typography component="p">
-        End: {dayjs(end).format('DD.MM.YYYY')}
-      </Typography>
-      <Typography component="p">
-        Added {createdBy.displayName}
-      </Typography>
+      <Typography component="p">Start: {dayjs(start).format('DD.MM.YYYY')}</Typography>
+      <Typography component="p">End: {dayjs(end).format('DD.MM.YYYY')}</Typography>
+      <Typography component="p">Added {createdBy.displayName}</Typography>
     </Grid>
   );
 };

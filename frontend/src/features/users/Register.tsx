@@ -21,7 +21,6 @@ const Register = () => {
     organization: '',
   });
 
-
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -56,7 +55,6 @@ const Register = () => {
     }
   };
 
-
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -65,7 +63,8 @@ const Register = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-        }}>
+        }}
+      >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -79,7 +78,7 @@ const Register = () => {
                 required
                 label="Email"
                 name="email"
-                type='email'
+                type="email"
                 value={state.email}
                 onChange={inputChangeHandler}
                 error={Boolean(getFieldError('email'))}
@@ -122,7 +121,6 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-
                 name="organization"
                 label="Organization"
                 type="organization"

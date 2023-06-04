@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-  selectOneProject,
-  selectProjectUpdateError,
-  selectProjectUpdating
-} from './projectsSlice';
+import { selectOneProject, selectProjectUpdateError, selectProjectUpdating } from './projectsSlice';
 import { selectUser } from '../users/usersSlice';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { fetchOneProject, updateProject } from './projectsThunks';
@@ -22,16 +18,16 @@ const EditProject = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(id) {
+    if (id) {
       void dispatch(fetchOneProject(id));
     }
   }, [dispatch, id]);
 
   const onSubmit = async (project: ProjectMutation) => {
-    try{
-      await dispatch(updateProject({id, project})).unwrap();
+    try {
+      await dispatch(updateProject({ id, project })).unwrap();
       navigate('/projects/' + id);
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
   };
@@ -42,23 +38,18 @@ const EditProject = () => {
     start: project.start,
     deadline: project.deadline,
     image: null,
-    participants: project.participants.map((item) => (
-      {role: item.role, user: item.user._id}
-    )),
+    participants: project.participants.map((item) => ({ role: item.role, user: item.user._id })),
   };
 
-  if(!user) {
+  if (!user) {
     return <Navigate to={'/login'} />;
   }
 
   return (
     <Container>
-      {existingProject && (<ProjectForm
-        onSubmit={onSubmit}
-        loading={loading}
-        error={error}
-        existingProject={existingProject}
-        isEdit/>)}
+      {existingProject && (
+        <ProjectForm onSubmit={onSubmit} loading={loading} error={error} existingProject={existingProject} isEdit />
+      )}
     </Container>
   );
 };

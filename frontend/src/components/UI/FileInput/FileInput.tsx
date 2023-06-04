@@ -9,13 +9,7 @@ interface Props {
   errorCheck: (fieldName: string) => string | undefined;
 }
 
-const FileInput: React.FC<Props> = ({
-  onChange,
-  name,
-  label,
-  type,
-  errorCheck,
-}) => {
+const FileInput: React.FC<Props> = ({ onChange, name, label, type, errorCheck }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [filename, setFilename] = useState('');
@@ -37,14 +31,7 @@ const FileInput: React.FC<Props> = ({
 
   return (
     <>
-      <input
-        style={{ display: 'none' }}
-        type="file"
-        accept={type}
-        name={name}
-        onChange={onFileChange}
-        ref={inputRef}
-      />
+      <input style={{ display: 'none' }} type="file" accept={type} name={name} onChange={onFileChange} ref={inputRef} />
       <Grid container direction="row" spacing={2} alignItems="center">
         <Grid item xs>
           <TextField

@@ -26,36 +26,36 @@ import InvolvedProjects from './features/users/InvolvedProjects';
 function App() {
   return (
     <>
-      <CssBaseline/>
+      <CssBaseline />
       <header>
-        <AppToolbar/>
+        <AppToolbar />
       </header>
       <main style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
         <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/register' element={<Register/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/profile/:id' element={<Profile/>}/>
-          <Route path='/profile/:id/change-password' element={<ChangePassword/>}/>
-          <Route path='/edit-user/:id' element={<EditUser/>}/>
-          <Route path='/projects/new' element={<NewProject/>}/>
-          <Route path='/projects/:id' element={<ProjectPage/>}/>
-          <Route path='/edit-project/:id' element={<EditProject/>}/>
-          <Route path='/tasks/:id' element={<TaskPage/>}/>
-          <Route path='/tasks/new' element={<NewTask/>}/>
-          <Route path='/edit-task/:id' element={<EditTask/>}/>
-          <Route path='/chat' element={<Chat/>}/>
-          <Route path='/user/:id/projects' element={<MyProjects/>}/>
-          <Route path='/user/:id/tasks' element={<MyTasks/>}/>
-          <Route path='/user/:id/involved' element={<InvolvedProjects/>}/>
-          <Route path='/calendar' element={<Calendar/>}/>
-          <Route path='/events/new' element={<NewEvent/>}/>
-          <Route path='/edit-event/:id' element={<UpdateEvent/>}/>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/profile/:id/change-password" element={<ChangePassword />} />
+          <Route path="/edit-user/:id" element={<EditUser />} />
+          <Route path="/projects/new" element={<NewProject />} />
+          <Route path="/projects/:id" element={<ProjectPage />} />
+          <Route path="/edit-project/:id" element={<EditProject />} />
+          <Route path="/tasks/:id" element={<TaskPage />} />
+          <Route path="/tasks/new" element={<NewTask />} />
+          <Route path="/edit-task/:id" element={<EditTask />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/user/:id/projects" element={<MyProjects />} />
+          <Route path="/user/:id/tasks" element={<MyTasks />} />
+          <Route path="/user/:id/involved" element={<InvolvedProjects />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/events/new" element={<NewEvent />} />
+          <Route path="/edit-event/:id" element={<UpdateEvent />} />
           <Route path="*" element={<h1>Not found!</h1>} />
         </Routes>
       </main>
       <footer>
-        <Footer/>
+        <Footer />
       </footer>
     </>
   );

@@ -23,12 +23,13 @@ const MyTasks = () => {
     <Container>
       <Grid container direction="column">
         <Typography variant="h6">{user?.displayName}'s tasks: </Typography>
-        {tasks.length ?  tasks.map((task) => (
-          <TaskCard key={task._id} task={task}/>
-        )) : (<Alert severity="info">This user has no tasks assigned</Alert>)}
+        {tasks.length ? (
+          tasks.map((task) => <TaskCard key={task._id} task={task} />)
+        ) : (
+          <Alert severity="info">This user has no tasks assigned</Alert>
+        )}
       </Grid>
     </Container>
-
   );
 };
 

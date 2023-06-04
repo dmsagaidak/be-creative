@@ -18,31 +18,27 @@ const MyProjects = () => {
   const projects = useAppSelector(selectProjects);
   const projectsFetching = useAppSelector(selectProjectsFetching);
 
-
   useEffect(() => {
     void dispatch(fetchProjectsByUser(id));
-      void dispatch(findUserById(id));
+    void dispatch(findUserById(id));
   }, [dispatch, id]);
 
-  const currentProjects = (projects.length ? projects.map((project) => (
-      <ProjectItem key={project._id} project={project}/>
-    )) : (<Alert severity="info">You haven't created any project</Alert>)
+  const currentProjects = projects.length ? (
+    projects.map((project) => <ProjectItem key={project._id} project={project} />)
+  ) : (
+    <Alert severity="info">You haven't created any project</Alert>
   );
 
   return (
     <Container>
-      <Grid container direction='column' style={{paddingTop: '35px'}}>
-        <Typography
-          variant='h4'
-          style={{paddingBottom: '20px'}}
-        >
+      <Grid container direction="column" style={{ paddingTop: '35px' }}>
+        <Typography variant="h4" style={{ paddingBottom: '20px' }}>
           {user?.displayName}'s projects
-          <IconButton
-            onClick={() => navigate('/projects/new')}
-          ><AddIcon/>
+          <IconButton onClick={() => navigate('/projects/new')}>
+            <AddIcon />
           </IconButton>
         </Typography>
-        {projectsFetching ? <CircularProgressElement/> : currentProjects}
+        {projectsFetching ? <CircularProgressElement /> : currentProjects}
       </Grid>
     </Container>
   );

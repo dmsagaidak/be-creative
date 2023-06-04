@@ -8,7 +8,7 @@ import {
   login,
   logout,
   register,
-  updateUser
+  updateUser,
 } from './usersThunks';
 import { RootState } from '../../app/store';
 
@@ -54,7 +54,7 @@ export const usersSlice = createSlice({
     builder.addCase(fetchUsers.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(fetchUsers.fulfilled, (state, {payload}) => {
+    builder.addCase(fetchUsers.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.users = payload;
     });
@@ -64,7 +64,7 @@ export const usersSlice = createSlice({
     builder.addCase(findUserById.pending, (state) => {
       state.fetchLoading = true;
     });
-    builder.addCase(findUserById.fulfilled, (state, {payload}) => {
+    builder.addCase(findUserById.fulfilled, (state, { payload }) => {
       state.fetchLoading = false;
       state.userById = payload;
     });
@@ -139,7 +139,7 @@ export const usersSlice = createSlice({
       state.passwordChanging = false;
       state.passwordChangeError = error || null;
     });
-  }
+  },
 });
 
 export const usersReducer = usersSlice.reducer;
@@ -152,7 +152,5 @@ export const selectLoginLoading = (state: RootState) => state.users.loginLoading
 export const selectLoginError = (state: RootState) => state.users.loginError;
 export const selectLogoutLoading = (state: RootState) => state.users.logoutLoading;
 export const selectUpdateUserError = (state: RootState) => state.users.updateUserError;
-export const selectPasswordChanging = (state: RootState) =>
-  state.users.passwordChanging;
-export const selectPasswordChangeError = (state: RootState) =>
-  state.users.passwordChangeError;
+export const selectPasswordChanging = (state: RootState) => state.users.passwordChanging;
+export const selectPasswordChangeError = (state: RootState) => state.users.passwordChangeError;

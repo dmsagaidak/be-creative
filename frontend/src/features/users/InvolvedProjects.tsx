@@ -19,23 +19,19 @@ const InvolvedProjects = () => {
     void dispatch(fetchProjectByParticipant(id));
   }, [dispatch, id]);
 
-  const currentProjects = (projects.length ?
-    projects.map((project) => (
-      <ProjectItem key={project._id} project={project}/>
-    )) :
-      ((<Alert severity="info">You are not involved in any project</Alert>))
-  )
+  const currentProjects = projects.length ? (
+    projects.map((project) => <ProjectItem key={project._id} project={project} />)
+  ) : (
+    <Alert severity="info">You are not involved in any project</Alert>
+  );
 
   return (
     <Container>
-      <Grid container direction='column' style={{paddingTop: '35px'}}>
-        <Typography
-          variant='h4'
-          style={{paddingBottom: '20px'}}
-        >
+      <Grid container direction="column" style={{ paddingTop: '35px' }}>
+        <Typography variant="h4" style={{ paddingBottom: '20px' }}>
           Projects {user?.displayName} participates in
         </Typography>
-        {projectsFetching ? <CircularProgressElement/> : currentProjects}
+        {projectsFetching ? <CircularProgressElement /> : currentProjects}
       </Grid>
     </Container>
   );

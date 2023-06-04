@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Container, Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import ProjectsBlock from './components/ProjectsBlock/ProjectsBlock';
 import TopBlock from './components/TopBlock/TopBlock';
 import OurAdvantages from './components/OurAdvantages/OurAdvantages';
@@ -8,14 +8,14 @@ const Home = () => {
   return (
     <>
       <Container>
-        <TopBlock/>
+        <TopBlock />
       </Container>
-      <Grid container direction='column' style={{marginTop: '90px'}}>
+      <Grid container direction="column" style={{ marginTop: '90px' }}>
         <Grid item xs>
-          <ProjectsBlock/>
+          <ProjectsBlock />
         </Grid>
         <Grid item xs>
-          <OurAdvantages/>
+          <OurAdvantages />
         </Grid>
       </Grid>
     </>

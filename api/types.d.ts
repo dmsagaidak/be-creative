@@ -1,21 +1,21 @@
-import {WebSocket} from 'ws';
+import { WebSocket } from 'ws';
 
 export interface ActiveConnections {
-    [id: string]: WebSocket
+  [id: string]: WebSocket;
 }
 
 export interface IncomingMessage {
-    type: string;
-    payload: string;
+  type: string;
+  payload: string;
 }
 
 export interface IUser {
-    email: string;
-    password: string;
-    token: string;
-    displayName: string;
-    role: string;
-    organization: string;
-    googleId?: string;
-    avatar: string | null;
+  email: string;
+  password: string;
+  token: string;
+  displayName: string;
+  role: string;
+  organization: string;
+  googleId?: string;
+  avatar: string | null;
 }

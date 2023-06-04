@@ -34,112 +34,126 @@ const ProjectPage = () => {
   }, [dispatch, id]);
 
   const deleteProject = async (projectId: string) => {
-    if(window.confirm('Do you really want to remove this project?')) {
+    if (window.confirm('Do you really want to remove this project?')) {
       const result = await dispatch(removeProject(projectId));
 
-      if(result.meta.requestStatus === 'rejected') {
+      if (result.meta.requestStatus === 'rejected') {
         window.alert('This project cannot be removed because it has related tasks');
-      }else {
+      } else {
         navigate(`/user/${user?._id}/projects`);
       }
     }
   };
 
-  const styleColor = project?.status === 'Not started' ?
-    theme.palette.primary.main : project?.status === 'Ongoing' ?
-'#32CD32' : theme.palette.secondary.light;
+  const styleColor =
+    project?.status === 'Not started'
+      ? theme.palette.primary.main
+      : project?.status === 'Ongoing'
+      ? '#32CD32'
+      : theme.palette.secondary.light;
 
   return (
     <Container>
-      {projectFetching ?
-        <CircularProgressElement/> :
-        (<>
-          <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
-            <Typography variant='h3' fontSize={headingFS}>{project?.title}</Typography>
+      {projectFetching ? (
+        <CircularProgressElement />
+      ) : (
+        <>
+          <Grid container style={pageTopStyle} direction="row" justifyContent="space-between">
+            <Typography variant="h3" fontSize={headingFS}>
+              {project?.title}
+            </Typography>
             {project && user?._id === project?.leader._id ? (
               <Grid item>
-                <IconButton
-                  onClick={() => navigate('/edit-project/' + project?._id)}
-                ><EditIcon/></IconButton>
-                <IconButton
-                  onClick={() => deleteProject(project._id)}
-                ><DeleteIcon/></IconButton>
+                <IconButton onClick={() => navigate('/edit-project/' + project?._id)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => deleteProject(project._id)}>
+                  <DeleteIcon />
+                </IconButton>
               </Grid>
-            ) : (<> <Typography></Typography></>)}
+            ) : (
+              <>
+                {' '}
+                <Typography></Typography>
+              </>
+            )}
           </Grid>
-            <Grid container direction="column" style={pageBodyStyle}>
-              <Grid item xs sx={{p: 2, textAlign: 'center'}}>
-                <Typography
-                  component="img"
-                  src={apiUrl + '/' + project?.image}
-                  alt={project?.title}
-                  width="50vw"
-                  borderRadius="10px"
-                />
-              </Grid>
-              <Grid item xs>
-                <Typography component='p' style={pageSubheading}>Description:</Typography>
-                <Typography component='p' sx={{pb: 1}}>{project?.description}</Typography>
-                <Divider />
-                <Typography component='p' style={pageSubheading}>Status: <Typography component='span' style={{color: styleColor, fontWeight: 700}}>{project?.status}</Typography></Typography>
-                <Divider />
-                <List>
-                  <Typography style={pageSubheading}>Project team:</Typography>
-                  <ListItem>Leader:
+          <Grid container direction="column" style={pageBodyStyle}>
+            <Grid item xs sx={{ p: 2, textAlign: 'center' }}>
+              <Typography
+                component="img"
+                src={apiUrl + '/' + project?.image}
+                alt={project?.title}
+                width="50vw"
+                borderRadius="10px"
+              />
+            </Grid>
+            <Grid item xs>
+              <Typography component="p" style={pageSubheading}>
+                Description:
+              </Typography>
+              <Typography component="p" sx={{ pb: 1 }}>
+                {project?.description}
+              </Typography>
+              <Divider />
+              <Typography component="p" style={pageSubheading}>
+                Status:{' '}
+                <Typography component="span" style={{ color: styleColor, fontWeight: 700 }}>
+                  {project?.status}
+                </Typography>
+              </Typography>
+              <Divider />
+              <List>
+                <Typography style={pageSubheading}>Project team:</Typography>
+                <ListItem>
+                  Leader:
+                  <Typography
+                    component="a"
+                    href={'/profile/' + project?.leader._id}
+                    style={{ textDecoration: 'none', paddingLeft: '8px' }}
+                  >
+                    {project?.leader.displayName}
+                  </Typography>
+                </ListItem>
+                {project?.participants.map((item, idx) => (
+                  <ListItem key={idx}>
+                    {item.role}:
                     <Typography
-                      component='a'
-                      href={'/profile/'+project?.leader._id}
-                      style={{textDecoration: 'none', paddingLeft: '8px'}}>
-                      {project?.leader.displayName}
+                      component="a"
+                      href={'/profile/' + item.user._id}
+                      style={{ textDecoration: 'none', paddingLeft: '8px' }}
+                    >
+                      {item.user.displayName}
                     </Typography>
                   </ListItem>
-                  {project?.participants.map((item, idx) => (
-                    <ListItem key={idx}>
-                      {item.role}:
-                      <Typography
-                        component='a'  href={'/profile/' + item.user._id}
-                        style={{textDecoration: 'none', paddingLeft: '8px'}}
-                      >
-                        {item.user.displayName}
-                      </Typography>
-                    </ListItem>
-                  ))}
-                </List>
-                <Typography component="p">
-                  From {dayjs(project?.start).format('DD.MM.YYYY')} to {dayjs(project?.deadline).format('DD.MM.YYYY')}
-                </Typography>
-              </Grid>
-            <Grid item xs sx={{pb: 3}}>
-              <Typography
-                component='p'
-                style={pageSubheading}
-              >
+                ))}
+              </List>
+              <Typography component="p">
+                From {dayjs(project?.start).format('DD.MM.YYYY')} to {dayjs(project?.deadline).format('DD.MM.YYYY')}
+              </Typography>
+            </Grid>
+            <Grid item xs sx={{ pb: 3 }}>
+              <Typography component="p" style={pageSubheading}>
                 Tasks:{' '}
-                {project?.status !== 'Finished' &&
-                  (<IconButton
-                    component={Link}
-                    href="/tasks/new"><AddIcon/>
-                  </IconButton> )
-                }
+                {project?.status !== 'Finished' && (
+                  <IconButton component={Link} href="/tasks/new">
+                    <AddIcon />
+                  </IconButton>
+                )}
               </Typography>
               <Grid item container direction="column" alignContent="center">
-                {tasksFetching ?
-                  <CircularProgressElement/> :
-                  tasks.length ?
-                    tasks.map((task) => (
-                  <TaskItem
-                    key={task._id}
-                    task={task}
-                  />
-                )) :
-                    (<Alert severity="info">
-                      No tasks in this project. Please push + button to add one
-                    </Alert>)}
+                {tasksFetching ? (
+                  <CircularProgressElement />
+                ) : tasks.length ? (
+                  tasks.map((task) => <TaskItem key={task._id} task={task} />)
+                ) : (
+                  <Alert severity="info">No tasks in this project. Please push + button to add one</Alert>
+                )}
               </Grid>
             </Grid>
           </Grid>
-        </>)}
-
+        </>
+      )}
     </Container>
   );
 };

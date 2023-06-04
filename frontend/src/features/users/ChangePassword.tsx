@@ -30,13 +30,15 @@ const ChangePassword = () => {
     navigate('/');
   };
 
-  if(!user){
-    return <Navigate to={'/login'}/>
+  if (!user) {
+    return <Navigate to={'/login'} />;
   }
 
   return (
     <Container component="main" maxWidth="lg">
-      <Typography variant='h5' sx={{pb: 2}}>Change your password</Typography>
+      <Typography variant="h5" sx={{ pb: 2 }}>
+        Change your password
+      </Typography>
       {error && (
         <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
           {error.error}

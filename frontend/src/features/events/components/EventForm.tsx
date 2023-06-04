@@ -18,14 +18,12 @@ const initialState: EventMutation = {
   title: '',
   start: '',
   end: '',
-}
+};
 
 const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit, error }) => {
   const [state, setState] = useState<EventMutation>(existingEvent || initialState);
 
-  const inputChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => {
       return { ...prevState, [name]: value };
@@ -49,8 +47,8 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit, 
     <>
       <form onSubmit={submitFormHandler}>
         <Grid container direction="column">
-          <Typography variant='h5'>{isEdit ? 'Update' : 'Add'} event or note</Typography>
-          <Grid item sx={{pb: 1}}>
+          <Typography variant="h5">{isEdit ? 'Update' : 'Add'} event or note</Typography>
+          <Grid item sx={{ pb: 1 }}>
             <TextField
               id="title"
               name="title"
@@ -69,44 +67,39 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit, 
                 label="Choose start date"
                 value={dayjs(state.start)}
                 onChange={(newValue) =>
-                  setState((prevState) =>
-                    ({...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                  setState((prevState) => ({ ...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '' }))
+                }
                 format={'DD.MM.YYYY'}
                 slotProps={{
                   textField: {
                     required: true,
-                    helperText: getFieldError('start')
+                    helperText: getFieldError('start'),
                   },
                 }}
-                />
+              />
             </LocalizationProvider>
           </Grid>
-          <Grid item sx={{pb: 1}}>
+          <Grid item sx={{ pb: 1 }}>
             <Typography component="p">End date</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Choose end date"
                 value={dayjs(state.end)}
                 onChange={(newValue) =>
-              setState((prevState) =>
-                ({...prevState, end: newValue ? newValue.format('YYYY-MM-DD') : '',}))}
+                  setState((prevState) => ({ ...prevState, end: newValue ? newValue.format('YYYY-MM-DD') : '' }))
+                }
                 format={'DD.MM.YYYY'}
                 slotProps={{
                   textField: {
                     required: true,
-                    helperText: getFieldError('end')
+                    helperText: getFieldError('end'),
                   },
                 }}
-                />
+              />
             </LocalizationProvider>
           </Grid>
           <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              type='submit'
-              disabled={loading}
-            >
+            <Button variant="contained" color="primary" type="submit" disabled={loading}>
               Submit
             </Button>
           </Grid>

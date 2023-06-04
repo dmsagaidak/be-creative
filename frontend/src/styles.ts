@@ -27,7 +27,7 @@ export const ListItemStyle = {
   margin: '0 0 25px 0 ',
 };
 
-export const headingFS = {xs: '20px', sm: '30px', md: '40px', lg: '55px'}
+export const headingFS = { xs: '20px', sm: '30px', md: '40px', lg: '55px' };
 
 export const pageSubheading = {
   fontSize: '20px',
@@ -47,6 +47,5 @@ export const profileItemCard = {
   padding: '10px',
   boxShadow,
   cursor: 'pointer',
-  marginTop: '15px'
-}
-
+  marginTop: '15px',
+};

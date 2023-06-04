@@ -8,14 +8,13 @@ interface Props {
   task: Task;
 }
 
-const TaskCardMini: React.FC<Props> = ({task}) => {
+const TaskCardMini: React.FC<Props> = ({ task }) => {
   const navigate = useNavigate();
   return (
-    <Card
-      onClick={() => navigate(`/tasks/${task._id}`)}
-      style={profileItemCard}
-    >
-      <Typography component="p" fontWeight={700}>{task.title}</Typography>
+    <Card onClick={() => navigate(`/tasks/${task._id}`)} style={profileItemCard}>
+      <Typography component="p" fontWeight={700}>
+        {task.title}
+      </Typography>
       <Typography component="p">Project: {task.project.title}</Typography>
       <Typography component="p">Status: {task.status}</Typography>
     </Card>

@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import { apiUrl } from '../../constants';
 
 const TaskPage = () => {
-  const {id} = useParams() as {id: string};
+  const { id } = useParams() as { id: string };
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const task = useAppSelector(selectOneTask);
@@ -29,7 +29,7 @@ const TaskPage = () => {
   }, [task]);
 
   const deleteTask = async (id: string) => {
-    if(window.confirm('Do you really want to remove this task?')) {
+    if (window.confirm('Do you really want to remove this task?')) {
       await dispatch(removeTask(id));
       const project = task?.project._id;
       navigate('/projects/' + project);
@@ -40,10 +40,10 @@ const TaskPage = () => {
     todo: 'To do',
     inProgress: 'In progress',
     onHold: 'On hold',
-    done: 'Done'
+    done: 'Done',
   };
 
-  const [state, setState] = useState({status: ''});
+  const [state, setState] = useState({ status: '' });
 
   const inputChangeHandler = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -55,7 +55,7 @@ const TaskPage = () => {
   const onTaskSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (task) {
-      await dispatch(taskToggleStatus({...task, status: state.status}));
+      await dispatch(taskToggleStatus({ ...task, status: state.status }));
       await dispatch(fetchOneTask(id));
     }
   };
@@ -84,105 +84,107 @@ const TaskPage = () => {
 
   return (
     <Container>
-      <Grid container style={pageTopStyle} direction='row' justifyContent='space-between'>
-        <Typography variant='h3'>{task?.title}</Typography>
-        {task && user?._id === task.createdBy._id ?
-          ( <Grid item>
+      <Grid container style={pageTopStyle} direction="row" justifyContent="space-between">
+        <Typography variant="h3">{task?.title}</Typography>
+        {task && user?._id === task.createdBy._id ? (
+          <Grid item>
             <IconButton onClick={() => navigate(`/edit-task/${task?._id}`)}>
-              <EditIcon/>
+              <EditIcon />
             </IconButton>
             <IconButton onClick={() => deleteTask(task._id)}>
-              <DeleteIcon/>
+              <DeleteIcon />
             </IconButton>
-          </Grid>) :
-          (<Typography></Typography>)
-        }
+          </Grid>
+        ) : (
+          <Typography></Typography>
+        )}
       </Grid>
-      <Grid container direction='column' style={pageBodyStyle}>
-        <Grid item xs sx={{pt: 1}}>
-          <Typography component='p' style={{fontWeight: 700}}>Description:</Typography>
-          <Typography component='p' sx={{pb: 1}}>{task?.description}</Typography>
-        </Grid>
-        <Divider />
-        <Grid item xs sx={{pt: 2, pb: 1}}>
-          <Typography component="p" style={{fontWeight: 700}}>Project</Typography>
-          <Typography
-            component="a"
-            href={`/projects/${task?.project._id}`}
-            style={{textDecoration: 'none'}}
-          >{task?.project.title}
+      <Grid container direction="column" style={pageBodyStyle}>
+        <Grid item xs sx={{ pt: 1 }}>
+          <Typography component="p" style={{ fontWeight: 700 }}>
+            Description:
+          </Typography>
+          <Typography component="p" sx={{ pb: 1 }}>
+            {task?.description}
           </Typography>
         </Grid>
-        <Divider/>
-        <Grid item xs sx={{pt: 2, pb: 2}}>
-          <Typography
-            component='p'
-            style={{fontWeight: 700}}
-          >
+        <Divider />
+        <Grid item xs sx={{ pt: 2, pb: 1 }}>
+          <Typography component="p" style={{ fontWeight: 700 }}>
+            Project
+          </Typography>
+          <Typography component="a" href={`/projects/${task?.project._id}`} style={{ textDecoration: 'none' }}>
+            {task?.project.title}
+          </Typography>
+        </Grid>
+        <Divider />
+        <Grid item xs sx={{ pt: 2, pb: 2 }}>
+          <Typography component="p" style={{ fontWeight: 700 }}>
             Status: {task?.status}
           </Typography>
 
-          {user && user._id === task?.createdBy._id || user && user._id === task?.user._id  ?
-            (<Typography
-              component='div'
-              sx={{pt: 2}}
-            >
+          {(user && user._id === task?.createdBy._id) || (user && user._id === task?.user._id) ? (
+            <Typography component="div" sx={{ pt: 2 }}>
               {changeStatus}
-            </Typography>) :
-            (<Typography></Typography>)}
-
+            </Typography>
+          ) : (
+            <Typography></Typography>
+          )}
         </Grid>
         <Divider />
-        <Grid item xs sx={{pt: 2, pb: 2}}>
-          {task?.user ?
-            (<Typography style={{fontWeight: 700}} component='p'>Assigned to
+        <Grid item xs sx={{ pt: 2, pb: 2 }}>
+          {task?.user ? (
+            <Typography style={{ fontWeight: 700 }} component="p">
+              Assigned to
               <Typography
                 component="a"
-                style={{fontWeight: 700, paddingLeft: '10px', textDecoration: 'none'}}
-                href={`/profile/${task.user._id}`}>
+                style={{ fontWeight: 700, paddingLeft: '10px', textDecoration: 'none' }}
+                href={`/profile/${task.user._id}`}
+              >
                 {task.user.displayName}
               </Typography>
-            </Typography>) :
-            (<Typography fontWeight={700}  component='p'>Unassigned</Typography>)}
+            </Typography>
+          ) : (
+            <Typography fontWeight={700} component="p">
+              Unassigned
+            </Typography>
+          )}
         </Grid>
-        <Divider/>
-        <Grid item xs sx={{pt: 2, pb: 2}}>
-          <Typography
-            style={{fontWeight: 700}}
-            component='p'
-          >
+        <Divider />
+        <Grid item xs sx={{ pt: 2, pb: 2 }}>
+          <Typography style={{ fontWeight: 700 }} component="p">
             Start:
             {dayjs(task?.start).format('DD.MM.YYYY')}
           </Typography>
-          <Typography
-            style={{fontWeight: 700}}
-            component='p'
-          >
+          <Typography style={{ fontWeight: 700 }} component="p">
             Deadline:
             {dayjs(task?.deadline).format('DD.MM.YYYY')}
           </Typography>
         </Grid>
-        <Divider/>
-        <Grid item xs sx={{pt: 2, pb: 2}}>
-          <Typography
-            style={{fontWeight: 700, paddingTop: '7px', paddingBottom: '7px'}}
-            component='div'>
+        <Divider />
+        <Grid item xs sx={{ pt: 2, pb: 2 }}>
+          <Typography style={{ fontWeight: 700, paddingTop: '7px', paddingBottom: '7px' }} component="div">
             Link:
-            {task?.link ?
-              (<IconButton component="a" href={task.link}><DoubleArrowIcon/></IconButton>) :
-              (<Typography>No link provided</Typography>)}
+            {task?.link ? (
+              <IconButton component="a" href={task.link}>
+                <DoubleArrowIcon />
+              </IconButton>
+            ) : (
+              <Typography>No link provided</Typography>
+            )}
           </Typography>
         </Grid>
-        <Divider/>
-        <Grid item xs sx={{pt: 2, pb: 2}}>
-          <Typography
-            style={{fontWeight: 700}}
-            component="div">
+        <Divider />
+        <Grid item xs sx={{ pt: 2, pb: 2 }}>
+          <Typography style={{ fontWeight: 700 }} component="div">
             PDF file:
-            {task?.pdfFile ?
-              (<IconButton component="a" href={apiUrl + '/' + task.pdfFile}><FileDownloadIcon/></IconButton>) :
-              (<Typography>No file provided</Typography>)
-            }
+            {task?.pdfFile ? (
+              <IconButton component="a" href={apiUrl + '/' + task.pdfFile}>
+                <FileDownloadIcon />
+              </IconButton>
+            ) : (
+              <Typography>No file provided</Typography>
+            )}
           </Typography>
         </Grid>
       </Grid>

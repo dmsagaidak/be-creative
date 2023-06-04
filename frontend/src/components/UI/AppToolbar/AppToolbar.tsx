@@ -36,28 +36,19 @@ const AppToolbar = () => {
               <Link to="/">BeCreative</Link>
             </Typography>
           </Grid>
-          <Grid
-            item
-            container
-            alignItems="center"
-            justifyContent="flex-end"
-            xs={11}
-            md={9}
-          >
-            {user ?
-              (<Typography display={{xs: 'none', sm: 'block'}}>
-                <Button
-                onClick={() => navigate('/calendar')}
-                color="inherit"
-              >
-                Calendar
-              </Button>
-                <Button
-                  onClick={() => navigate('/chat')} color="inherit"
-                >
+          <Grid item container alignItems="center" justifyContent="flex-end" xs={11} md={9}>
+            {user ? (
+              <Typography display={{ xs: 'none', sm: 'block' }}>
+                <Button onClick={() => navigate('/calendar')} color="inherit">
+                  Calendar
+                </Button>
+                <Button onClick={() => navigate('/chat')} color="inherit">
                   Chat
                 </Button>
-              </Typography>) : (<Typography></Typography>)}
+              </Typography>
+            ) : (
+              <Typography></Typography>
+            )}
             {loginLoading || registerLoading || logoutLoading ? (
               <CircularProgressElement />
             ) : user ? (

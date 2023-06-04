@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from "@fullcalendar/interaction";
-import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { Button, Container, Dialog, DialogContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectEventDeleting, selectEvents, selectEventsFetching, selectOneEventFetching } from './eventsSlice';
@@ -34,53 +34,56 @@ const Calendar = () => {
   };
 
   const deleteEvent = async (id: string) => {
-    if(window.confirm('Do you really want to remove this event?')) {
+    if (window.confirm('Do you really want to remove this event?')) {
       await dispatch(removeEvent(id));
       setOpenEventDialog(false);
       await dispatch(fetchEvents());
     }
   };
 
-  if(!user) {
-    return <Navigate to={'/login'}/>
+  if (!user) {
+    return <Navigate to={'/login'} />;
   }
 
   return (
     <Container>
-      <Button type="button" onClick={() => navigate('/events/new')}>Add event</Button>
+      <Button type="button" onClick={() => navigate('/events/new')}>
+        Add event
+      </Button>
 
-      {eventsFetching ?
-        <CircularProgressElement/> :
-        (<FullCalendar
-          plugins={[ dayGridPlugin, timeGridPlugin, interactionPlugin ]}
+      {eventsFetching ? (
+        <CircularProgressElement />
+      ) : (
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           events={events}
           editable={true}
           selectable={true}
           selectMirror={true}
           eventClick={handleEventClick}
-        />)}
+        />
+      )}
       <Dialog open={openEventDialog} onClose={() => setOpenEventDialog(false)}>
         <DialogContent>
-          {oneEventFetching ?
-            <CircularProgressElement/>
-            : currentEvent
-            &&
-            (<>
-              <EventItem
-                title={currentEvent.event._def.title}
-                start={currentEvent.event._instance?.range.start}
-                end={currentEvent.event._instance?.range.end}
-                createdBy={currentEvent.event._def.extendedProps.createdBy}
-              />
-              {user?._id === currentEvent.event._def.extendedProps.createdBy._id ?
-                (
+          {oneEventFetching ? (
+            <CircularProgressElement />
+          ) : (
+            currentEvent && (
+              <>
+                <EventItem
+                  title={currentEvent.event._def.title}
+                  start={currentEvent.event._instance?.range.start}
+                  end={currentEvent.event._instance?.range.end}
+                  createdBy={currentEvent.event._def.extendedProps.createdBy}
+                />
+                {user?._id === currentEvent.event._def.extendedProps.createdBy._id ? (
                   <>
                     <Button
                       variant="outlined"
                       color="info"
                       onClick={() => navigate('/edit-event/' + currentEvent.event._def.extendedProps._id)}
-                      sx={{mr: 3}}
+                      sx={{ mr: 3 }}
                     >
                       Edit
                     </Button>
@@ -93,10 +96,12 @@ const Calendar = () => {
                       Remove
                     </Button>
                   </>
-                  ) :
-                  (<Typography></Typography>)}
-            </>)
-          }
+                ) : (
+                  <Typography></Typography>
+                )}
+              </>
+            )
+          )}
         </DialogContent>
       </Dialog>
     </Container>

@@ -27,7 +27,7 @@ export interface ProjectMutation {
   start: string;
   deadline: string;
   image: File | null;
-  participants: ParticipantMutation[]
+  participants: ParticipantMutation[];
 }
 
 export interface Task {
@@ -57,29 +57,29 @@ export interface TaskMutation {
 }
 
 export interface RegisterMutation {
-    email: string;
-    displayName: string;
-    password: string;
-    avatar: File | null;
-    organization: string;
+  email: string;
+  displayName: string;
+  password: string;
+  avatar: File | null;
+  organization: string;
 }
 
 export interface UpdateUserMutation {
   email: string;
   displayName: string;
-  avatar: File | null
+  avatar: File | null;
   organization: string;
 }
 
 export interface User {
-    _id: string;
-    email: string;
-    displayName: string;
-    role: string;
-    organization: string;
-    avatar: string | null;
-    token: string;
-    googleId: null | string;
+  _id: string;
+  email: string;
+  displayName: string;
+  role: string;
+  organization: string;
+  avatar: string | null;
+  token: string;
+  googleId: null | string;
 }
 
 export interface IChangePassword {
@@ -89,29 +89,29 @@ export interface IChangePassword {
 }
 
 export interface RegisterResponse {
-    message: string;
-    user: User;
+  message: string;
+  user: User;
 }
 
 export interface ValidationError {
-    errors: {
-        [key: string]: {
-            name: string;
-            message: string;
-        };
+  errors: {
+    [key: string]: {
+      name: string;
+      message: string;
     };
-    message: string;
-    name: string;
-    _message: string;
+  };
+  message: string;
+  name: string;
+  _message: string;
 }
 
 export interface LoginMutation {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface GlobalError {
-    error: string;
+  error: string;
 }
 
 export interface ChatMessage {
