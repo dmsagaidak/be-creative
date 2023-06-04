@@ -6,7 +6,7 @@ import { findUserById } from './usersThunks';
 import { fetchTasksByUser } from '../tasks/tasksThunks';
 import { Alert, Container, Grid, Typography } from '@mui/material';
 import { selectTasks } from '../tasks/tasksSlice';
-import TaskCard from '../tasks/components/TaskCard';
+import TaskItem from '../tasks/components/TaskItem';
 
 const MyTasks = () => {
   const { id } = useParams() as { id: string };
@@ -24,7 +24,7 @@ const MyTasks = () => {
       <Grid container direction="column">
         <Typography variant="h6">{user?.displayName}&apos;s tasks: </Typography>
         {tasks.length ? (
-          tasks.map((task) => <TaskCard key={task._id} task={task} />)
+          tasks.map((task) => <TaskItem key={task._id} task={task} />)
         ) : (
           <Alert severity="info">This user has no tasks assigned</Alert>
         )}
