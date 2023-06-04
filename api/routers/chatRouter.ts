@@ -26,7 +26,7 @@ const chatRouter = () => {
     });
   };
 
-  router.ws('/', (ws, req) => {
+  router.ws('/', (ws) => {
     const id = crypto.randomUUID();
     console.log('client connected id=', id);
     activeConnections[id] = ws;
