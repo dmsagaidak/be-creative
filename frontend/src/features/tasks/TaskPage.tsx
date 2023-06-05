@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectOneTask } from './tasksSlice';
+import { selectOneTask, selectTaskDeleting, selectTaskTogglingStatus } from './tasksSlice';
 import { fetchOneTask, removeTask, taskToggleStatus } from './tasksThunks';
 import { Button, Container, Divider, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material';
 import { pageBodyStyle, pageTopStyle } from '../../styles';
@@ -18,6 +18,8 @@ const TaskPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const task = useAppSelector(selectOneTask);
+  const taskDeleting = useAppSelector(selectTaskDeleting);
+  const taskTogglingStatus = useAppSelector(selectTaskTogglingStatus);
   const user = useAppSelector(selectUser);
 
   useEffect(() => {
@@ -71,6 +73,7 @@ const TaskPage = () => {
           value={state.status}
           onChange={inputChangeHandler}
           required
+          disabled={taskDeleting === task?._id || taskTogglingStatus}
         >
           <MenuItem value={statusValue.todo}>To do</MenuItem>
           <MenuItem value={statusValue.inProgress}>In progress</MenuItem>

@@ -91,9 +91,9 @@ export const usersSlice = createSlice({
       state.loginLoading = false;
       state.user = payload;
     });
-    builder.addCase(login.rejected, (state, { payload }) => {
+    builder.addCase(login.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
-      state.loginError = payload || null;
+      state.loginError = error || null;
     });
     builder.addCase(googleLogin.pending, (state) => {
       state.loginLoading = true;

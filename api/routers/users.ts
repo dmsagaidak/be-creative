@@ -74,7 +74,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
   const isMatch = await user.checkPassword(req.body.password);
 
   if (!isMatch) {
-    return res.status(404).send({ error: 'Password not found' });
+    return res.status(400).send({ error: 'Password not found' });
   }
 
   try {
