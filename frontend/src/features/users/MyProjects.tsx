@@ -26,14 +26,14 @@ const MyProjects = () => {
   const currentProjects = projects.length ? (
     projects.map((project) => <ProjectItem key={project._id} project={project} />)
   ) : (
-    <Alert severity="info">You haven't created any project</Alert>
+    <Alert severity="info">You haven&apos;t created any project</Alert>
   );
 
   return (
     <Container>
       <Grid container direction="column" style={{ paddingTop: '35px' }}>
         <Typography variant="h4" style={{ paddingBottom: '20px' }}>
-          {user?.displayName}'s projects
+          {user?.displayName}&apos;s projects
           <IconButton onClick={() => navigate('/projects/new')}>
             <AddIcon />
           </IconButton>

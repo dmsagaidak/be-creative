@@ -63,7 +63,7 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
       createdBy: userId,
       backgroundColor: '#2f4f4f',
       borderColor: '#2f4f4f',
-      project: project._id,
+      project: project._id.toString(),
     });
 
     return res.send({ project: project, event: event });

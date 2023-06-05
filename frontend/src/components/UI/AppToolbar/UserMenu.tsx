@@ -51,7 +51,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         <MenuItem onClick={() => navigate('/profile/' + user._id)}>My Profile</MenuItem>
         <MenuItem onClick={() => navigate(`/user/${user._id}/projects`)}>My projects</MenuItem>
         <MenuItem onClick={() => navigate('/projects/new')}>Create project</MenuItem>
-        <MenuItem onClick={() => navigate(`/user/${user._id}/involved`)}>Projects I'm involved in</MenuItem>
+        <MenuItem onClick={() => navigate(`/user/${user._id}/involved`)}>Projects I&apos;m involved in</MenuItem>
         <MenuItem onClick={() => navigate(`/user/${user._id}/tasks`)}>My tasks</MenuItem>
         <MenuItem onClick={() => navigate('/calendar')}>Calendar</MenuItem>
         <MenuItem onClick={() => navigate('/chat')}>Chat</MenuItem>

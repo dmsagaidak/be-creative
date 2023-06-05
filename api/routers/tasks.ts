@@ -73,7 +73,7 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
       createdBy: userId,
       backgroundColor: '#6f98f7',
       borderColor: '#6f98f7',
-      task: task._id,
+      task: task._id.toString(),
     });
     return res.send({ task: task, event: event });
   } catch (e) {

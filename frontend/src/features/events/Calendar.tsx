@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import multiMonthPlugin from '@fullcalendar/multimonth';
 import { Button, Container, Dialog, DialogContent, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectEventDeleting, selectEvents, selectEventsFetching, selectOneEventFetching } from './eventsSlice';
@@ -23,10 +24,11 @@ const Calendar = () => {
   const eventDeleting = useAppSelector(selectEventDeleting);
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<EventClickArg | null>(null);
+  const [template, setTemplate] = useState(false);
 
   useEffect(() => {
     void dispatch(fetchEvents());
-  }, [dispatch]);
+  }, [dispatch, template]);
 
   const handleEventClick = (clickInfo: EventClickArg) => {
     setCurrentEvent(clickInfo);
@@ -41,6 +43,14 @@ const Calendar = () => {
     }
   };
 
+  const switchTemplate = () => {
+    if (template) {
+      setTemplate(false);
+    } else {
+      setTemplate(true);
+    }
+  };
+
   if (!user) {
     return <Navigate to={'/login'} />;
   }
@@ -50,13 +60,16 @@ const Calendar = () => {
       <Button type="button" onClick={() => navigate('/events/new')}>
         Add event
       </Button>
+      <Button type="button" onClick={switchTemplate}>
+        Switch template
+      </Button>
 
       {eventsFetching ? (
         <CircularProgressElement />
       ) : (
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, multiMonthPlugin]}
+          initialView={template ? 'dayGridMonth' : 'multiMonthYear'}
           events={events}
           editable={true}
           selectable={true}
@@ -75,9 +88,13 @@ const Calendar = () => {
                   title={currentEvent.event._def.title}
                   start={currentEvent.event._instance?.range.start}
                   end={currentEvent.event._instance?.range.end}
+                  project={currentEvent.event._def.extendedProps.project}
+                  task={currentEvent.event._def.extendedProps.task}
                   createdBy={currentEvent.event._def.extendedProps.createdBy}
                 />
-                {user?._id === currentEvent.event._def.extendedProps.createdBy._id ? (
+                {user?._id === currentEvent.event._def.extendedProps.createdBy._id &&
+                !currentEvent.event._def.extendedProps.project &&
+                !currentEvent.event._def.extendedProps.task ? (
                   <>
                     <Button
                       variant="outlined"

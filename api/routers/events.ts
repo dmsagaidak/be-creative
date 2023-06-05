@@ -7,7 +7,7 @@ const eventsRouter = express.Router();
 
 eventsRouter.get('/', async (req, res, next) => {
   try {
-    const events = await Event.find().populate('createdBy');
+    const events = await Event.find().populate('createdBy').populate('project').populate('task');
     return res.send(events);
   } catch (e) {
     return next(e);
@@ -16,7 +16,7 @@ eventsRouter.get('/', async (req, res, next) => {
 
 eventsRouter.get('/:id', async (req, res, next) => {
   try {
-    const event = await Event.findById(req.params.id).populate('createdBy');
+    const event = await Event.findById(req.params.id).populate('createdBy').populate('project').populate('task');
 
     if (!event) {
       return res.status(404).send({ error: 'Event not found!' });

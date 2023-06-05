@@ -151,10 +151,11 @@ const run = async () => {
       title: 'Rearrange current website project',
       description: 'Test descr',
       status: 'To do',
+      user: joe,
       link: null,
       pdfFile: null,
       start: '2023-06-01T06:00:00.000Z',
-      deadline: '2023-06-23T06:00:00.000Z',
+      deadline: '2023-06-20T06:00:00.000Z',
     },
   );
 
