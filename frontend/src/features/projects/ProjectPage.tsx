@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectOneProject, selectOneProjectFetching } from './projectsSlice';
+import { selectOneProject, selectOneProjectFetching, selectProjectRemoving } from './projectsSlice';
 import { fetchOneProject, removeProject } from './projectsThunks';
 import { Alert, Container, Divider, Grid, IconButton, Link, List, ListItem, Typography } from '@mui/material';
 import theme from '../../theme';
@@ -24,6 +24,7 @@ const ProjectPage = () => {
   const project = useAppSelector(selectOneProject);
   const projectFetching = useAppSelector(selectOneProjectFetching);
   const tasksFetching = useAppSelector(selectTasksFetching);
+  const projectRemoving = useAppSelector(selectProjectRemoving);
   const tasks = useAppSelector(selectTasks);
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
@@ -64,10 +65,13 @@ const ProjectPage = () => {
             </Typography>
             {project && user?._id === project?.leader._id ? (
               <Grid item>
-                <IconButton onClick={() => navigate('/edit-project/' + project?._id)}>
+                <IconButton
+                  onClick={() => navigate('/edit-project/' + project?._id)}
+                  disabled={projectRemoving === project._id}
+                >
                   <EditIcon />
                 </IconButton>
-                <IconButton onClick={() => deleteProject(project._id)}>
+                <IconButton onClick={() => deleteProject(project._id)} disabled={projectRemoving === project._id}>
                   <DeleteIcon />
                 </IconButton>
               </Grid>
@@ -136,7 +140,7 @@ const ProjectPage = () => {
               <Typography component="p" style={pageSubheading}>
                 Tasks:{' '}
                 {project?.status !== 'Finished' && (
-                  <IconButton component={Link} href="/tasks/new">
+                  <IconButton component={Link} href="/tasks/new" disabled={projectRemoving === project?._id}>
                     <AddIcon />
                   </IconButton>
                 )}

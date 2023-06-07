@@ -8,7 +8,7 @@ import {
   updateProject,
 } from './projectsThunks';
 import { RootState } from '../../app/store';
-import { GlobalError, Project, ValidationError } from '../../types';
+import { Project, ValidationError } from '../../types';
 
 interface ProjectsState {
   items: Project[];
@@ -21,7 +21,6 @@ interface ProjectsState {
   updateLoading: boolean;
   createProjectError: ValidationError | null;
   updateProjectError: ValidationError | null;
-  removeProjectError: GlobalError | null;
 }
 
 const initialState: ProjectsState = {
@@ -35,7 +34,6 @@ const initialState: ProjectsState = {
   updateLoading: false,
   createProjectError: null,
   updateProjectError: null,
-  removeProjectError: null,
 };
 
 const projectsSlice = createSlice({
@@ -90,9 +88,8 @@ const projectsSlice = createSlice({
     builder.addCase(removeProject.fulfilled, (state) => {
       state.deleteLoading = false;
     });
-    builder.addCase(removeProject.rejected, (state, { payload: error }) => {
+    builder.addCase(removeProject.rejected, (state) => {
       state.deleteLoading = false;
-      state.removeProjectError = error || null;
     });
     builder.addCase(updateProject.pending, (state) => {
       state.updateProjectError = null;
@@ -120,4 +117,3 @@ export const selectProjectRemoving = (state: RootState) => state.projects.delete
 export const selectProjectUpdating = (state: RootState) => state.projects.updateLoading;
 export const selectProjectCreateError = (state: RootState) => state.projects.createProjectError;
 export const selectProjectUpdateError = (state: RootState) => state.projects.updateProjectError;
-export const selectProjectRemoveError = (state: RootState) => state.projects.removeProjectError;
