@@ -53,6 +53,7 @@ const ProjectSchema = new Schema({
   deadline: {
     type: Date,
     required: true,
+    default: new Date('December 31, 2023, 00:00'),
     validate: {
       validator: validateDeadline,
       message: 'Deadline must be later than start date',

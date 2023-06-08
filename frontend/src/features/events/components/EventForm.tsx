@@ -16,8 +16,8 @@ interface Props {
 
 const initialState: EventMutation = {
   title: '',
-  start: '',
-  end: '',
+  start: new Date().toString(),
+  end: new Date().toString(),
 };
 
 const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit, error }) => {

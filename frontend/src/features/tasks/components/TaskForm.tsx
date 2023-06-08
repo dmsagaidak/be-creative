@@ -28,8 +28,8 @@ const initialState: TaskMutation = {
   user: '',
   link: '',
   pdfFile: null,
-  start: '',
-  deadline: '',
+  start: new Date().toString(),
+  deadline: new Date().toString(),
 };
 
 const status = {
@@ -178,6 +178,7 @@ const TaskForm: React.FC<Props> = ({ onSubmit, existingTask, fetchTaskLoading, l
               error={Boolean(getFieldError('user'))}
               helperText={getFieldError('user')}
             >
+              <MenuItem value={chosenProject?.leader._id}>{chosenProject?.leader.displayName}</MenuItem>
               {chosenProject?.participants.map((item) => (
                 <MenuItem key={item.user._id} value={item.user._id}>
                   {item.user.displayName}

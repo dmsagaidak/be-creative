@@ -21,8 +21,8 @@ interface Props {
 const initialState: ProjectMutation = {
   title: '',
   description: '',
-  start: '',
-  deadline: '',
+  start: '01.01.2023',
+  deadline: '12.31.2023',
   image: null,
   participants: [],
 };
@@ -134,7 +134,6 @@ const ProjectForm: React.FC<Props> = ({ onSubmit, loading, error, existingProjec
               <DatePicker
                 label="Choose start date"
                 value={dayjs(state.start)}
-                defaultValue={dayjs('2023=01-01')}
                 onChange={(newValue) =>
                   setState((prevState) => ({ ...prevState, start: newValue ? newValue.format('YYYY-MM-DD') : '' }))
                 }
