@@ -7,6 +7,7 @@ const SALT_WORK_FACTOR = 10;
 
 export interface IUserMethods {
   checkPassword(password: string): Promise<boolean>;
+
   generateToken(): void;
 }
 
@@ -40,12 +41,6 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   displayName: {
     type: String,
     required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-    enum: ['user', 'admin'],
-    default: 'user',
   },
   organization: String,
   googleId: String,

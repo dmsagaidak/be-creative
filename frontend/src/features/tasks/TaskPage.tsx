@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectOneTask, selectTaskDeleting, selectTaskTogglingStatus } from './tasksSlice';
 import { fetchOneTask, removeTask, taskToggleStatus } from './tasksThunks';
 import { Button, Container, Divider, Grid, IconButton, MenuItem, TextField, Typography } from '@mui/material';
-import { pageBodyStyle, pageTopStyle } from '../../styles';
+import { headingFS, pageBodyStyle, pageTopStyle } from '../../styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
@@ -88,7 +88,9 @@ const TaskPage = () => {
   return (
     <Container>
       <Grid container style={pageTopStyle} direction="row" justifyContent="space-between">
-        <Typography variant="h3">{task?.title}</Typography>
+        <Typography variant="h3" fontSize={headingFS}>
+          {task?.title}
+        </Typography>
         {task && user?._id === task.createdBy._id ? (
           <Grid item>
             <IconButton onClick={() => navigate(`/edit-task/${task?._id}`)}>

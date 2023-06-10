@@ -21,7 +21,7 @@ interface Props {
 const initialState: ProjectMutation = {
   title: '',
   description: '',
-  start: '01.01.2023',
+  start: new Date().toString(),
   deadline: '12.31.2023',
   image: null,
   participants: [],
@@ -216,7 +216,7 @@ const ProjectForm: React.FC<Props> = ({ onSubmit, loading, error, existingProjec
                     ))}
                   </TextField>
                 </Grid>
-                {state.participants.length > 1 && (
+                {state.participants.length && (
                   <Button onClick={() => removeParticipant(index)} color="error">
                     Remove
                   </Button>

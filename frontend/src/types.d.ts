@@ -75,7 +75,6 @@ export interface User {
   _id: string;
   email: string;
   displayName: string;
-  role: string;
   organization: string;
   avatar: string | null;
   token: string;
