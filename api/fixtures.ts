@@ -157,6 +157,7 @@ const run = async () => {
   await Event.create(
     {
       title: proj1.title,
+      description: proj1.description,
       start: proj1.start,
       end: proj1.deadline,
       createdBy: proj1.leader,
@@ -166,6 +167,7 @@ const run = async () => {
     },
     {
       title: proj2.title,
+      description: proj2.description,
       start: proj2.start,
       end: proj2.deadline,
       createdBy: proj2.leader,
@@ -175,6 +177,7 @@ const run = async () => {
     },
     {
       title: proj3.title,
+      description: proj3.description,
       start: proj3.start,
       end: proj3.deadline,
       createdBy: proj3.leader,
@@ -184,6 +187,7 @@ const run = async () => {
     },
     {
       title: proj4.title,
+      description: proj4.description,
       start: proj4.start,
       end: proj4.deadline,
       createdBy: proj4.leader,
@@ -193,6 +197,7 @@ const run = async () => {
     },
     {
       title: task1pr1.title,
+      description: task1pr1.description,
       start: task1pr1.start,
       end: task1pr1.deadline,
       createdBy: task1pr1.createdBy,
@@ -202,6 +207,7 @@ const run = async () => {
     },
     {
       title: task2pr1.title,
+      description: task1pr2.description,
       start: task2pr1.start,
       end: task2pr1.deadline,
       createdBy: task2pr1.createdBy,
@@ -211,6 +217,7 @@ const run = async () => {
     },
     {
       title: task1pr2.title,
+      description: task1pr2.description,
       start: task1pr2.start,
       end: task1pr2.deadline,
       createdBy: task1pr2.createdBy,

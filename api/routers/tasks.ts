@@ -68,6 +68,7 @@ tasksRouter.post('/', auth, pdfUpload.single('pdfFile'), async (req, res, next) 
 
     const event = await Event.create({
       title: req.body.title,
+      description: req.body.description,
       start: dayjs(req.body.start).format('YYYY-MM-DD'),
       end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
       createdBy: userId,
@@ -135,6 +136,7 @@ tasksRouter.put('/:id', auth, pdfUpload.single('pdfFile'), async (req, res, next
 
       if (relatedEvent) {
         relatedEvent.title = req.body.title || relatedEvent.title;
+        relatedEvent.description = req.body.description || relatedEvent.description;
         relatedEvent.start = req.body.start || relatedEvent.start;
         relatedEvent.end = req.body.deadline || relatedEvent.end;
 

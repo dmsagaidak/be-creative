@@ -86,6 +86,7 @@ const Calendar = () => {
               <>
                 <EventItem
                   title={currentEvent.event._def.title}
+                  description={currentEvent.event._def.extendedProps.description}
                   start={currentEvent.event._instance?.range.start}
                   end={currentEvent.event._instance?.range.end}
                   project={currentEvent.event._def.extendedProps.project}

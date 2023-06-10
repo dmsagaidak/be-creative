@@ -16,6 +16,7 @@ interface Props {
 
 const initialState: EventMutation = {
   title: '',
+  description: '',
   start: new Date().toString(),
   end: new Date().toString(),
 };
@@ -58,6 +59,20 @@ const EventForm: React.FC<Props> = ({ onSubmit, loading, existingEvent, isEdit, 
               disabled={loading}
               error={Boolean(getFieldError('title'))}
               helperText={getFieldError('title')}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              multiline
+              rows={2}
+              id="description"
+              name="description"
+              label="Description"
+              value={state.description}
+              onChange={inputChangeHandler}
+              disabled={loading}
+              error={Boolean(getFieldError('description'))}
+              helperText={getFieldError('description')}
             />
           </Grid>
           <Grid item>

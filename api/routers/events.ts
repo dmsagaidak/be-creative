@@ -40,6 +40,7 @@ eventsRouter.post('/', auth, async (req, res, next) => {
 
     const event = await Event.create({
       title: req.body.title,
+      description: req.body.description,
       start: req.body.start,
       end: req.body.end,
       createdBy: userId,
@@ -90,6 +91,7 @@ eventsRouter.put('/:id', auth, async (req, res, next) => {
       return res.status(403).send({ error: 'You can modify only your events' });
     } else {
       updatingEvent.title = req.body.title || updatingEvent.title;
+      updatingEvent.description = req.body.description || updatingEvent.description;
       updatingEvent.start = req.body.start || updatingEvent.start;
       updatingEvent.end = req.body.end || updatingEvent.end;
 

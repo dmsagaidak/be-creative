@@ -127,6 +127,7 @@ export interface IncomingMessage {
 export interface Event {
   _id: string;
   title: string;
+  description: string;
   start: string;
   end: string;
   createdBy: User;
@@ -138,6 +139,7 @@ export interface Event {
 
 export interface EventMutation {
   title: string;
+  description: string;
   start: string;
   end: string;
 }

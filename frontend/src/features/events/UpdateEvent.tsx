@@ -28,6 +28,7 @@ const UpdateEvent = () => {
 
   const existingEvent = event && {
     title: event.title,
+    description: event.description,
     start: event.start,
     end: event.end,
   };

@@ -58,6 +58,7 @@ projectsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, ne
 
     const event = await Event.create({
       title: req.body.title,
+      description: req.body.description,
       start: dayjs(req.body.start).format('YYYY-MM-DD'),
       end: dayjs(req.body.deadline).format('YYYY-MM-DD'),
       createdBy: userId,
@@ -134,6 +135,7 @@ projectsRouter.put('/:id', auth, imagesUpload.single('image'), async (req, res, 
 
     if (relatedEvent) {
       relatedEvent.title = req.body.title || relatedEvent.title;
+      relatedEvent.description = req.body.description || relatedEvent.description;
       relatedEvent.start = req.body.start || relatedEvent.start;
       relatedEvent.end = req.body.deadline || relatedEvent.end;
 
